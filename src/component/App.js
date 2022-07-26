@@ -1,10 +1,10 @@
-import React from 'react';
-import MainPageContainer from '../container/MainPageContainer';
+import React from "react";
+import MainPageContainer from "../container/MainPageContainer";
 
 function App() {
   return (
     <div>
-        <MainPageContainer/>
+      <MainPageContainer />
     </div>
   );
 }

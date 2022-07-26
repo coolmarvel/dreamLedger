@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import {initializeForm, logout} from '../../modules/auth';
-
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { initializeForm, logout } from "../../modules/auth";
 
 const LogoutForm = ({ history }) => {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-  const {logoutSuccess} = useSelector(({auth}) => ({
-    logoutSuccess: auth.logout.returnValue
+  const { logoutSuccess } = useSelector(({ auth }) => ({
+    logoutSuccess: auth.logout.returnValue,
   }));
-
 
   useEffect(() => {
     if (logoutSuccess) {
-      console.log('로그아웃 성공');
-      localStorage.setItem('login','');
-      localStorage.setItem('Authorization','');
-      history.push('/login');
-
+      console.log("로그아웃 성공");
+      localStorage.setItem("login", "");
+      localStorage.setItem("Authorization", "");
+      history.push("/login");
     }
   }, [logoutSuccess]);
 
+  if (count === 0) {
+    setCount((count) => count + 1);
+    dispatch(initializeForm("logout"));
+    dispatch(logout(""));
+  }
 
-
-    if (count === 0) {
-      setCount(count => count+1);
-      dispatch(initializeForm('logout'));
-      dispatch(logout(''));
-
-    }
-
-
-  return (
-      <div />
-  );
+  return <div />;
 };
 
 export default withRouter(LogoutForm);

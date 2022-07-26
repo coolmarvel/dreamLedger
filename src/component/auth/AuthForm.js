@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import palette from '../../lib/styles/palette';
-import Button from '../common/Button';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import palette from "../../lib/styles/palette";
+import Button from "../common/Button";
 
-import {changeField} from "../../modules/auth";
-import {useDispatch} from "react-redux";
+import { changeField } from "../../modules/auth";
+import { useDispatch } from "react-redux";
 
 /**
  * 회원가입 또는 로그인 폼을 보여줍니다.
@@ -24,7 +24,7 @@ const AuthFormBlock = styled.div`
  */
 const StyledInput = styled.input`
   font-size: 1rem;
-  border:1px solid ${palette.gray[5]};
+  border: 1px solid ${palette.gray[5]};
   border-bottom: 1px solid ${palette.gray[5]};
   padding: 0.5rem;
   outline: 1px;
@@ -43,7 +43,7 @@ const StyledInput = styled.input`
  */
 const Header = styled.div`
   margin-top: 0rem;
-  margin-bottom:0.5rem;
+  margin-bottom: 0.5rem;
   text-align: right;
   a {
     color: ${palette.gray[6]};
@@ -68,12 +68,12 @@ const Footer = styled.div`
 
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
-  background-color:#0f696d;
+  background-color: #0f696d;
 `;
 
 const textMap = {
-  login: '로그인',
-  register: '회원가입'
+  login: "로그인",
+  register: "회원가입",
 };
 
 /**
@@ -86,51 +86,51 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const AuthForm = ({ type, form, onChange, onSubmit,error}) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
   const text = textMap[type];
-
 
   return (
     <AuthFormBlock>
-        <Header>
-           <Link to="/register">회원가입</Link>
-        </Header>
-        <div className="login-box">
-      <form onSubmit={onSubmit}>
-        <StyledInput
-          autoComplete="userId"
-          name="userId"
-          placeholder="아이디"
-          onChange={onChange}
-          value={form.userId}
-        />
-        <StyledInput
-          autoComplete="new-password"
-          name="password"
-          placeholder="비밀번호"
-          type="password"
-          onChange={onChange}
-          value={form.password}
-        />
+      <Header>{/*<Link to="/register">회원가입</Link>*/}</Header>
+      <div className="login-box">
+        <form onSubmit={onSubmit}>
+          <StyledInput
+            autoComplete="userId"
+            name="userId"
+            placeholder="아이디"
+            onChange={onChange}
+            value={form.userId}
+          />
+          <StyledInput
+            autoComplete="new-password"
+            name="password"
+            placeholder="비밀번호"
+            type="password"
+            onChange={onChange}
+            value={form.password}
+          />
 
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
 
-        <ButtonWithMarginTop   cyan fullWidth style={{ marginTop: '1rem' }}>
-          {text}
-        </ButtonWithMarginTop>
-      </form>
+          <ButtonWithMarginTop cyan fullWidth style={{ marginTop: "1rem" }}>
+            {text}
+          </ButtonWithMarginTop>
+        </form>
+      </div>
+      <div className="member-link-wrap">
+        <div className="member-link-left">
+          <div className="ick-wrap01">
+            <input type="checkbox" className="ick01" id="cbox01" />
+            <label htmlFor="cbox01">로그인 상태 유지</label>
+          </div>
         </div>
-        <div className="member-link-wrap">
-            <div className="member-link-left">
-        <div className="ick-wrap01"><input type="checkbox" className="ick01" id="cbox01"/><label htmlFor="cbox01">로그인 상태
-            유지</label></div>
-        </div>
-            <Footer>
-                <Link to="/findID">아이디 찾기 </Link>|
-                <Link to="/findPassword"> 비밀번호 찾기 </Link>
-            </Footer>
-        </div>
-        <p className="login-desc01">소중한 학습이력을 블록체인에 저장하고 관리해보세요!</p>
+        <Footer>
+          <Link to="/">나가기 </Link>
+        </Footer>
+      </div>
+      <p className="login-desc01">
+        소중한 학습이력을 블록체인에 저장하고 관리해보세요!
+      </p>
     </AuthFormBlock>
   );
 };

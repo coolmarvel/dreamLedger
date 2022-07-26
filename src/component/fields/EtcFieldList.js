@@ -1,37 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import EtcField from "./EtcField";
 
+const EtcFieldList = (props) => {
+  const { data, onUpdate, onRemove, onAdd, editing } = props;
+  const list = data.map(
+    (info) =>
+      info.deleteFlag === undefined && (
+        <EtcField
+          key={info.key}
+          info={info}
+          editing={editing}
+          onUpdate={onUpdate}
+          onRemove={onRemove}
+        />
+      )
+  );
 
-
-const  EtcFieldList = (props) => {
-
-
-    const {data, onUpdate, onRemove, onAdd, editing} = props;
-    const list = data.map(
-        info => (
-            info.deleteFlag === undefined &&
-            <EtcField
-                key={info.key}
-                info={info}
-                editing={editing}
-                onUpdate={onUpdate}
-                onRemove={onRemove}
-            />
-        )
-    );
-
-    return (
-        <div>
-            <div className="edit-cont-idx-wrap" data-cont-idx="0">
-                <h2 className="main-tit02">기타</h2>
-                {list}
-            </div>
-            {editing && <div className="btn-add-wrap">
-                <button type="button" className="btn-cont-add" onClick={onAdd}><span
-                    className="plus">+</span><span className="add-txt">추가</span></button>
-            </div>}
+  return (
+    <div>
+      <div className="edit-cont-idx-wrap" data-cont-idx="0">
+        <h2 className="main-tit02">기타</h2>
+        {list}
+      </div>
+      {editing && (
+        <div className="btn-add-wrap">
+          <button type="button" className="btn-cont-add" onClick={onAdd}>
+            <span className="plus">+</span>
+            <span className="add-txt">추가</span>
+          </button>
         </div>
-    );
-}
+      )}
+    </div>
+  );
+};
 
 export default EtcFieldList;

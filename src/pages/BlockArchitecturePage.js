@@ -1,6 +1,83 @@
 import React from "react";
+import $ from "jquery";
 
 export const BlockArchitecturePage = () => {
+  $(document).ready(function () {
+    var currentGfgStep, nextGfgStep, previousGfgStep;
+    var opacity;
+    var current = 1;
+    var steps = $("fieldset").length;
+
+    setProgressBar(current);
+
+    $(".btn_next_arrow").click(function () {
+      currentGfgStep = $(this).parent().parent();
+      nextGfgStep = $(this).parent().parent().next();
+
+      $(".progressbar li")
+        .eq($("fieldset").index(nextGfgStep))
+        .addClass("active");
+
+      nextGfgStep.show();
+      currentGfgStep.animate(
+        { opacity: 0 },
+        {
+          step: function (now) {
+            opacity = 1 - now;
+
+            currentGfgStep.css({
+              display: "none",
+            });
+            nextGfgStep.css({ opacity: opacity });
+          },
+          duration: 0,
+        }
+      );
+      setProgressBar(++current);
+    });
+
+    $(".btn_prev_arrow").click(function () {
+      currentGfgStep = $(this).parent().parent();
+      previousGfgStep = $(this).parent().parent().prev();
+
+      $(".progressbar li")
+        .eq($("fieldset").index(currentGfgStep))
+        .removeClass("active");
+
+      previousGfgStep.show();
+
+      currentGfgStep.animate(
+        { opacity: 0 },
+        {
+          step: function (now) {
+            opacity = 1 - now;
+
+            currentGfgStep.css({
+              display: "none",
+            });
+            previousGfgStep.css({ opacity: opacity });
+          },
+          duration: 0,
+        }
+      );
+      setProgressBar(--current);
+    });
+
+    function setProgressBar(currentStep) {
+      var percent = parseFloat(100 / steps) * current;
+      var perDcent = percent.toFixed();
+      $("#progressbar").css("width", percent + "%");
+    }
+
+    $(".submit").click(function () {
+      return false;
+    });
+
+    $("#phySever .addbtn").click(function () {
+      // console.log('dd')
+      $(".toast.pop01").fadeIn(400).delay(1000).fadeOut(400);
+    });
+  });
   return (
     <div id="con_wrap">
       <div id="con_area">

@@ -1,10 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 const client = axios.create();
 
-
-  client.defaults.baseURL = 'http://localhost:8090';
- // client.defaults.timeout =3000;
+client.defaults.baseURL = "http://129.154.209.237:8080";
+// client.defaults.timeout =3000;
 
 // client.defaults.baseURL = 'http://10.10.40.150:8090';
 
