@@ -69,7 +69,7 @@ const MiniDrawer = (props) => {
             [classes.hide]: openSideBarStatus && isMobile(),
           })}
         >
-          <Grid container justify={"flex-start"}>
+          <Grid container justifyContent={"flex-start"}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -83,11 +83,11 @@ const MiniDrawer = (props) => {
             </IconButton>
             {/*<Button><img src="/images/ft_logo_wh.png"   width={120} height={32} alt=''  onClick={handleLogoClick} /></Button>*/}
           </Grid>
-          <Grid container justify={"flex-center"}>
+          <Grid container justifyContent={"center"}>
             <Typography>{staticMenu[m_currentMainMenu].menuName}</Typography>
           </Grid>
 
-          <Grid container justify={"flex-end"}>
+          <Grid container justifyContent={"flex-end"}>
             <Button onClick={handleLoginClick}>{label}</Button>
           </Grid>
         </Toolbar>

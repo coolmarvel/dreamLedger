@@ -71,8 +71,10 @@ const ListSubItemLink = (props) => {
 
 ListSubItemLink.propTypes = {
   open: PropTypes.bool,
-  to: PropTypes.string.isRequired,
-  key: PropTypes.number.isRequired,
+  to: PropTypes.string,
+  key: PropTypes.number,
+  // to: PropTypes.string.isRequired,
+  // key: PropTypes.number.isRequired,
 };
 
 export default ListSubItemLink;

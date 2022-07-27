@@ -75,15 +75,16 @@ const ListItemLinkContainer = (props) => {
       >
         <List disablePadding>
           {menuObj.submenu.map((sub, index) => (
-            <ListSubItemLink
-              key={sub.id}
-              main={menuObj.mainStatus}
-              sub={sub.path}
-              menuText={sub.menuName}
-              icon={sub.icon}
-              className={classes.nested}
-              toggleSideBar={toggleSideBar}
-            />
+            <React.Fragment key={index}>
+              <ListSubItemLink
+                main={menuObj.mainStatus}
+                sub={sub.path}
+                menuText={sub.menuName}
+                icon={sub.icon}
+                className={classes.nested}
+                toggleSideBar={toggleSideBar}
+              />
+            </React.Fragment>
           ))}
         </List>
       </Collapse>

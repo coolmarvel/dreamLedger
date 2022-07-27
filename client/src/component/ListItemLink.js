@@ -36,7 +36,8 @@ function ListItemLink(props) {
 
 ListItemLink.propTypes = {
   open: PropTypes.bool,
-  to: PropTypes.string.isRequired,
+  to: PropTypes.string,
+  // to: PropTypes.string.isRequired,
 };
 
 export default ListItemLink;
