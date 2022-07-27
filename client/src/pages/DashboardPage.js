@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
+import axios from "axios";
+import { css } from "@emotion/react";
+import FadeLoader from "react-spinners/FadeLoader";
+import ECharts, { EChartsReactProps } from "echarts-for-react";
 
 export const DashboardPage = () => {
   $(function () {
@@ -49,8 +53,80 @@ export const DashboardPage = () => {
     $(window).resize();
   });
 
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: #5900ff;
+    width: 100%;
+    height: 100%;
+    background: #34343465;
+  `;
+
+  function sleep(ms) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) {}
+  }
+
+  const [loading, setLoading] = useState(true);
+  const [block, setBlock] = useState(0);
+  const [error, setError] = useState(null);
+
+  const [options, setOptions] = useState({
+    xAxis: {
+      type: "category",
+      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: [150, 230, 224, 218, 135, 147, 260],
+        type: "line",
+      },
+    ],
+  });
+
+  useEffect(() => {
+    axios
+      .post(`http://localhost:5000/dashboard`, { block: block })
+      .then(async (response) => {
+        const data = await response.data;
+        console.log("data", data);
+        data.map((v, i) => {
+          // setBlock(v[0].block);
+          setBlock(v[i].block);
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        // window.location.href = "/error";
+      });
+  }, [block]);
+
   return (
     <div id="con_wrap">
+      {loading ? (
+        <div
+          className={loading ? "parentDisable" : ""}
+          width="100%"
+          height="100%"
+        >
+          <div className="overlay-box">
+            <FadeLoader
+              size={150}
+              color={"#ffffff"}
+              css={override}
+              loading={loading}
+              z-index={"1"}
+              text="Loading your content..."
+            />
+          </div>
+        </div>
+      ) : (
+        false
+      )}
       <div id="con_area">
         <div className="con_box">
           {/* <div class="pagenation_area_squar">
@@ -220,7 +296,16 @@ export const DashboardPage = () => {
                   <div className="tab_container">
                     <div className="tab_content" id="tab01">
                       <div id="chart-container"></div>
-                      <div id="chart-containerline"></div>
+                      <div id="chart-containerline">
+                        <ECharts
+                          option={options}
+                          opts={{
+                            renderer: "canvas",
+                            width: "auto",
+                            height: "100%",
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="tab_content" id="tab02">
                       <div id="chart-containerline03" />
