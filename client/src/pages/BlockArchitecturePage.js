@@ -505,7 +505,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   admiddn
                                 </option>
                                 <option value={2}>node1</option>
@@ -522,7 +522,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   ordererOrg1
                                 </option>
                                 <option value={2}>org1</option>
@@ -764,7 +764,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   admiddn
                                 </option>
                                 <option value={2}>node1</option>
@@ -781,7 +781,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   admiddn
                                 </option>
                                 <option value={2}>node1</option>
@@ -798,7 +798,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   ordererOrg1
                                 </option>
                                 <option value={2}>org1</option>
@@ -841,7 +841,7 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1} selected="">
+                                <option value={1}  >
                                   levelDB
                                 </option>
                                 <option value={2}>cloud DB</option>

@@ -90,7 +90,7 @@ export const BlockManagerPageCAServers = () => {
                               PhysicalServer Name:
                             </span>
                             <select name="site01" id={1} style={{ width: 500 }}>
-                              <option value={1} selected="">
+                              <option value={1}  >
                                 admin
                               </option>
                               <option value={2}>node1</option>
@@ -103,7 +103,7 @@ export const BlockManagerPageCAServers = () => {
                               Organization :
                             </span>
                             <select name="site01" id={2} style={{ width: 500 }}>
-                              <option value={1} selected="">
+                              <option value={1}  >
                                 org3
                               </option>
                               <option value={2}>org</option>

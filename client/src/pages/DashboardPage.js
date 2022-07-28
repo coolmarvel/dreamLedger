@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import $ from "jquery";
 import axios from "axios";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
-import ECharts, { EChartsReactProps } from "echarts-for-react";
+import ReactECharts from "echarts-for-react";
 
 export const DashboardPage = () => {
   $(function () {
@@ -62,16 +62,13 @@ export const DashboardPage = () => {
     background: #34343465;
   `;
 
-  function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) {}
-  }
-
+  // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
   const [loading, setLoading] = useState(true);
-  const [block, setBlock] = useState(0);
+  const [chartData, setChartData] = useState(null);
   const [error, setError] = useState(null);
 
-  const [options, setOptions] = useState({
+  const options = {
+    grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: "category",
       data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -81,29 +78,31 @@ export const DashboardPage = () => {
     },
     series: [
       {
-        data: [150, 230, 224, 218, 135, 147, 260],
+        // data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: chartData,
         type: "line",
+        smooth: true,
       },
     ],
-  });
+    tooltip: {
+      trigger: "axis",
+    },
+  };
 
   useEffect(() => {
     axios
-      .post(`http://localhost:5000/dashboard`, { block: block })
+      .get(`http://localhost:5000/dashboard`)
       .then(async (response) => {
         const data = await response.data;
-        console.log("data", data);
-        data.map((v, i) => {
-          // setBlock(v[0].block);
-          setBlock(v[i].block);
-        });
+        setChartData(data);
         setLoading(false);
       })
       .catch((error) => {
         setError(error);
         // window.location.href = "/error";
       });
-  }, [block]);
+  }, []);
+  console.log("chartData", chartData);
 
   return (
     <div id="con_wrap">
@@ -297,14 +296,14 @@ export const DashboardPage = () => {
                     <div className="tab_content" id="tab01">
                       <div id="chart-container"></div>
                       <div id="chart-containerline">
-                        <ECharts
-                          option={options}
-                          opts={{
-                            renderer: "canvas",
-                            width: "auto",
+                        {/* <div
+                          ref={chartRef}
+                          style={{
+                            width: "100%",
                             height: "100%",
                           }}
-                        />
+                        /> */}
+                        <ReactECharts option={options} />
                       </div>
                     </div>
                     <div className="tab_content" id="tab02">

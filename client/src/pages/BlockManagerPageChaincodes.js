@@ -82,7 +82,7 @@ export const BlockManagerPageChaincodes = () => {
                           <td>
                             <span className="sw_tit width_150">Lang</span>
                             <select name="site01" id={2} style={{ width: 500 }}>
-                              <option value={1} selected="">
+                              <option value={1}  >
                                 go
                               </option>
                               <option value={2}>org</option>

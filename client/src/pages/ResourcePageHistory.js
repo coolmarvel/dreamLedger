@@ -18,7 +18,7 @@ export const ResourcePageHistory = () => {
                     <span className="sw_tit">Channel:</span>
                   </label>
                   <select name="site05" id={1} style={{ width: 200 }}>
-                    <option value={1} selected="">
+                    <option value={1}  >
                       Channel_1
                     </option>
                     <option value={2}>Channel_2</option>

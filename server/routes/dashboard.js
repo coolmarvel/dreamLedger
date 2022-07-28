@@ -3,22 +3,22 @@ var router = express.Router();
 const { Dashboard } = require("../models");
 const { Op } = require("sequelize");
 
-router.post("/", async (req, res, next) => {
-  const { block } = req.body;
+router.get("/", async (req, res, next) => {
   try {
-    const findBlock = await Dashboard.findAll({
-      attributes: ["block"],
+    const findData = await Dashboard.findAll({
+      attributes: ["block", "transactions"],
     });
 
-    console.log("findBlock", findBlock);
+    console.log("findData", findData);
 
     const blockData = [];
-    for (const block of findBlock) {
-      blockData.push({
-        block: block.block,
-      });
+
+    for (const data of findData) {
+      blockData.push(data.block);
     }
-    res.json(blockData);
+    console.log(blockData);
+
+    res.send(blockData);
   } catch (error) {
     console.error(error);
     return next(error);
