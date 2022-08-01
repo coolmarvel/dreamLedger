@@ -4,6 +4,8 @@ import axios from "axios";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactECharts from "echarts-for-react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchDataAsync } from "../modules/dashboard";
 
 export const DashboardPage = () => {
   $(function () {
@@ -53,6 +55,8 @@ export const DashboardPage = () => {
     $(window).resize();
   });
 
+  // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
   const override = css`
     display: block;
     margin: 0 auto;
@@ -62,10 +66,21 @@ export const DashboardPage = () => {
     background: #34343465;
   `;
 
-  // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
   const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState(null);
   const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
+  console.log("dashboard", dashboard);
+
+  const blockData = [];
+
+  for (const data of dashboard) {
+    blockData.push(data.blocks);
+  }
+  console.log("blockData", blockData);
 
   const options = {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
@@ -79,7 +94,8 @@ export const DashboardPage = () => {
     series: [
       {
         // data: [820, 932, 901, 934, 1290, 1330, 1320],
-        data: chartData,
+        // data: chartData,
+        data: blockData,
         type: "line",
         smooth: true,
       },
@@ -90,19 +106,20 @@ export const DashboardPage = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/dashboard`)
-      .then(async (response) => {
-        const data = await response.data;
-        setChartData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        // window.location.href = "/error";
-      });
+    dispatch(searchDataAsync());
+    // axios
+    //   .get(`http://localhost:5000/dashboard`)
+    //   .then(async (response) => {
+    //     const data = await response.data;
+    //     setChartData(data);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     setError(error);
+    //     // window.location.href = "/error";
+    //   });
   }, []);
-  console.log("chartData", chartData);
+  // console.log("chartData", chartData);
 
   return (
     <div id="con_wrap">

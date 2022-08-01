@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 router.get("/", async (req, res, next) => {
   try {
     const findData = await Dashboard.findAll({
-      attributes: ["block", "transactions"],
+      attributes: ["blocks", "transactions"],
     });
 
     console.log("findData", findData);
@@ -14,11 +14,13 @@ router.get("/", async (req, res, next) => {
     const blockData = [];
 
     for (const data of findData) {
-      blockData.push(data.block);
+      console.log(data.blocks);
+      blockData.push(data.blocks);
     }
     console.log(blockData);
 
-    res.send(blockData);
+    // res.send(blockData);
+    res.json(blockData);
   } catch (error) {
     console.error(error);
     return next(error);
