@@ -6,7 +6,7 @@ module.exports = class Dashboard extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        block: {
+        blocks: {
           type: Sequelize.INTEGER(100),
           allowNull: true,
         },
@@ -26,10 +26,22 @@ module.exports = class Dashboard extends Sequelize.Model {
           type: Sequelize.INTEGER(100),
           allowNull: true,
         },
+        blockchainInfo: {
+          type: Sequelize.INTEGER(100),
+          allowNull: true,
+        },
+        ledgerInfo: {
+          type: Sequelize.INTEGER(100),
+          allowNull: true,
+        },
+        resourceInfo: {
+          type: Sequelize.INTEGER(100),
+          allowNull: true,
+        },
       },
       {
         sequelize,
-        timestamps: true,
+        timestamps: false,
         underscored: false,
         modelName: "Dashboard",
         tableName: "dashboards",
