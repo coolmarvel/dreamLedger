@@ -70,6 +70,22 @@ export const DashboardPage = () => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setLoading(true);
+    dispatch(
+      searchDataAsync({
+        data: "",
+      })
+    );
+    // sleep(2000);
+    setLoading(false);
+  }, []);
+
+  // function sleep(ms) {
+  //   const wakeUpTime = Date.now() + ms;
+  //   while (Date.now() < wakeUpTime) {}
+  // }
+
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
   console.log("dashboard", dashboard);
 
@@ -84,7 +100,7 @@ export const DashboardPage = () => {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: "category",
-      data: ["실", "시", "간", "데", "이", "터", "sex"],
+      data: ["실", "시", "간", "데", "이", "터", "어"],
     },
     yAxis: {
       type: "value",
@@ -101,22 +117,6 @@ export const DashboardPage = () => {
       trigger: "axis",
     },
   };
-
-  useEffect(() => {
-    setLoading(true);
-    dispatch(
-      searchDataAsync({
-        data: "",
-      })
-    );
-    // sleep(2000);
-    setLoading(false);
-  }, []);
-
-  function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) {}
-  }
 
   return (
     <div id="con_wrap">
