@@ -7,15 +7,12 @@ router.get("/", async (req, res, next) => {
   try {
     const findData = await Dashboard.findAll();
 
-    console.log("findData", findData);
-
     const blockData = [];
 
     for (const data of findData) {
       blockData.push(data.blocks);
     }
 
-    // res.send(blockData);
     res.send(findData);
   } catch (error) {
     console.error(error);

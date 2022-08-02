@@ -26,7 +26,8 @@ export default function createRequestSaga(type, request) {
       } else {
         yield put({
           type: SUCCESS,
-          payload: response.data,
+          // payload: response.data,
+          payload: response,
         });
         console.warn(response);
       }

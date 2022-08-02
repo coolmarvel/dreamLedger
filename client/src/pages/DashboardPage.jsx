@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import $ from "jquery";
-import axios from "axios";
 import { css } from "@emotion/react";
+import "./DashboardPage.css";
 import FadeLoader from "react-spinners/FadeLoader";
 import ReactECharts from "echarts-for-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -66,9 +66,7 @@ export const DashboardPage = () => {
     background: #34343465;
   `;
 
-  const [loading, setLoading] = useState(true);
-  const [chartData, setChartData] = useState(null);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -86,7 +84,7 @@ export const DashboardPage = () => {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      data: ["실", "시", "간", "데", "이", "터", "sex"],
     },
     yAxis: {
       type: "value",
@@ -94,7 +92,6 @@ export const DashboardPage = () => {
     series: [
       {
         // data: [820, 932, 901, 934, 1290, 1330, 1320],
-        // data: chartData,
         data: blockData,
         type: "line",
         smooth: true,
@@ -106,20 +103,20 @@ export const DashboardPage = () => {
   };
 
   useEffect(() => {
-    dispatch(searchDataAsync());
-    // axios
-    //   .get(`http://localhost:5000/dashboard`)
-    //   .then(async (response) => {
-    //     const data = await response.data;
-    //     setChartData(data);
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     setError(error);
-    //     // window.location.href = "/error";
-    //   });
+    setLoading(true);
+    dispatch(
+      searchDataAsync({
+        data: "",
+      })
+    );
+    // sleep(2000);
+    setLoading(false);
   }, []);
-  // console.log("chartData", chartData);
+
+  function sleep(ms) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) {}
+  }
 
   return (
     <div id="con_wrap">
