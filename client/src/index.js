@@ -21,6 +21,8 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+console.log(store.getState());
+
 sagaMiddleware.run(rootSaga);
 
 const container = document.getElementById("root");

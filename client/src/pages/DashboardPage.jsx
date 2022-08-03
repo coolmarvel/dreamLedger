@@ -54,64 +54,6 @@ export const DashboardPage = () => {
 
     $(window).resize();
   });
-  // document.querySelector(function () {
-  //   "use strict";
-  //   document.querySelector(".tab_content").hide();
-  //   document.querySelector(".tab_content:first").show();
-
-  //   document.querySelector(".tab_bar li").click(function () {
-  //     document.querySelector(".tab_bar li").classList.remove("active");
-  //     document.querySelector(this).classList.add("active");
-  //     document.querySelector(".tab_content").hide();
-  //     var activeTab = document
-  //       .querySelector(this)
-  //       .querySelector("a")
-  //       .attr("href");
-  //     document.querySelector(activeTab).fadeIn();
-  //     return false;
-  //   });
-  // });
-  // document.querySelector(function () {
-  //   "use strict";
-  //   var appendthis = "<div class='modal-overlay js-modal-close'></div>";
-
-  //   document.querySelector("a[data-modal-id]").click(function (e) {
-  //     e.preventDefault();
-
-  //     document.body.insertAdjacentHTML("beforeend", appendthis);
-  //     document.querySelector(".modal-overlay").fadeTo(500, 0.7);
-  //     //document.querySelector(".js-modalbox").fadeIn(500);
-  //     var modalBox = document.querySelector(this).attr("data-modal-id");
-  //     document
-  //       .querySelector("#" + modalBox)
-  //       .fadeIn(document.querySelector(this).data());
-  //   });
-
-  //   document
-  //     .querySelector(".js-modal-close, .modal-overlay")
-  //     .click(function () {
-  //       document
-  //         .querySelector(".modal-box, .modal-box-al, .modal-overlay")
-  //         .fadeOut(500, function () {
-  //           document.querySelector(".modal-overlay").remove();
-  //         });
-  //     });
-
-  //   document.querySelector(window).onresize(function () {
-  //     document.querySelector(".modal-box, .modal-box-al").css({
-  //       top:
-  //         (document.querySelector(window).height() -
-  //           document.querySelector(".modal-box, .modal-box-al").outerHeight()) /
-  //         2,
-  //       left:
-  //         (document.querySelector(window).width() -
-  //           document.querySelector(".modal-box, .modal-box-al").outerWidth()) /
-  //         2,
-  //     });
-  //   });
-
-  //   document.querySelector(window).onresize();
-  // });
 
   // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
@@ -130,18 +72,20 @@ export const DashboardPage = () => {
   const dispatch = useDispatch();
 
   const blockData = [];
-  
+
   for (const data of dashboard) {
     blockData.push(data.blocks);
   }
 
   useEffect(() => {
     setLoading(true);
+
     dispatch(
       searchDataAsync({
         data: "",
       })
     );
+
     setLoading(false);
   }, []);
 
@@ -166,6 +110,14 @@ export const DashboardPage = () => {
       trigger: "axis",
     },
   };
+
+  function shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
+  }
+
+  setInterval(() => {}, 2000);
+
+  const random = shuffle(blockData);
 
   return (
     <div id="con_wrap">
