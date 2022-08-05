@@ -43,7 +43,7 @@
     "start": "react-scripts start",
     "server": "nodemon ../server/bin/www",
     "json": "json-server ./data.json --watch --port 4000",
-    "dev": "concurrently \"npm run start\" \"npm run server\"",
+    "dev": "concurrently \"npm run start\" \"npm run json\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -81,5 +81,5 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0"
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "http://localhost:4000/"
 }

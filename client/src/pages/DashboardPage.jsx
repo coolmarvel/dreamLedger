@@ -111,14 +111,6 @@ export const DashboardPage = () => {
     },
   };
 
-  function shuffle(array) {
-    array.sort(() => Math.random() - 0.5);
-  }
-
-  setInterval(() => {}, 2000);
-
-  const random = shuffle(blockData);
-
   return (
     <div id="con_wrap">
       {loading ? (
