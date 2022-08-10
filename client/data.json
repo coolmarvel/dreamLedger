@@ -2,80 +2,68 @@
   "data": [
     {
       "id": 1,
-      "blocks": 820,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 20,
+      "transactions": 10
     },
     {
       "id": 2,
-      "blocks": 932,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 70,
+      "transactions": 10
     },
     {
       "id": 3,
-      "blocks": 901,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 80,
+      "transactions": 10
     },
     {
       "id": 4,
-      "blocks": 934,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 90,
+      "transactions": 10
     },
     {
       "id": 5,
-      "blocks": 1290,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 40,
+      "transactions": 10
     },
     {
       "id": 6,
-      "blocks": 1330,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 30,
+      "transactions": 10
     },
     {
       "id": 7,
-      "blocks": 1320,
-      "transactions": 10,
-      "cpu": 10,
-      "memory": 10,
-      "storage": 10,
-      "blockchainInfo": 10,
-      "ledgerInfo": 10,
-      "resourceInfo": 10
+      "blocks": 50,
+      "transactions": 10
+    },
+    {
+      "id": 8,
+      "blocks": 55,
+      "transactions": 10
+    },
+    {
+      "id": 9,
+      "blocks": 88,
+      "transactions": 11
+    },
+    {
+      "id": 10,
+      "blocks": 77,
+      "transactions": 11
+    },
+    {
+      "id": 11,
+      "blocks": 66,
+      "transactions": 11
+    },
+    {
+      "id": 12,
+      "blocks": 44,
+      "transactions": 10
+    },
+    {
+      "id": 13,
+      "blocks": 33,
+      "transactions": 10
     }
   ]
 }

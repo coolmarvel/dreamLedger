@@ -73,19 +73,11 @@ export const BlockArchitecturePage = () => {
       return false;
     });
 
-    // $("#phySever .addbtn").click(function () {
-    //   console.log("dd");
-    //   $(".toast.pop01").fadeIn(400).delay(500).fadeOut(400);
-    // });
-
-    $("#phySever .addbtn")
-      .unbind("click")
-      .bind("click", function () {
-        console.log("dd");
-        $(".toast.pop01").fadeIn(400).delay(500).fadeOut(400);
-      });
+    $("#phySever .addbtn").click(function () {
+      // console.log('dd')
+      $(".toast.pop01").fadeIn(400).delay(1000).fadeOut(400);
+    });
   });
-
   return (
     <div id="con_wrap">
       <div id="con_area">
@@ -513,7 +505,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>admiddn</option>
+                                <option value={1} select="">
+                                  admiddn
+                                </option>
                                 <option value={2}>node1</option>
                               </select>
                             </td>
@@ -528,7 +522,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>ordererOrg1</option>
+                                <option value={1} select="">
+                                  ordererOrg1
+                                </option>
                                 <option value={2}>org1</option>
                               </select>
                             </td>
@@ -768,7 +764,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>admiddn</option>
+                                <option value={1} select="">
+                                  admiddn
+                                </option>
                                 <option value={2}>node1</option>
                               </select>
                             </td>
@@ -783,7 +781,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>admiddn</option>
+                                <option value={1} select="">
+                                  admiddn
+                                </option>
                                 <option value={2}>node1</option>
                               </select>
                             </td>
@@ -798,7 +798,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>ordererOrg1</option>
+                                <option value={1} select="">
+                                  ordererOrg1
+                                </option>
                                 <option value={2}>org1</option>
                               </select>
                             </td>
@@ -839,7 +841,9 @@ export const BlockArchitecturePage = () => {
                                 id=""
                                 style={{ width: 300 }}
                               >
-                                <option value={1}>levelDB</option>
+                                <option value={1} select="">
+                                  levelDB
+                                </option>
                                 <option value={2}>cloud DB</option>
                               </select>
                             </td>

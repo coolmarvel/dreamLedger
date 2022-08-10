@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import palette from "../../lib/styles/palette";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import palette from '../../common/styles/palette';
+import { Link } from 'react-router-dom';
 
 /**
  * 회원가입 / 로그인 페이지의 레이아웃을 담당하는 컴포넌트입니다.
@@ -20,8 +20,10 @@ const AuthTemplateBlock = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index:9999;
   background-color: rgba(0, 0, 0, 0.6);
+
+  
 `;
 
 /* 흰색 박스 */
@@ -43,7 +45,10 @@ const WhiteBox = styled.div`
 const AuthTemplate = ({ children }) => {
   return (
     <AuthTemplateBlock>
-      <WhiteBox>{children}</WhiteBox>
+      <WhiteBox>
+        {children}
+      </WhiteBox>
+
     </AuthTemplateBlock>
   );
 };
