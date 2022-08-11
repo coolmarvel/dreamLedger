@@ -14,12 +14,19 @@ import client from "./client";
 // };
 
 export const getData = async () => {
-  const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0];
+  const today = new Date(+new Date() + 3240 * 10000)
+    .toISOString()
+    .split("T")[0];
+
+  const week = new Date(Date.parse(new Date()) + 7 * 1000 * 60 * 60 * 24)
+    .toISOString()
+    .split("T")[0];
+
   const time = new Date().toTimeString().split(" ")[0];
-  const timeFormat = date + " " + time;
-  const timeArray = [];
-  timeArray.push(timeFormat);
-  // "2022-08-08 12:12:12"
+
+  const startTime = today + " " + time;
+  const endTime = week + " " + time;
+
   try {
     const response = await client
       .get("/dle/v1/metric/block", {
@@ -27,8 +34,8 @@ export const getData = async () => {
           page: 1,
           size: 20,
           sort: "createdt-desc",
-          startDate: timeFormat,
-          endDate: timeFormat,
+          startDate: startTime,
+          endDate: endTime,
           channel: "channel-dream",
           blockHash: "string",
           txid: "string",

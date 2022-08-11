@@ -7,12 +7,13 @@ import LineFunc from "./charts/LineFunction";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
+import "./dashboardPage.css";
 import {
   searchDataAsync,
   saveDataAsync,
   removeDataAsync,
 } from "../../redux/boardReducer";
-import "./dashboardPage.css";
+import BoardNew from "./board/BoardNew";
 
 export const DashboardPage = () => {
   $(function () {
@@ -65,6 +66,7 @@ export const DashboardPage = () => {
   // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
   const dispatch = useDispatch();
+  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     startDate: "",
@@ -107,19 +109,10 @@ export const DashboardPage = () => {
 
   const onRowClick = (id, blocks, transactions) => {
     setData({
-      id: id,
-      blocks: blocks,
-      transactions: transactions,
+      startDate: "",
+      endDate: "",
     });
   };
-
-  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
-
-  // const array = [];
-
-  // for (const data of dashboard) {
-  //   array.push(data.blocks);
-  // }
 
   useEffect(() => {
     setLoading(true);
@@ -322,9 +315,6 @@ export const DashboardPage = () => {
                             Resource Info
                           </a>
                         </li>
-                        {/* <li>
-                          <button onClick={onSearchButtonClick}>갱신</button>
-                        </li> */}
                       </ul>
                       {/* <span class="txt_gry"> (최근 30일)</span> */}
                     </div>
@@ -334,6 +324,14 @@ export const DashboardPage = () => {
                         <BarFunc echars={echarts} setLoading={setLoading} />
                         {/* <div id="chart-container"></div>
                       <div id="chart-containerline"></div> */}
+                      </div>
+                      <div>
+                        <BoardNew
+                          changeData={changeData}
+                          data={data}
+                          onSaveButtonClick={onSaveButtonClick}
+                          resetForm={resetForm}
+                        />
                       </div>
                       <div className="tab_content" id="tab02">
                         <div id="chart-containerline03" />

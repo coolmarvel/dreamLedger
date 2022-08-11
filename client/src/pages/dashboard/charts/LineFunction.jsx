@@ -9,52 +9,36 @@ export default function LineFunction(props) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
-  const [data, setData] = useState();
-  const [data2, setData2] = useState();
+  // const [data, setData] = useState();
+  // const [data2, setData2] = useState();
 
-  // const data = [
-  //   ["2016-10-4", 189],
-  //   ["2016-10-5", 195],
-  //   ["2016-10-6", 196],
-  //   ["2016-10-7", 187],
-  //   ["2016-10-8", 186],
-  //   ["2016-10-9", 184],
-  //   ["2016-10-10", 178],
-  //   ["2016-10-11", 169],
-  //   ["2016-10-12", 168],
-  // ];
+  const data = [
+    ["2016-10-4", 189],
+    ["2016-10-5", 195],
+    ["2016-10-6", 196],
+    ["2016-10-7", 187],
+    ["2016-10-8", 186],
+    ["2016-10-9", 184],
+    ["2016-10-10", 178],
+    ["2016-10-11", 169],
+    ["2016-10-12", 168],
+  ];
 
-  // const data2 = [
-  //   ["2016-10-4", 1],
-  //   ["2016-10-5", 1],
-  //   ["2016-10-6", 36.491669431317064],
-  //   ["2016-10-7", 27],
-  //   ["2016-10-8", 32],
-  //   ["2016-10-9", 34],
-  //   ["2016-10-10", 35],
-  //   ["2016-10-11", 34],
-  //   ["2016-10-12", 34],
-  // ];
+  const data2 = [
+    ["2016-10-4", 1],
+    ["2016-10-5", 1],
+    ["2016-10-6", 36.491669431317064],
+    ["2016-10-7", 27],
+    ["2016-10-8", 32],
+    ["2016-10-9", 34],
+    ["2016-10-10", 35],
+    ["2016-10-11", 34],
+    ["2016-10-12", 34],
+  ];
 
   useEffect(() => {
     props.setLoading(true);
     dispatch(searchDataAsync());
-    props.setLoading(false);
-  }, []);
-
-  const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0];
-  const time = new Date().toTimeString().split(" ")[0];
-  const timeFormat = date + " " + time;
-  const timeArray = [];
-  const test = 205;
-  timeArray.push(timeFormat);
-  timeArray.push(test);
-  console.log(timeArray);
-
-  useEffect(() => {
-    props.setLoading(true);
-    setData(timeArray);
-    setData2(timeArray);
     props.setLoading(false);
   }, []);
 
