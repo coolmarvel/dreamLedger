@@ -20,9 +20,9 @@ export default function createRequestSaga(type, request) {
       if (response === null || response === undefined) {
         yield put({
           type: SUCCESS,
-          payload: "Success",
+          payload: "FAIL",
         });
-        console.warn("result: success!!");
+        console.warn("result: FAIL!!");
       } else {
         yield put({
           type: SUCCESS,

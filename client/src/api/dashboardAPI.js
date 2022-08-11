@@ -2,9 +2,38 @@ import axios from "axios";
 import client from "./client";
 
 // READ API
+// export const getData = async () => {
+//   try {
+//     const response = await axios
+//       .get(`http://localhost:4000/data`)
+//       .then((res) => res.data);
+//     return response.data;
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
+
 export const getData = async () => {
-  const response = await axios.get(`http://localhost:4000/data`);
-  return response.data;
+  try {
+    const response = await client
+      .get("/dle/v1/metric/block", {
+        params: {
+          page: 1,
+          size: 20,
+          sort: "createdt-desc",
+          startDate: "2022-08-08 12:12:12",
+          endDate: "2022-08-08 12:12:12",
+          channel: "channel-dream",
+          blockHash: "string",
+          txid: "string",
+        },
+      })
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 // CREATE UPDATE API

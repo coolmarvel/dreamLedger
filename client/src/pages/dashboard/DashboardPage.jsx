@@ -117,11 +117,11 @@ export const DashboardPage = () => {
 
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
 
-  const array = [];
+  // const array = [];
 
-  for (const data of dashboard) {
-    array.push(data.blocks);
-  }
+  // for (const data of dashboard) {
+  //   array.push(data.blocks);
+  // }
 
   useEffect(() => {
     setLoading(true);
@@ -332,8 +332,8 @@ export const DashboardPage = () => {
                     </div>
                     <div className="tab_container">
                       <div className="tab_content" id="tab01">
-                        <LineFunc echars={echarts} setLoading={setLoading} />
-                        <BarFunc echars={echarts} setLoading={setLoading} />
+                        {/* <LineFunc echars={echarts} setLoading={setLoading} />
+                        <BarFunc echars={echarts} setLoading={setLoading} /> */}
                         {/* <div id="chart-container"></div>
                       <div id="chart-containerline"></div> */}
                       </div>
