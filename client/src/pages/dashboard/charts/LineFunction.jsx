@@ -46,7 +46,9 @@ export default function LineFunction(props) {
   const time = new Date().toTimeString().split(" ")[0];
   const timeFormat = date + " " + time;
   const timeArray = [];
+  const test = 205;
   timeArray.push(timeFormat);
+  timeArray.push(test);
   console.log(timeArray);
 
   useEffect(() => {
