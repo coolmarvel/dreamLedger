@@ -67,9 +67,8 @@ export const DashboardPage = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
-    id: "",
-    blocks: "",
-    transactions: "",
+    startDate: "",
+    endDate: "",
   });
 
   function sleep(ms) {
@@ -86,9 +85,8 @@ export const DashboardPage = () => {
 
   const resetForm = () => {
     setData({
-      id: "",
-      blocks: "",
-      transactions: "",
+      startDate: "",
+      endDate: "",
     });
   };
 
@@ -98,7 +96,7 @@ export const DashboardPage = () => {
   };
 
   const onSaveButtonClick = (data) => {
-    dispatch(saveDataAsync(data, lastId));
+    dispatch(saveDataAsync(data));
     dispatch(searchDataAsync());
   };
 

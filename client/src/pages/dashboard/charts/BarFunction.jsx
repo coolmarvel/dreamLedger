@@ -28,8 +28,8 @@ export default function BarFunction(props) {
 
   const blocksArray = [];
 
-  for (const data of dashboard) {
-    blocksArray.push(data.size);
+  for (const key of dashboard) {
+    blocksArray.push(key.size);
   }
 
   const chartRef = useRef(null);

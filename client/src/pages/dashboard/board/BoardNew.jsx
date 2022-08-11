@@ -11,29 +11,29 @@ function BoardNew({ changeData, data, onSaveButtonClick, resetForm }) {
     <div>
       <form onSubmit={saveBtnClick}>
         <div>
-          B :{" "}
+          startDate :{" "}
           <input
             type="text"
-            name="blocks"
+            name="startDate"
             onChange={changeData}
-            value={data.blocks || ""}
+            value={data.startDate || ""}
           />
         </div>
         <div>
-          T :{" "}
+          endDate :{" "}
           <input
             type="text"
-            name="transactions"
+            name="endDate"
             onChange={changeData}
-            value={data.transactions || ""}
+            value={data.endDate || ""}
           />
         </div>
-        <input
+        {/* <input
           type="hidden"
           name="id"
           onChange={changeData}
           value={data.id || ""}
-        />
+        /> */}
         <button type="submit">저장</button>
       </form>
     </div>

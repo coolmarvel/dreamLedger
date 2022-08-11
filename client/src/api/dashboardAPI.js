@@ -14,6 +14,12 @@ import client from "./client";
 // };
 
 export const getData = async () => {
+  const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0];
+  const time = new Date().toTimeString().split(" ")[0];
+  const timeFormat = date + " " + time;
+  const timeArray = [];
+  timeArray.push(timeFormat);
+  // "2022-08-08 12:12:12"
   try {
     const response = await client
       .get("/dle/v1/metric/block", {
@@ -21,8 +27,8 @@ export const getData = async () => {
           page: 1,
           size: 20,
           sort: "createdt-desc",
-          startDate: "2022-08-08 12:12:12",
-          endDate: "2022-08-08 12:12:12",
+          startDate: timeFormat,
+          endDate: timeFormat,
           channel: "channel-dream",
           blockHash: "string",
           txid: "string",
