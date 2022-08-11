@@ -5,7 +5,7 @@ import { searchDataAsync } from "../../../redux/boardReducer";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
-export default function LineFunction() {
+export default function LineFunction(props) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
@@ -37,9 +37,9 @@ export default function LineFunction() {
   ];
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
     dispatch(searchDataAsync());
-    setLoading(false);
+    props.setLoading(false);
   }, []);
 
   // useEffect(() => {
@@ -68,8 +68,6 @@ export default function LineFunction() {
   //   setLoading(false);
   // }, [dashboard]);
 
-  console.log("data", data);
-  console.log("data2", data2);
   const blocksArray = [];
 
   for (const data of dashboard) {

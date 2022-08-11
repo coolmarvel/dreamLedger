@@ -5,27 +5,36 @@ import { searchDataAsync } from "../../../redux/boardReducer";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
-export default function BarFunction() {
+export default function BarFunction(props) {
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: #5900ff;
+    width: 100%;
+    height: 100%;
+    background: #34343465;
+  `;
+
   const [loading, setLoading] = useState(false);
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
     dispatch(searchDataAsync());
-    setLoading(false);
+    props.setLoading(false);
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
     setData(
       dashboard.map((v, i) => {
         return v.blocks;
       })
     );
-    setLoading(false);
-  }, [dashboard]);
+    props.setLoading(false);
+  }, []);
 
   const blocksArray = [];
 
@@ -101,15 +110,6 @@ export default function BarFunction() {
       },
     ],
   });
-
-  const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: #5900ff;
-    width: 100%;
-    height: 100%;
-    background: #34343465;
-  `;
 
   useEffect(() => {
     if (chartRef.current) {
