@@ -68,12 +68,6 @@ export default function LineFunction(props) {
   //   setLoading(false);
   // }, [dashboard]);
 
-  const blocksArray = [];
-
-  for (const data of dashboard) {
-    blocksArray.push(data.blocks);
-  }
-
   var base = +new Date(2016, 9, 3);
   var oneDay = 24 * 3600 * 1000;
   var valueBase = Math.random() * 300;

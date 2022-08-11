@@ -26,20 +26,10 @@ export default function BarFunction(props) {
     props.setLoading(false);
   }, []);
 
-  useEffect(() => {
-    props.setLoading(true);
-    setData(
-      dashboard.map((v, i) => {
-        return v.blocks;
-      })
-    );
-    props.setLoading(false);
-  }, []);
-
   const blocksArray = [];
 
   for (const data of dashboard) {
-    blocksArray.push(data.blocks);
+    blocksArray.push(data.size);
   }
 
   const chartRef = useRef(null);

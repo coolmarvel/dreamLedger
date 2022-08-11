@@ -28,7 +28,12 @@ export const getData = async () => {
           txid: "string",
         },
       })
-      .then((res) => res.data)
+      .then((res) => {
+        const data = res.data.data;
+        const array = [];
+        array.push(data);
+        return array;
+      })
       .catch((error) => console.error("Failed loaded data", error));
     return response;
   } catch (e) {

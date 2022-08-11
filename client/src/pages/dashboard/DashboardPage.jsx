@@ -332,8 +332,8 @@ export const DashboardPage = () => {
                     </div>
                     <div className="tab_container">
                       <div className="tab_content" id="tab01">
-                        {/* <LineFunc echars={echarts} setLoading={setLoading} />
-                        <BarFunc echars={echarts} setLoading={setLoading} /> */}
+                        <LineFunc echars={echarts} setLoading={setLoading} />
+                        <BarFunc echars={echarts} setLoading={setLoading} />
                         {/* <div id="chart-container"></div>
                       <div id="chart-containerline"></div> */}
                       </div>

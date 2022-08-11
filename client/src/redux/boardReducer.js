@@ -58,13 +58,13 @@ const boardReducer = handleActions(
   {
     [SEARCH_DATA_ASYNC_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
-        console.log(data);
+        // console.log(data);
         draft["dashboard"] = data;
-        // for (let i = 0; i < data.length; i++) {
-        //   if (i === data.length - 1) {
-        //     draft["lastId"] = data[i].id;
-        //   }
-        // }
+        for (let i = 0; i < data.length; i++) {
+          if (i === data.length - 1) {
+            draft["lastId"] = data[i].id;
+          }
+        }
       }),
     [SEARCH_DATA_ASYNC_FAILURE]: (state, { payload: data }) =>
       produce(state, (draft) => {
