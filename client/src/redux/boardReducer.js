@@ -71,15 +71,7 @@ const boardReducer = handleActions(
         draft["dashbaord"] = null;
       }),
     [SAVE_DATA_ASYNC_SUCCESS]: (state, { payload: data, lastId }) =>
-      produce(state, (draft) => {
-        console.log("data", data.data);
-        // draft["dashboard"].push({
-        //   id: data.data.id,
-        //   blocks: data.data.blocks,
-        //   transactions: data.data.transactions,
-        // });
-        console.log("lastId", lastId);
-      }),
+      produce(state, (draft) => {}),
     [SAVE_DATA_ASYNC_FAILURE]: (state, { payload: data, lastId }) =>
       produce(state, (draft) => {
         alert("error!");

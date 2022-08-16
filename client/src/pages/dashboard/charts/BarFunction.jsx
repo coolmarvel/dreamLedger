@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
 import { css } from "@emotion/react";
-import FadeLoader from "react-spinners/FadeLoader";
+import useInterval from "../utils/useInterval";
 
 export default function BarFunction(props) {
   const override = css`
@@ -15,10 +15,11 @@ export default function BarFunction(props) {
     background: #34343465;
   `;
 
+  const [delay, setDelay] = useState(5000);
   const [loading, setLoading] = useState(false);
-  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
+  const { dashboard } = useSelector((state) => state.boardReducer);
   const dispatch = useDispatch();
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     props.setLoading(true);
@@ -26,10 +27,19 @@ export default function BarFunction(props) {
     props.setLoading(false);
   }, []);
 
+  useInterval(() => {
+    // Your custom logic here
+    dispatch(searchDataAsync());
+    const total = dashboard.map((v, i) => {
+      return v.total;
+    });
+    setData(total);
+  }, delay);
+
   const blocksArray = [];
 
-  for (const key of dashboard) {
-    blocksArray.push(key.size);
+  for (const data of dashboard) {
+    blocksArray.push(data.total);
   }
 
   const chartRef = useRef(null);
@@ -108,28 +118,12 @@ export default function BarFunction(props) {
     }
   }, [options, chartRef]);
 
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
   return (
     <div>
-      {loading ? (
-        <div
-          className={loading ? "parentDisable" : ""}
-          width="100%"
-          height="100%"
-        >
-          <div className="overlay-box">
-            <FadeLoader
-              size={150}
-              color={"#ffffff"}
-              css={override}
-              loading={loading}
-              z-index={"1"}
-              text="Loading your content..."
-            />
-          </div>
-        </div>
-      ) : (
-        false
-      )}
       <div
         ref={chartRef}
         style={{

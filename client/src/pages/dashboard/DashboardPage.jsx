@@ -14,6 +14,7 @@ import {
   removeDataAsync,
 } from "../../redux/boardReducer";
 import BoardNew from "./board/BoardNew";
+import useInterval from "./utils/useInterval";
 
 export const DashboardPage = () => {
   $(function () {
@@ -73,17 +74,19 @@ export const DashboardPage = () => {
     endDate: "",
   });
 
-  function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) {}
-  }
+  const [delay, setDelay] = useState(5000);
 
-  const changeData = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // function sleep(ms) {
+  //   const wakeUpTime = Date.now() + ms;
+  //   while (Date.now() < wakeUpTime) {}
+  // }
+
+  // const changeData = (e) => {
+  //   setData({
+  //     ...data,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
   const resetForm = () => {
     setData({
@@ -92,33 +95,38 @@ export const DashboardPage = () => {
     });
   };
 
-  const onSearchButtonClick = () => {
-    resetForm();
-    dispatch(searchDataAsync());
-  };
+  // const onSearchButtonClick = () => {
+  //   resetForm();
+  //   dispatch(searchDataAsync());
+  // };
 
-  const onSaveButtonClick = (data) => {
-    dispatch(saveDataAsync(data));
-    dispatch(searchDataAsync());
-  };
+  // const onSaveButtonClick = (data) => {
+  //   dispatch(saveDataAsync(data));
+  //   dispatch(searchDataAsync());
+  // };
 
-  const onRemoveButtonClick = (id) => {
-    dispatch(removeDataAsync(id));
-    dispatch(searchDataAsync());
-  };
+  // const onRemoveButtonClick = (id) => {
+  //   dispatch(removeDataAsync(id));
+  //   dispatch(searchDataAsync());
+  // };
 
-  const onRowClick = (id, blocks, transactions) => {
-    setData({
-      startDate: "",
-      endDate: "",
-    });
-  };
+  // const onRowClick = (id, blocks, transactions) => {
+  //   setData({
+  //     startDate: "",
+  //     endDate: "",
+  //   });
+  // };
 
   useEffect(() => {
     setLoading(true);
     dispatch(searchDataAsync());
     setLoading(false);
   }, []);
+
+  useInterval(() => {
+    // Your custom logic here
+    dispatch(searchDataAsync());
+  }, delay);
 
   const override = css`
     display: block;
@@ -324,14 +332,6 @@ export const DashboardPage = () => {
                         <BarFunc echars={echarts} setLoading={setLoading} />
                         {/* <div id="chart-container"></div>
                       <div id="chart-containerline"></div> */}
-                      </div>
-                      <div>
-                        <BoardNew
-                          changeData={changeData}
-                          data={data}
-                          onSaveButtonClick={onSaveButtonClick}
-                          resetForm={resetForm}
-                        />
                       </div>
                       <div className="tab_content" id="tab02">
                         <div id="chart-containerline03" />

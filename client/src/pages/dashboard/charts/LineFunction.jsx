@@ -12,6 +12,7 @@ export default function LineFunction(props) {
   // const [data, setData] = useState();
   // const [data2, setData2] = useState();
 
+
   const data = [
     ["2016-10-4", 189],
     ["2016-10-5", 195],
@@ -44,34 +45,26 @@ export default function LineFunction(props) {
 
   // useEffect(() => {
   //   setLoading(true);
+  //   const transaction = [];
+  //   const total = [];
 
-  //   const data = [];
-  //   const data2 = [];
-
-  //   for (let i = 1; i < 10; i++) {
-  //     var now = new Date((base += oneDay));
-  //     var dayStr = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join(
-  //       "-"
-  //     );
-
-  //     valueBase = Math.round((Math.random() - 0.5) * 20 + valueBase);
-  //     valueBase <= 0 && (valueBase = Math.random() * 300);
-  //     data.push([dayStr, valueBase]);
-
-  //     valueBase2 = Math.round((Math.random() - 0.5) * 20 + valueBase2);
-  //     valueBase2 <= 0 && (valueBase2 = Math.random() * 50);
-  //     data2.push([dayStr, valueBase2]);
-  //   }
-
-  //   setData(data);
-  //   setData2(data2);
+  //   const tr = dashboard.map((v, i) => {
+  //     return v.transaction_date;
+  //   });
+  //   const tot = dashboard.map((v, i) => {
+  //     return v.total;
+  //   });
+  //   transaction.push(tr);
+  //   total.push(tot);
+  //   setData(transaction, total);
+  //   setData2(dashboard.transaction_date, dashboard.total);
   //   setLoading(false);
   // }, [dashboard]);
 
-  var base = +new Date(2016, 9, 3);
-  var oneDay = 24 * 3600 * 1000;
-  var valueBase = Math.random() * 300;
-  var valueBase2 = Math.random() * 50;
+  // var base = +new Date(2016, 9, 3);
+  // var oneDay = 24 * 3600 * 1000;
+  // var valueBase = Math.random() * 300;
+  // var valueBase2 = Math.random() * 50;
 
   const chartRef = useRef(null);
 
