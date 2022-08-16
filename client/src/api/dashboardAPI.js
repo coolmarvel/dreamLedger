@@ -14,18 +14,23 @@ import client from "./client";
 // };
 
 export const getData = async () => {
+  // 현재 시간
   const today = new Date(+new Date() + 3240 * 10000)
     .toISOString()
     .split("T")[0];
 
-  const week = new Date(Date.parse(new Date()) + 7 * 1000 * 60 * 60 * 24)
+  // 일주일전 시간
+  const week = new Date(Date.parse(new Date()) - 7 * 1000 * 60 * 60 * 24)
     .toISOString()
     .split("T")[0];
 
   const time = new Date().toTimeString().split(" ")[0];
 
-  const startTime = today + " " + time;
-  const endTime = week + " " + time;
+  const startTime = week + " " + time;
+  const endTime = today + " " + time;
+
+  console.log("startTime\n", startTime);
+  console.log("endTime\n", endTime);
 
   try {
     const response = await client
