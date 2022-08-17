@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import $ from "jquery";
 import * as echarts from "echarts";
-import BarFunc from "./charts/BarFunction";
-import LineFunc from "./charts/LineFunction";
+import Bar from "./charts/Bar";
+import Line from "./charts/Line";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
 import "./dashboardPage.css";
-import {
-  searchDataAsync,
-  saveDataAsync,
-  removeDataAsync,
-} from "../../redux/boardReducer";
-import BoardNew from "./board/BoardNew";
+import { searchDataAsync } from "../../redux/boardReducer";
 import useInterval from "./utils/useInterval";
 
 export const DashboardPage = () => {
@@ -88,12 +83,12 @@ export const DashboardPage = () => {
   //   });
   // };
 
-  const resetForm = () => {
-    setData({
-      startDate: "",
-      endDate: "",
-    });
-  };
+  // const resetForm = () => {
+  //   setData({
+  //     startDate: "",
+  //     endDate: "",
+  //   });
+  // };
 
   // const onSearchButtonClick = () => {
   //   resetForm();
@@ -122,11 +117,6 @@ export const DashboardPage = () => {
     dispatch(searchDataAsync());
     setLoading(false);
   }, []);
-
-  useInterval(() => {
-    // Your custom logic here
-    dispatch(searchDataAsync());
-  }, delay);
 
   const override = css`
     display: block;
@@ -328,10 +318,10 @@ export const DashboardPage = () => {
                     </div>
                     <div className="tab_container">
                       <div className="tab_content" id="tab01">
-                        <LineFunc echars={echarts} setLoading={setLoading} />
-                        <BarFunc echars={echarts} setLoading={setLoading} />
+                        <Bar echars={echarts} setLoading={setLoading} />
+                        <Line echars={echarts} setLoading={setLoading} />
                         {/* <div id="chart-container"></div>
-                      <div id="chart-containerline"></div> */}
+                        <div id="chart-containerline"></div> */}
                       </div>
                       <div className="tab_content" id="tab02">
                         <div id="chart-containerline03" />
