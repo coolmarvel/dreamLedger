@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import $ from "jquery";
-import * as echarts from "echarts";
-import Bar from "./charts/Bar";
-import Line from "./charts/Line";
+
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
 import "./dashboardPage.css";
 import { searchDataAsync } from "../../redux/boardReducer";
-import useInterval from "./utils/useInterval";
+
+import * as echarts from "echarts";
+import Bar from "./charts/Bar";
+import Line from "./charts/Line";
 
 export const DashboardPage = () => {
   $(function () {

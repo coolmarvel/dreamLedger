@@ -22,8 +22,6 @@ export default function BarFunction(props) {
 
   const chartRef = useRef(null);
 
-  const [data, setData] = useState();
-
   const total = [];
   const price = [];
 
@@ -34,10 +32,6 @@ export default function BarFunction(props) {
   for (const data of dashboard) {
     price.push(data.price);
   }
-
-  const time = new Date().toTimeString().split(" ")[0];
-
-  console.log("time", time);
 
   const [options, setOptions] = useState({
     title: {
@@ -80,29 +74,33 @@ export default function BarFunction(props) {
 
   useInterval(() => {
     // Your custom logic here
+    setLoading(true);
     dispatch(searchDataAsync());
+    setLoading(false);
   }, delay);
 
   useEffect(() => {
+    setLoading(true);
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       chart.setOption(options);
     }
+    setLoading(false);
   }, [options, chartRef]);
 
   if (loading) {
     return <div>loading...</div>;
+  } else {
+    return (
+      <div>
+        <div
+          ref={chartRef}
+          style={{
+            width: "100%",
+            minHeight: "100%",
+          }}
+        />
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <div
-        ref={chartRef}
-        style={{
-          width: "100%",
-          minHeight: "100%",
-        }}
-      />
-    </div>
-  );
 }

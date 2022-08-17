@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
 import { css } from "@emotion/react";
-import FadeLoader from "react-spinners/FadeLoader";
+import useInterval from "../utils/useInterval";
 
-export default function LineFunction(props) {
+export default function LineFunction() {
   const [loading, setLoading] = useState(false);
+  const [delay, setDelay] = useState(5000);
   const dispatch = useDispatch();
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
+
+  const chartRef = useRef(null);
 
   const override = css`
     display: block;
@@ -18,12 +21,6 @@ export default function LineFunction(props) {
     height: 100%;
     background: #34343465;
   `;
-
-  useEffect(() => {
-    props.setLoading(true);
-    dispatch(searchDataAsync());
-    props.setLoading(false);
-  }, []);
 
   const total = [];
   const price = [];
@@ -36,7 +33,21 @@ export default function LineFunction(props) {
     price.push(data.price);
   }
 
-  const chartRef = useRef(null);
+  const data = [];
+  const now = new Date();
+  const oneDay = 24 * 3600 * 1000;
+
+  const hour = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  function getTime() {
+    return [hour + minutes + seconds].join(":");
+  }
+
+  for (var i = 0; i < 1000; i++) {
+    data.push(getTime());
+  }
 
   const [options, setOptions] = useState({
     tooltip: {
@@ -105,28 +116,15 @@ export default function LineFunction(props) {
     }
   }, [options, chartRef]);
 
-  return (
-    <div>
-      {loading ? (
-        <div
-          className={loading ? "parentDisable" : ""}
-          width="100%"
-          height="100%"
-        >
-          <div className="overlay-box">
-            <FadeLoader
-              size={150}
-              color={"#ffffff"}
-              css={override}
-              loading={loading}
-              z-index={"1"}
-              text="Loading your content..."
-            />
-          </div>
-        </div>
-      ) : (
-        false
-      )}
+  useInterval(() => {
+    // Your custom logic here
+    dispatch(searchDataAsync());
+  }, delay);
+
+  if (loading) {
+    return <div>loading...</div>;
+  } else {
+    return (
       <div
         ref={chartRef}
         style={{
@@ -134,6 +132,6 @@ export default function LineFunction(props) {
           minHeight: "100%",
         }}
       />
-    </div>
-  );
+    );
+  }
 }
