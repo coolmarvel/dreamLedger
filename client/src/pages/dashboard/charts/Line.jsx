@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
-import { css } from "@emotion/react";
 import useInterval from "../utils/useInterval";
 
 export default function LineFunction() {
@@ -12,15 +11,6 @@ export default function LineFunction() {
   const { dashboard, lastId } = useSelector((state) => state.boardReducer);
 
   const chartRef = useRef(null);
-
-  const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: #5900ff;
-    width: 100%;
-    height: 100%;
-    background: #34343465;
-  `;
 
   const total = [];
   const price = [];
@@ -33,28 +23,12 @@ export default function LineFunction() {
     price.push(data.price);
   }
 
-  const data = [];
-  const now = new Date();
-  const oneDay = 24 * 3600 * 1000;
-
-  const hour = now.getHours();
-  const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-
-  function getTime() {
-    return [hour + minutes + seconds].join(":");
-  }
-
-  for (var i = 0; i < 1000; i++) {
-    data.push(getTime());
-  }
-
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: ["Email", "Union Ads", "Video Ads", "Direct", "Search Engine"],
+      data: ["total", "price"],
     },
     grid: {
       left: "3%",
@@ -77,37 +51,26 @@ export default function LineFunction() {
     },
     series: [
       {
-        name: "Email",
+        name: "total",
         type: "line",
         stack: "Total",
-        data: [120, 132, 101, 134, 90, 230, 210],
+        data: total,
       },
       {
-        name: "Union Ads",
+        name: "price",
         type: "line",
         stack: "Total",
-        data: [220, 182, 191, 234, 290, 330, 310],
-      },
-      {
-        name: "Video Ads",
-        type: "line",
-        stack: "Total",
-        data: [150, 232, 201, 154, 190, 330, 410],
-      },
-      {
-        name: "Direct",
-        type: "line",
-        stack: "Total",
-        data: [320, 332, 301, 334, 390, 330, 320],
-      },
-      {
-        name: "Search Engine",
-        type: "line",
-        stack: "Total",
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: price,
       },
     ],
   });
+
+  useInterval(() => {
+    // Your custom logic here
+    setLoading(true);
+    dispatch(searchDataAsync());
+    setLoading(false);
+  }, delay);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -115,11 +78,6 @@ export default function LineFunction() {
       chart.setOption(options);
     }
   }, [options, chartRef]);
-
-  useInterval(() => {
-    // Your custom logic here
-    dispatch(searchDataAsync());
-  }, delay);
 
   if (loading) {
     return <div>loading...</div>;

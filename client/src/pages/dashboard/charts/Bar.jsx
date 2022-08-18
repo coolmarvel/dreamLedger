@@ -2,19 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
-import { css } from "@emotion/react";
 import useInterval from "../utils/useInterval";
 
 export default function BarFunction(props) {
-  const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: #5900ff;
-    width: 100%;
-    height: 100%;
-    background: #34343465;
-  `;
-
   const [delay, setDelay] = useState(5000);
   const [loading, setLoading] = useState(false);
   const { dashboard } = useSelector((state) => state.boardReducer);
@@ -34,9 +24,9 @@ export default function BarFunction(props) {
   }
 
   const [options, setOptions] = useState({
-    title: {
-      text: "Block Height",
-    },
+    // title: {
+    //   text: "Block Height",
+    // },
     tooltip: {
       trigger: "axis",
       axisPointer: {

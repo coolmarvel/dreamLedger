@@ -19,7 +19,6 @@ export const getData = async () => {
   }
 };
 
-// READ API
 // export const getData = async () => {
 //   try {
 //     const response = await axios
