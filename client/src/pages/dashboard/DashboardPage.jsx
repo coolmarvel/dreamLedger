@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import $ from "jquery";
+import * as echarts from "echarts";
 
-import { css } from "@emotion/react";
-import FadeLoader from "react-spinners/FadeLoader";
-
-import "./dashboardPage.css";
 import { searchDataAsync } from "../../redux/boardReducer";
 
-import * as echarts from "echarts";
 import Bar from "./charts/Bar";
 import Line from "./charts/Line";
 
@@ -63,7 +59,7 @@ export const DashboardPage = () => {
   // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
   const dispatch = useDispatch();
-  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
+  const { dashboard } = useSelector((state) => state.boardReducer);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     startDate: "",
@@ -119,37 +115,8 @@ export const DashboardPage = () => {
     setLoading(false);
   }, []);
 
-  const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: #5900ff;
-    width: 100%;
-    height: 100%;
-    background: #34343465;
-  `;
-
   return (
     <React.Fragment>
-      {loading ? (
-        <div
-          className={loading ? "parentDisable" : ""}
-          width="100%"
-          height="100%"
-        >
-          <div className="overlay-box">
-            <FadeLoader
-              size={150}
-              color={"#ffffff"}
-              css={override}
-              loading={loading}
-              z-index={"1"}
-              text="Loading your content..."
-            />
-          </div>
-        </div>
-      ) : (
-        false
-      )}
       <div id="con_wrap">
         <div id="con_area">
           <div className="con_box">

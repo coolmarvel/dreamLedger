@@ -2,15 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
-import useInterval from "../utils/useInterval";
+import useInterval from "../../dashboard/utils/useInterval";
 
-export default function Line() {
+function TransactionChart() {
   const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(1);
   const [delay, setDelay] = useState(5000);
-  const [channel1, setChannel1] = useState();
-  const [channel2, setChannel2] = useState();
+  const [transactions, setTransactions] = useState();
+
   const { dashboard } = useSelector((state) => state.boardReducer);
   const chartRef = useRef(null);
 
@@ -33,15 +34,14 @@ export default function Line() {
   useEffect(() => {
     setLoading(true);
 
-    const ch1 = [];
-    const ch2 = [];
+    const transaction = [];
 
     const option = {
       tooltip: {
         trigger: "axis",
       },
       legend: {
-        data: ["ch1", "ch2"],
+        data: ["transactions"],
       },
       grid: {
         left: "3%",
@@ -64,30 +64,19 @@ export default function Line() {
       },
       series: [
         {
-          name: "ch1",
+          name: "transactions",
           type: "line",
           stack: "Total",
-          data: ch1,
-        },
-        {
-          name: "ch2",
-          type: "line",
-          stack: "Total",
-          data: ch2,
+          data: transaction,
         },
       ],
     };
 
     for (const data of dashboard) {
-      ch1.push(data.total);
+      transaction.push(data.total);
     }
 
-    for (const data of dashboard) {
-      ch2.push(data.price);
-    }
-
-    setChannel1(ch1);
-    setChannel2(ch2);
+    setTransactions(transaction);
     setOptions(option);
 
     setLoading(false);
@@ -98,7 +87,7 @@ export default function Line() {
       trigger: "axis",
     },
     legend: {
-      data: ["ch1", "ch2"],
+      data: ["transactions"],
     },
     grid: {
       left: "3%",
@@ -121,16 +110,10 @@ export default function Line() {
     },
     series: [
       {
-        name: "ch1",
+        name: "transactions",
         type: "line",
         stack: "Total",
-        data: channel1,
-      },
-      {
-        name: "ch2",
-        type: "line",
-        stack: "Total",
-        data: channel2,
+        data: transactions,
       },
     ],
   });
@@ -156,3 +139,5 @@ export default function Line() {
     );
   }
 }
+
+export default TransactionChart;

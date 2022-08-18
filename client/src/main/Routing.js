@@ -5,7 +5,7 @@ import { BlockArchitecturePage } from "../pages/BlockArchitecturePage";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
 import { ChartPage } from '../pages/dashboard/ChartPage'
 
-import { BlockStatsPage } from "../pages/BlockStatsPage";
+import { BlockStatsPage } from "../pages/blockstats/BlockStatsPage";
 import { ResourcePageHistory } from "../pages/ResourcePageHistory";
 import { SettingPageAdministator } from "../pages/SettingPageAdministator";
 
