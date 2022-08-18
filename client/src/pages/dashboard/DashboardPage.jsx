@@ -56,8 +56,6 @@ export const DashboardPage = () => {
     $(window).resize();
   });
 
-  // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -242,9 +240,11 @@ export const DashboardPage = () => {
                       <div className="tab_container">
                         <div className="tab_content" id="tab01">
                           <Bar echars={echarts} setLoading={setLoading} />
-                          <Line echars={echarts} setLoading={setLoading} />
-                          {/* <div id="chart-container"></div>
-                        <div id="chart-containerline"></div> */}
+                          <div id="chart-container">
+                            <div id="chart-containerline">
+                              <Line echars={echarts} setLoading={setLoading} />
+                            </div>
+                          </div>
                         </div>
                         <div className="tab_content" id="tab02">
                           <div id="chart-containerline03" />
