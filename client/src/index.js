@@ -21,7 +21,7 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-// console.log("reducers", store.getState());
+console.log("reducers", store.getState());
 
 const container = document.getElementById("root");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript

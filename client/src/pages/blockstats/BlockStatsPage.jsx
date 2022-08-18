@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
+
+import { searchDataAsync } from "../../redux/boardReducer";
 
 import BlocksChart from "./charts/BlocksChart";
 import TransactionChart from "./charts/TransactionChart";
 
-export const BlockStatsPage = (props) => {
+export const BlockStatsPage = () => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { dashboard } = useSelector((state) => state.boardReducer);
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(searchDataAsync());
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return <div>loading...</div>;
@@ -106,7 +117,7 @@ export const BlockStatsPage = (props) => {
                   </div>
                   <div className="con_menu_tb_wrap">
                     <div id="chart-container_stats">
-                      <BlocksChart echarts={echarts} setLoading={setLoading} />
+                      <BlocksChart echarts={echarts} />
                     </div>
                   </div>
                 </div>
@@ -116,10 +127,7 @@ export const BlockStatsPage = (props) => {
                   </div>
                   <div className="con_menu_tb_wrap">
                     <div id="chart-container_stats2">
-                      <TransactionChart
-                        echarts={echarts}
-                        setLoading={setLoading}
-                      />
+                      <TransactionChart echarts={echarts} />
                     </div>
                   </div>
                 </div>

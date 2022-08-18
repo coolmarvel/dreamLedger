@@ -9,15 +9,15 @@ import blockManager, { blockManagerSaga } from "./BlockManagerReducer.js";
 import boardReducer, { boardSaga } from "./boardReducer";
 
 const rootReducer = combineReducers({
+  loading,
   auth,
   main,
   blockManager,
-  loading,
   boardReducer,
 });
 
 export function* rootSaga() {
-  yield all([blockManagerSaga(), authSaga(), boardSaga()]);
+  yield all([blockManagerSaga(), authSaga(), boardSaga(),]);
 }
 
 export default rootReducer;

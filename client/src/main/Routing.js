@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 import { BlockArchitecturePage } from "../pages/BlockArchitecturePage";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
-import { ChartPage } from '../pages/dashboard/ChartPage'
 
 import { BlockStatsPage } from "../pages/blockstats/BlockStatsPage";
 import { ResourcePageHistory } from "../pages/ResourcePageHistory";
@@ -44,7 +43,6 @@ export const Routing = (props) => {
         <Route exact path="/" component={BlockArchitecturePage} />
         <Route path="/block_architecture" component={BlockArchitecturePage} />
         <Route path="/dashboard" component={DashboardPage} />
-        <Route path="/chartpage" component={ChartPage} />
         <Route
           path="/block_manager_servers"
           component={BlockManagerPageServers}

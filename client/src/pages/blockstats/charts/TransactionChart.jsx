@@ -13,9 +13,11 @@ function TransactionChart() {
   const [transactions, setTransactions] = useState();
 
   const { dashboard } = useSelector((state) => state.boardReducer);
+  const { blockstats } = useSelector((state) => state.boardReducer);
+
   const chartRef = useRef(null);
 
-  const labels = dashboard.map((data) => {
+  const labels = blockstats.map((data) => {
     const date = new Date(data.transaction_date);
     const time =
       date.getHours() > 12
@@ -72,7 +74,7 @@ function TransactionChart() {
       ],
     };
 
-    for (const data of dashboard) {
+    for (const data of blockstats) {
       transaction.push(data.total);
     }
 
@@ -80,7 +82,7 @@ function TransactionChart() {
     setOptions(option);
 
     setLoading(false);
-  }, [dashboard]);
+  }, [blockstats]);
 
   const [options, setOptions] = useState({
     tooltip: {
