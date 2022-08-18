@@ -4,29 +4,79 @@ import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
 import useInterval from "../utils/useInterval";
 
-export default function BarFunction(props) {
-  const [delay, setDelay] = useState(5000);
-  const [loading, setLoading] = useState(false);
-  const { dashboard } = useSelector((state) => state.boardReducer);
+export default function Bar() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [delay, setDelay] = useState(5000);
+  const [total, setTotal] = useState();
+  const [price, setPrice] = useState();
+  const { dashboard } = useSelector((state) => state.boardReducer);
 
   const chartRef = useRef(null);
 
-  const total = [];
-  const price = [];
+  useInterval(() => {
+    // Your custom logic here
+    setLoading(true);
+    dispatch(searchDataAsync());
+    setLoading(false);
+  }, delay);
 
-  for (const data of dashboard) {
-    total.push(data.total);
-  }
+  useEffect(() => {
+    setLoading(true);
+    const tot = [];
+    const pri = [];
+    const option = {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
+      legend: {},
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true,
+      },
+      xAxis: {
+        type: "value",
+        boundaryGap: [0, 0.01],
+      },
+      yAxis: {
+        type: "category",
+        data: ["Blocks"],
+      },
+      series: [
+        {
+          name: "Channel 1",
+          type: "bar",
+          data: total,
+        },
+        {
+          name: "Channel 2",
+          type: "bar",
+          data: price,
+        },
+      ],
+    };
 
-  for (const data of dashboard) {
-    price.push(data.price);
-  }
+    for (const data of dashboard) {
+      tot.push(data.total);
+    }
+
+    for (const data of dashboard) {
+      pri.push(data.price);
+    }
+
+    setTotal(tot);
+    setPrice(pri);
+    setOptions(option);
+
+    setLoading(false);
+  }, [dashboard]);
 
   const [options, setOptions] = useState({
-    // title: {
-    //   text: "Block Height",
-    // },
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -50,24 +100,17 @@ export default function BarFunction(props) {
     },
     series: [
       {
-        name: "Channel 1",
+        name: "total",
         type: "bar",
         data: total,
       },
       {
-        name: "Channel 2",
+        name: "price",
         type: "bar",
         data: price,
       },
     ],
   });
-
-  useInterval(() => {
-    // Your custom logic here
-    setLoading(true);
-    dispatch(searchDataAsync());
-    setLoading(false);
-  }, delay);
 
   useEffect(() => {
     setLoading(true);

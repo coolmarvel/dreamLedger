@@ -4,24 +4,92 @@ import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
 import useInterval from "../utils/useInterval";
 
-export default function LineFunction() {
+export default function Line() {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [delay, setDelay] = useState(5000);
-  const dispatch = useDispatch();
-  const { dashboard, lastId } = useSelector((state) => state.boardReducer);
-
+  const [days, setDays] = useState(1);
+  const [total, setTotal] = useState();
+  const [price, setPrice] = useState();
+  const { dashboard } = useSelector((state) => state.boardReducer);
   const chartRef = useRef(null);
 
-  const total = [];
-  const price = [];
+  const labels = dashboard.map((data) => {
+    const date = new Date(data.transaction_date);
+    const time =
+      date.getHours() > 12
+        ? `${date.getHours() - 12}:${date.getMinutes()} PM`
+        : `${date.getHours()}:${date.getMinutes()} AM`;
+    return days === 1 ? time : date.toLocaleDateString();
+  });
 
-  for (const data of dashboard) {
-    total.push(data.total);
-  }
+  useInterval(() => {
+    // Your custom logic here
+    setLoading(true);
+    dispatch(searchDataAsync());
+    setLoading(false);
+  }, delay);
 
-  for (const data of dashboard) {
-    price.push(data.price);
-  }
+  useEffect(() => {
+    setLoading(true);
+    const tot = [];
+    const pri = [];
+    const option = {
+      tooltip: {
+        trigger: "axis",
+      },
+      legend: {
+        data: ["total", "price"],
+      },
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true,
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: labels,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          name: "total",
+          type: "line",
+          stack: "Total",
+          data: tot,
+        },
+        {
+          name: "price",
+          type: "line",
+          stack: "Total",
+          data: pri,
+        },
+      ],
+    };
+
+    for (const data of dashboard) {
+      tot.push(data.total);
+    }
+
+    for (const data of dashboard) {
+      pri.push(data.price);
+    }
+
+    setTotal(tot);
+    setPrice(pri);
+    setOptions(option);
+
+    setLoading(false);
+  }, [dashboard]);
 
   const [options, setOptions] = useState({
     tooltip: {
@@ -44,7 +112,7 @@ export default function LineFunction() {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      data: labels,
     },
     yAxis: {
       type: "value",
@@ -64,13 +132,6 @@ export default function LineFunction() {
       },
     ],
   });
-
-  useInterval(() => {
-    // Your custom logic here
-    setLoading(true);
-    dispatch(searchDataAsync());
-    setLoading(false);
-  }, delay);
 
   useEffect(() => {
     if (chartRef.current) {
