@@ -2,29 +2,34 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
+import { getDataAsync } from "../../../redux/ethReducer";
 import useInterval from "../utils/useInterval";
 
-export default function Bar() {
+export default function Bar(props) {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [delay, setDelay] = useState(5000);
-  const [total, setTotal] = useState();
-  const [price, setPrice] = useState();
   const { dashboard } = useSelector((state) => state.boardReducer);
+  const { eth } = useSelector((state) => state.ethReducer);
+
+  const [delay, setDelay] = useState(10000);
+  const [channel1, setChannel1] = useState();
+  const [channel2, setChannel2] = useState();
 
   const chartRef = useRef(null);
 
   useInterval(() => {
     // Your custom logic here
-    setLoading(true);
+    props.setLoading(true);
     dispatch(searchDataAsync());
-    setLoading(false);
+    dispatch(getDataAsync());
+    props.setLoading(false);
   }, delay);
 
   useEffect(() => {
-    setLoading(true);
-    const tot = [];
-    const pri = [];
+    props.setLoading(true);
+
+    const bitcoin = [];
+    const ethereum = [];
+
     const option = {
       tooltip: {
         trigger: "axis",
@@ -51,29 +56,29 @@ export default function Bar() {
         {
           name: "Channel 1",
           type: "bar",
-          data: total,
+          data: bitcoin,
         },
         {
           name: "Channel 2",
           type: "bar",
-          data: price,
+          data: ethereum,
         },
       ],
     };
 
     for (const data of dashboard) {
-      tot.push(data.total);
+      bitcoin.push(data.total);
     }
 
-    for (const data of dashboard) {
-      pri.push(data.price);
+    for (const data of eth) {
+      ethereum.push(data.total);
     }
 
-    setTotal(tot);
-    setPrice(pri);
+    setChannel1(bitcoin);
+    setChannel2(ethereum);
     setOptions(option);
 
-    setLoading(false);
+    props.setLoading(false);
   }, [dashboard]);
 
   const [options, setOptions] = useState({
@@ -100,40 +105,40 @@ export default function Bar() {
     },
     series: [
       {
-        name: "total",
+        name: "Channel 1",
         type: "bar",
-        data: total,
+        data: channel1,
       },
       {
-        name: "price",
+        name: "Channel 2",
         type: "bar",
-        data: price,
+        data: channel2,
       },
     ],
   });
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
     if (chartRef.current) {
       const chart = echarts.init(chartRef.current);
       chart.setOption(options);
     }
-    setLoading(false);
+    props.setLoading(false);
   }, [options, chartRef]);
 
-  if (loading) {
-    return <div>loading...</div>;
-  } else {
-    return (
-      <div>
-        <div
-          ref={chartRef}
-          style={{
-            width: "100%",
-            minHeight: "100%",
-          }}
-        />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // } else {
+  return (
+    <div>
+      <div
+        ref={chartRef}
+        style={{
+          width: "100%",
+          minHeight: "100%",
+        }}
+      />
+    </div>
+  );
+  // }
 }

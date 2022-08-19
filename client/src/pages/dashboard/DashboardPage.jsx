@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import $ from "jquery";
 import * as echarts from "echarts";
 
-import { searchDataAsync } from "../../redux/boardReducer";
-
 import Bar from "./charts/Bar";
 import Line from "./charts/Line";
+
+import styles from "./DashboardPage.module.css";
+import { css } from "@emotion/react";
+import FadeLoader from "react-spinners/FadeLoader";
 
 export const DashboardPage = () => {
   $(function () {
@@ -56,24 +57,49 @@ export const DashboardPage = () => {
     $(window).resize();
   });
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: #5900ff;
+    width: 100%;
+    height: 100%;
+    background: #34343465;
+  `;
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
-    dispatch(searchDataAsync());
     setLoading(false);
   }, []);
 
-  if (loading) {
-    return <>loading...</>;
-  } else {
-    return (
-      <React.Fragment>
-        <div id="con_wrap">
-          <div id="con_area">
-            <div className="con_box">
-              {/* <div class="pagenation_area_squar">
+  return (
+    <React.Fragment>
+      {loading ? (
+        <div
+          className={loading ? "parentDisable" : ""}
+          width="100%"
+          height="100%"
+        >
+          <div className={styles.overlay}>
+            <FadeLoader
+              size={150}
+              color={"#ffffff"}
+              css={override}
+              loading={loading}
+              z-index={"1"}
+              text="Loading your content..."
+            />
+          </div>
+        </div>
+      ) : (
+        false
+      )}
+      <div id="con_wrap">
+        <div id="con_area">
+          <div className="con_box">
+            {/* <div class="pagenation_area_squar">
                           <span class="con_btn_area_float_r">
                               <span class="tb_num_view">
                                   <select name="pn_list" class="select" id="pn">
@@ -91,176 +117,175 @@ export const DashboardPage = () => {
 
 
                       </div> */}
-              <div className="con_dash_wrap">
-                {/* Content_table : S */}
-                <div className="dash_col_box01">
-                  <div className="width_15p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <div className="img_wrap">
-                          <img src="./images/blocks.png" alt="블록" />
-                        </div>
-                        <p className="cir_sub02">Blocks</p>
-                        <div className=" tit_wrap">
-                          <span className="tit">2,650</span>
-                          <span>- 1.46%</span>
-                        </div>
-                        <span className="cir_tit02">+ 345 than yesterday</span>
+            <div className="con_dash_wrap">
+              {/* Content_table : S */}
+              <div className="dash_col_box01">
+                <div className="width_15p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <div className="img_wrap">
+                        <img src="./images/blocks.png" alt="블록" />
                       </div>
-                    </div>
-                  </div>
-                  <div className="width_15p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <div className="img_wrap">
-                          <img src="./images/transactions.png" alt="트랜섹션" />
-                        </div>
-                        <p className="cir_sub02"> Transactions</p>
-                        <div className="tit_wrap">
-                          <span className="tit">2,650</span>
-                          <span> - 1.46%</span>
-                        </div>
-                        <span className="cir_tit02">+ 345 than yesterday</span>
+                      <p className="cir_sub02">Blocks</p>
+                      <div className=" tit_wrap">
+                        <span className="tit">2,650</span>
+                        <span>- 1.46%</span>
                       </div>
-                    </div>
-                  </div>
-                  <div className="width_15p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <div className="img_wrap">
-                          <img src="./images/cpu.png" alt="cpu" />
-                        </div>
-                        <p className="cir_sub02">CPU</p>
-                        <div className="tit_wrap">
-                          <span className="tit">17%</span>
-                          <span> - 1.46%</span>
-                        </div>
-                        <span className="cir_tit02">+ 345 than yesterday</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="width_15p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <div className="img_wrap">
-                          <img src="./images/memory.png" alt="메모리" />
-                        </div>
-                        <p className="cir_sub02">Memory</p>
-                        <div className="tit_wrap">
-                          <span className="tit">20%</span>
-                          <span>- 1.46%</span>
-                        </div>
-                        <span className="cir_tit02">+ 345 than yesterday</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="width_15p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <div className="img_wrap">
-                          <img src="./images/storage.png" alt="스토리지" />
-                        </div>
-                        <p className="cir_sub02">Storage</p>
-                        <div className="tit_wrap">
-                          <span className="tit">60%</span>
-                          <span> - 1.46%</span>
-                        </div>
-                        <span className="cir_tit02">+ 345 than yesterday</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="width_30p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap info">
-                        <p className="cir_sub02">Blockchain Info</p>
-                        <div className="noti">
-                          <ul>
-                            <li>위험</li>
-                            <li>주의</li>
-                            <li>안전</li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="dash_tit_wrap info02">
-                        <ul className="blockchaininfo">
-                          <li>
-                            <p className="num" /> Servers<span>3</span>
-                          </li>
-                          <li>
-                            <p className="num" />
-                            Orgs <span>3</span>
-                          </li>
-                          <li>
-                            <p className="num" />
-                            Orderers <span>5</span>
-                          </li>
-                          <li>
-                            <p className="num" />
-                            <a href="#a" data-modal-id="popup3" tabIndex={-1}>
-                              Peers
-                            </a>{" "}
-                            <span>6</span>
-                          </li>
-                          <li>
-                            <p className="num" />
-                            <a href="#a" data-modal-id="popup4" tabIndex={-1}>
-                              CA Servers{" "}
-                            </a>
-                            <span>6</span>
-                          </li>
-                          <li>
-                            <p className="num" />
-                            Channels <span>3</span>
-                          </li>
-                        </ul>
-                      </div>
+                      <span className="cir_tit02">+ 345 than yesterday</span>
                     </div>
                   </div>
                 </div>
-                {/* Content_table : E */}
-                {/* Content_table : S */}
-                <div className="dash_col_box02">
-                  <div className="width_100p h_100p">
-                    <div className="dash_box h_100p">
-                      <div className="dash_tit_wrap">
-                        <ul className="tab_bar">
-                          <li className="active">
-                            <a href="#tab01" className="tabBtn">
-                              Ledger Info
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#tab02" className="tabBtn">
-                              Resource Info
-                            </a>
-                          </li>
-                        </ul>
-                        {/* <span class="txt_gry"> (최근 30일)</span> */}
+                <div className="width_15p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <div className="img_wrap">
+                        <img src="./images/transactions.png" alt="트랜섹션" />
                       </div>
-                      <div className="tab_container">
-                        <div className="tab_content" id="tab01">
-                          <Bar echars={echarts} setLoading={setLoading} />
-                          <div id="chart-container">
-                            <div id="chart-containerline">
-                              <Line echars={echarts} setLoading={setLoading} />
-                            </div>
+                      <p className="cir_sub02"> Transactions</p>
+                      <div className="tit_wrap">
+                        <span className="tit">2,650</span>
+                        <span> - 1.46%</span>
+                      </div>
+                      <span className="cir_tit02">+ 345 than yesterday</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="width_15p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <div className="img_wrap">
+                        <img src="./images/cpu.png" alt="cpu" />
+                      </div>
+                      <p className="cir_sub02">CPU</p>
+                      <div className="tit_wrap">
+                        <span className="tit">17%</span>
+                        <span> - 1.46%</span>
+                      </div>
+                      <span className="cir_tit02">+ 345 than yesterday</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="width_15p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <div className="img_wrap">
+                        <img src="./images/memory.png" alt="메모리" />
+                      </div>
+                      <p className="cir_sub02">Memory</p>
+                      <div className="tit_wrap">
+                        <span className="tit">20%</span>
+                        <span>- 1.46%</span>
+                      </div>
+                      <span className="cir_tit02">+ 345 than yesterday</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="width_15p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <div className="img_wrap">
+                        <img src="./images/storage.png" alt="스토리지" />
+                      </div>
+                      <p className="cir_sub02">Storage</p>
+                      <div className="tit_wrap">
+                        <span className="tit">60%</span>
+                        <span> - 1.46%</span>
+                      </div>
+                      <span className="cir_tit02">+ 345 than yesterday</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="width_30p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap info">
+                      <p className="cir_sub02">Blockchain Info</p>
+                      <div className="noti">
+                        <ul>
+                          <li>위험</li>
+                          <li>주의</li>
+                          <li>안전</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="dash_tit_wrap info02">
+                      <ul className="blockchaininfo">
+                        <li>
+                          <p className="num" /> Servers<span>3</span>
+                        </li>
+                        <li>
+                          <p className="num" />
+                          Orgs <span>3</span>
+                        </li>
+                        <li>
+                          <p className="num" />
+                          Orderers <span>5</span>
+                        </li>
+                        <li>
+                          <p className="num" />
+                          <a href="#a" data-modal-id="popup3" tabIndex={-1}>
+                            Peers
+                          </a>{" "}
+                          <span>6</span>
+                        </li>
+                        <li>
+                          <p className="num" />
+                          <a href="#a" data-modal-id="popup4" tabIndex={-1}>
+                            CA Servers{" "}
+                          </a>
+                          <span>6</span>
+                        </li>
+                        <li>
+                          <p className="num" />
+                          Channels <span>3</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Content_table : E */}
+              {/* Content_table : S */}
+              <div className="dash_col_box02">
+                <div className="width_100p h_100p">
+                  <div className="dash_box h_100p">
+                    <div className="dash_tit_wrap">
+                      <ul className="tab_bar">
+                        <li className="active">
+                          <a href="#tab01" className="tabBtn">
+                            Ledger Info
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#tab02" className="tabBtn">
+                            Resource Info
+                          </a>
+                        </li>
+                      </ul>
+                      {/* <span class="txt_gry"> (최근 30일)</span> */}
+                    </div>
+                    <div className="tab_container">
+                      <div className="tab_content" id="tab01">
+                        <Bar echars={echarts} setLoading={setLoading} />
+                        <div id="chart-container">
+                          <div id="chart-containerline">
+                            <Line echars={echarts} setLoading={setLoading} />
                           </div>
                         </div>
-                        <div className="tab_content" id="tab02">
-                          <div id="chart-containerline03" />
-                          <div id="chart-containerline04" />
-                          <div id="chart-containerline05" />
-                        </div>
+                      </div>
+                      <div className="tab_content" id="tab02">
+                        <div id="chart-containerline03">cpus</div>
+                        <div id="chart-containerline04"></div>
+                        <div id="chart-containerline05"></div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* Content_table : E */}
               </div>
+              {/* Content_table : E */}
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+    </React.Fragment>
+  );
 };

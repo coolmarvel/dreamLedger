@@ -1,22 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import * as echarts from "echarts";
-
-import { searchDataAsync } from "../../redux/boardReducer";
 
 import BlocksChart from "./charts/BlocksChart";
 import TransactionChart from "./charts/TransactionChart";
 
 export const BlockStatsPage = () => {
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const { dashboard } = useSelector((state) => state.boardReducer);
-
-  useEffect(() => {
-    setLoading(true);
-    dispatch(searchDataAsync());
-    setLoading(false);
-  }, []);
 
   if (loading) {
     return <div>loading...</div>;
@@ -43,12 +32,15 @@ export const BlockStatsPage = () => {
                       style={{ width: 200 }}
                       defaultValue={"DEFAULT"}
                     >
-                      {/* <option value={"DEFAULT"} disabled>
-                        Choose a Channel
-                      </option> */}
-                      <option value={1 && "DEFAULT"}>Channel_1</option>
-                      <option value={2}>Channel_2</option>
-                      <option value={3}>Channel_3</option>
+                      <option key="ch1" value={1 && "DEFAULT"}>
+                        Channel_1
+                      </option>
+                      <option key="ch2" value={2}>
+                        Channel_2
+                      </option>
+                      <option key="ch3" value={3}>
+                        Channel_3
+                      </option>
                     </select>
                   </li>
                   <li className="radio_btn_wrap">
@@ -117,7 +109,7 @@ export const BlockStatsPage = () => {
                   </div>
                   <div className="con_menu_tb_wrap">
                     <div id="chart-container_stats">
-                      <BlocksChart echarts={echarts} />
+                      <BlocksChart echarts={echarts} setLoading={setLoading} />
                     </div>
                   </div>
                 </div>
@@ -127,7 +119,10 @@ export const BlockStatsPage = () => {
                   </div>
                   <div className="con_menu_tb_wrap">
                     <div id="chart-container_stats2">
-                      <TransactionChart echarts={echarts} />
+                      <TransactionChart
+                        echarts={echarts}
+                        setLoading={setLoading}
+                      />
                     </div>
                   </div>
                 </div>

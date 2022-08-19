@@ -2,16 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
+import { getDataAsync } from "../../../redux/ethReducer";
 import useInterval from "../utils/useInterval";
 
-export default function Line() {
+export default function Line(props) {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const { dashboard } = useSelector((state) => state.boardReducer);
+  const { eth } = useSelector((state) => state.ethReducer);
+
   const [days, setDays] = useState(1);
-  const [delay, setDelay] = useState(5000);
+  const [delay, setDelay] = useState(10000);
   const [channel1, setChannel1] = useState();
   const [channel2, setChannel2] = useState();
-  const { dashboard } = useSelector((state) => state.boardReducer);
+
   const chartRef = useRef(null);
 
   const labels = dashboard.map((data) => {
@@ -25,16 +28,17 @@ export default function Line() {
 
   useInterval(() => {
     // Your custom logic here
-    setLoading(true);
+    props.setLoading(true);
     dispatch(searchDataAsync());
-    setLoading(false);
+    dispatch(getDataAsync());
+    props.setLoading(false);
   }, delay);
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
 
-    const ch1 = [];
-    const ch2 = [];
+    const bitcoin = [];
+    const ethereum = [];
 
     const option = {
       tooltip: {
@@ -67,30 +71,30 @@ export default function Line() {
           name: "ch1",
           type: "line",
           stack: "Total",
-          data: ch1,
+          data: bitcoin,
         },
         {
           name: "ch2",
           type: "line",
           stack: "Total",
-          data: ch2,
+          data: ethereum,
         },
       ],
     };
 
     for (const data of dashboard) {
-      ch1.push(data.total);
+      bitcoin.push(data.total);
     }
 
-    for (const data of dashboard) {
-      ch2.push(data.price);
+    for (const data of eth) {
+      ethereum.push(data.total);
     }
 
-    setChannel1(ch1);
-    setChannel2(ch2);
+    setChannel1(bitcoin);
+    setChannel2(ethereum);
     setOptions(option);
 
-    setLoading(false);
+    props.setLoading(false);
   }, [dashboard]);
 
   const [options, setOptions] = useState({
@@ -142,17 +146,17 @@ export default function Line() {
     }
   }, [options, chartRef]);
 
-  if (loading) {
-    return <div>loading...</div>;
-  } else {
-    return (
-      <div
-        ref={chartRef}
-        style={{
-          width: "100%",
-          minHeight: "100%",
-        }}
-      />
-    );
-  }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // } else {
+  return (
+    <div
+      ref={chartRef}
+      style={{
+        width: "100%",
+        minHeight: "100%",
+      }}
+    />
+  );
+  // }
 }

@@ -4,11 +4,24 @@ import URL from "./url";
 // READ API
 
 const order_currency = "BTC";
+const eth = "eth";
 const payment_currency = "KRW";
 
 export const getData = async () => {
   try {
     const response = await URL.get(`/${order_currency}_${payment_currency}`)
+      // .then((res) => res.json())
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getEth = async () => {
+  try {
+    const response = await URL.get(`/${eth}_${payment_currency}`)
       // .then((res) => res.json())
       .then((res) => res.data)
       .catch((error) => console.error("Failed loaded data", error));

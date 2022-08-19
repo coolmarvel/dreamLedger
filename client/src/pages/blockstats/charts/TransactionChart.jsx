@@ -4,20 +4,18 @@ import * as echarts from "echarts";
 import { searchDataAsync } from "../../../redux/boardReducer";
 import useInterval from "../../dashboard/utils/useInterval";
 
-function TransactionChart() {
+function TransactionChart(props) {
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(false);
   const [days, setDays] = useState(1);
   const [delay, setDelay] = useState(5000);
   const [transactions, setTransactions] = useState();
 
   const { dashboard } = useSelector((state) => state.boardReducer);
-  const { blockstats } = useSelector((state) => state.boardReducer);
 
   const chartRef = useRef(null);
 
-  const labels = blockstats.map((data) => {
+  const labels = dashboard.map((data) => {
     const date = new Date(data.transaction_date);
     const time =
       date.getHours() > 12
@@ -28,13 +26,13 @@ function TransactionChart() {
 
   useInterval(() => {
     // Your custom logic here
-    setLoading(true);
+    props.setLoading(true);
     dispatch(searchDataAsync());
-    setLoading(false);
+    props.setLoading(false);
   }, delay);
 
   useEffect(() => {
-    setLoading(true);
+    props.setLoading(true);
 
     const transaction = [];
 
@@ -74,15 +72,15 @@ function TransactionChart() {
       ],
     };
 
-    for (const data of blockstats) {
+    for (const data of dashboard) {
       transaction.push(data.total);
     }
 
     setTransactions(transaction);
     setOptions(option);
 
-    setLoading(false);
-  }, [blockstats]);
+    props.setLoading(false);
+  }, [dashboard]);
 
   const [options, setOptions] = useState({
     tooltip: {
@@ -127,19 +125,15 @@ function TransactionChart() {
     }
   }, [options, chartRef]);
 
-  if (loading) {
-    return <div>loading...</div>;
-  } else {
-    return (
-      <div
-        ref={chartRef}
-        style={{
-          width: "100%",
-          minHeight: "100%",
-        }}
-      />
-    );
-  }
+  return (
+    <div
+      ref={chartRef}
+      style={{
+        width: "100%",
+        minHeight: "100%",
+      }}
+    />
+  );
 }
 
 export default TransactionChart;
