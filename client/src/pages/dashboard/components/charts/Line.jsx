@@ -5,7 +5,7 @@ import { searchDataAsync } from "../../../../redux/boardReducer";
 import { getDataAsync } from "../../../../redux/ethReducer";
 import useInterval from "../../utils/useInterval";
 
-export default function Line(props) {
+export default React.memo(function Line(props) {
   const dispatch = useDispatch();
   const { dashboard } = useSelector((state) => state.boardReducer);
   const { eth } = useSelector((state) => state.ethReducer);
@@ -146,9 +146,6 @@ export default function Line(props) {
     }
   }, [options, chartRef]);
 
-  // if (loading) {
-  //   return <div>loading...</div>;
-  // } else {
   return (
     <div
       ref={chartRef}
@@ -158,5 +155,4 @@ export default function Line(props) {
       }}
     />
   );
-  // }
-}
+})
