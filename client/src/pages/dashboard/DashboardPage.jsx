@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import * as echarts from "echarts";
 
-import Bar from "./charts/Bar";
-import Line from "./charts/Line";
+import Bar from "./components/charts/Bar";
+import Line from "./components/charts/Line";
 
 import styles from "./DashboardPage.module.css";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
+
 
 export const DashboardPage = () => {
   $(function () {
@@ -96,6 +97,7 @@ export const DashboardPage = () => {
       ) : (
         false
       )}
+
       <div id="con_wrap">
         <div id="con_area">
           <div className="con_box">

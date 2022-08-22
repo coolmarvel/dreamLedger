@@ -44,6 +44,11 @@ export const getEth = async () => {
 // };
 
 // export const getData = async () => {
+  
+// Swagger Format 
+// "startDate": "2022-08-01 00:00:00",
+// "endDate": "2023-08-01 00:00:00"
+
 //   // 현재 시간
 //   const today = new Date(+new Date() + 3240 * 10000)
 //     .toISOString()
