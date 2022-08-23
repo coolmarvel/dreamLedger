@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
+import ReactEcharts from 'echarts-for-react'
 import { searchDataAsync } from "../../../../redux/boardReducer";
 import { getDataAsync } from "../../../../redux/ethReducer";
 import useInterval from "../../utils/useInterval";
+
+import { Card, CardHeader, CardContent } from '@mui/material'
 
 export default React.memo(function Bar(props) {
   const dispatch = useDispatch();
@@ -117,24 +120,28 @@ export default React.memo(function Bar(props) {
     ],
   });
 
-  useEffect(() => {
-    props.setLoading(true);
-    if (chartRef.current) {
-      const chart = echarts.init(chartRef.current);
-      chart.setOption(options);
-    }
-    props.setLoading(false);
-  }, [options, chartRef]);
+  // useEffect(() => {
+  //   props.setLoading(true);
+  //   if (chartRef.current) {
+  //     const chart = echarts.init(chartRef.current);
+  //     chart.setOption(options);
+  //   }
+  //   props.setLoading(false);
+  // }, [options, chartRef]);
 
   return (
-    <div>
-      <div
-        ref={chartRef}
-        style={{
-          width: "100%",
-          minHeight: "100%",
-        }}
-      />
-    </div>
+    <Card>
+      <CardHeader />
+      <CardContent>
+        {/* <div
+          ref={chartRef}
+          style={{
+            width: "100%",
+            minHeight: "100%",
+          }}
+        /> */}
+        <ReactEcharts option={options} />
+      </CardContent>
+    </Card>
   );
 })

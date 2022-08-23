@@ -25,17 +25,17 @@ const CardStatsVertical = props => {
                     </IconButton> */}
                 </Box>
                 <Typography sx={{ fontWeight: 300, fontSize: '1.2rem' }} align="left">{title}</Typography>
-                <Box sx={{ marginTop: 1.5, display: 'flex', flexWrap: 'wrap', marginBottom: 1.5, alignItems: 'flex-start' }}>
+                <Box sx={{ marginTop: 3, display: 'flex', flexWrap: 'wrap', marginBottom: 2, alignItems: 'flex-start' }}>
                     <Typography variant='h4' sx={{ fontWeight: 600, mr: 2 }}>
                         {stats}
                     </Typography>
 
                 </Box>
-                <Box>
+                <Box sx={{ marginTop: 3.3 }}>
                     <Typography
                         component='sup'
                         variant='caption'
-                        sx={{ color: trend === 'positive' ? 'success.main' : 'error.main' }}
+                        sx={{ marginTop: 2.5, marginBottom: 1.5, color: trend === 'positive' ? 'success.main' : 'error.main' }}
                         align="left"
                     >
                         {trendNumber}
