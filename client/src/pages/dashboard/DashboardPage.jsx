@@ -9,9 +9,12 @@ import styles from "./DashboardPage.module.css";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
-import { Button, Container, Box } from '@mui/material'
 import { Tabs, Tab } from "@material-ui/core";
+import { Grid, Button, Container, Box } from '@mui/material'
+import { Database, SwapHorizontalBold, Memory, Server, Sd } from 'mdi-material-ui'
 
+import CardStatisticsVerticalComponent from "./components/cards/Card";
+import Table from './table/Table'
 
 export const DashboardPage = () => {
   $(function () {
@@ -116,7 +119,64 @@ export const DashboardPage = () => {
       ) : (
         false
       )}
-      <Container>
+      <Grid container spacing={1}>
+        <Grid item xs={15}>
+          <Grid container spacing={1}>
+            <Grid item xs={1.7}>
+              <CardStatisticsVerticalComponent
+                stats='2,650'
+                color='success'
+                trendNumber='1.46%'
+                title='Blocks'
+                subtitle='+ 345 than yesterday'
+                icon={<Database />}
+              />
+            </Grid>
+            <Grid item xs={1.7} >
+              <CardStatisticsVerticalComponent
+                stats='2,650'
+                color='success'
+                trendNumber='1.46%'
+                title='Transactions'
+                subtitle='+ 345 than yesterday'
+                icon={<SwapHorizontalBold />}
+              />
+            </Grid>
+            <Grid item xs={1.7} >
+              <CardStatisticsVerticalComponent
+                stats='2,650'
+                color='success'
+                trendNumber='1.46%'
+                title='CPU'
+                subtitle='+ 345 than yesterday'
+                icon={<Memory />}
+              />
+            </Grid>
+            <Grid item xs={1.7} >
+              <CardStatisticsVerticalComponent
+                stats='2,650'
+                color='success'
+                trendNumber='1.46%'
+                title='Memory'
+                subtitle='+ 345 than yesterday'
+                icon={<Sd />}
+              />
+            </Grid>
+            <Grid item xs={1.7} >
+              <CardStatisticsVerticalComponent
+                stats='2,650'
+                color='success'
+                trendNumber='1.46%'
+                title='Storage'
+                subtitle='+ 345 than yesterday'
+                icon={<Server />}
+              />
+            </Grid>
+            <Grid item xs={3.5}>
+              <Table />
+            </Grid>
+          </Grid>
+        </Grid>
         <div id="con_wrap">
           <div id="con_area">
             <div className="con_box">
@@ -327,7 +387,7 @@ export const DashboardPage = () => {
             </div>
           </div>
         </div>
-      </Container>
-    </React.Fragment>
+      </Grid>
+    </React.Fragment >
   );
 };
