@@ -14,7 +14,7 @@ import { Grid, Button, Container, Box } from '@mui/material'
 import { Database, SwapHorizontalBold, Memory, Server, Sd } from 'mdi-material-ui'
 
 import CardStatisticsVerticalComponent from "./components/cards/Card";
-import Table from './table/Table'
+import Table from './components/table/Table'
 
 export const DashboardPage = () => {
   $(function () {
