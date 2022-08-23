@@ -144,7 +144,7 @@ export const DashboardPage = () => {
             </Grid>
             <Grid item xs={1.7} >
               <CardStatisticsVerticalComponent
-                stats='2,650'
+                stats='17%'
                 color='success'
                 trendNumber='1.46%'
                 title='CPU'
@@ -154,7 +154,7 @@ export const DashboardPage = () => {
             </Grid>
             <Grid item xs={1.7} >
               <CardStatisticsVerticalComponent
-                stats='2,650'
+                stats='20%'
                 color='success'
                 trendNumber='1.46%'
                 title='Memory'
@@ -164,7 +164,7 @@ export const DashboardPage = () => {
             </Grid>
             <Grid item xs={1.7} >
               <CardStatisticsVerticalComponent
-                stats='2,650'
+                stats='60%'
                 color='success'
                 trendNumber='1.46%'
                 title='Storage'

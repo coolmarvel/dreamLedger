@@ -1,5 +1,7 @@
+import React from 'react'
+
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Paper from "@material-ui/core/Paper";
 import Card from '@mui/material/Card'
 import Chip from '@mui/material/Chip'
 import Table from '@mui/material/Table'
@@ -14,90 +16,91 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 const rows = [
   {
     status: '안전',
-    server: 'Servers',
-    name: '* ',
+    name: 'Servers',
     designation: 'Human Resources Assistant'
   },
   {
     status: '안전',
-    server: 'Orgs',
-    name: ' *',
+    name: 'Orgs',
     designation: 'Nuclear Power Engineer'
   },
   {
     status: '위험',
-    server: 'Orderers',
-    name: ' * ',
+    name: 'Orderers',
     designation: 'Environmental Specialist'
   },
   {
     status: '주의',
-    server: 'Peers',
-    name: '  *  ',
+    name: 'Peers',
     designation: 'Sales Representative'
   },
   {
+    status: '안전',
+    name: 'CA Servers',
+    designation: 'Environmental Specialist'
+  },
+  {
     status: '주의',
-    server: 'Channels',
-    name: ' *  ',
+    name: 'Channels',
     designation: 'Operator',
-  }
+  },
 ]
 
 const statusObj = {
-  applied: { color: 'info' },
   위험: { color: 'error' },
-  current: { color: 'primary' },
   주의: { color: 'warning' },
   안전: { color: 'success' }
 }
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 100
+  },
+  tableRow: {
+    height: 30
+  },
+  tableCell: {
+    padding: "0px 16px"
+  }
+});
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    height: 30
+  }
+}))(TableRow);
+
+const StyledTableCell = withStyles((theme) => ({
+  root: {
+    padding: "0px 16px"
+  }
+}))(TableCell);
 
 const DashboardTable = () => {
 
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 100
-    },
-    tableRow: {
-      height: 30
-    },
-    tableCell: {
-      padding: "0px 16px"
-    }
-  });
-
   const classes = useStyles();
 
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      height: 30
-    }
-  }))(TableRow);
-
-  const StyledTableCell = withStyles((theme) => ({
-    root: {
-      padding: "0px 16px"
-    }
-  }))(TableCell);
-
   return (
-    <Card>
-      <TableContainer>
-        <Table sx={{ minWidth: 20 }} className={classes.table} aria-label='table in dashboard'>
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow className={classes.tableRow}>
-              <TableCell className={classes.tableCell}>BlockChain Info</TableCell>
-              <TableCell className={classes.tableCell}></TableCell>
-              <TableCell className={classes.tableCell}>Status</TableCell>
+              <TableCell className={classes.tableCell} align="center">
+                BlockChain Info
+              </TableCell>
+              <TableCell className={classes.tableCell} align="center">
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow hover key={row.name} sx={{ '&:last-of-type td, &:last-of-type th': { border: 0 } }}>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.server}</TableCell>
-                <TableCell align="center">
+            {rows.map((row) => (
+              <StyledTableRow key={row.name} hover>
+                <StyledTableCell component="th" scope="row" align="center">
+                  {row.name}
+                </StyledTableCell>
+                <StyledTableCell align="center">
                   <Chip
                     label={row.status}
                     color={statusObj[row.status].color}
@@ -105,16 +108,16 @@ const DashboardTable = () => {
                       height: 24,
                       fontSize: '0.5rem',
                       textTransform: 'capitalize',
-                      '& .MuiChip-label': { fontWeight: 500 }
+                      '& .MuiChip-label': { fontWeight: 250 }
                     }}
-                  />
-                </TableCell>
-              </TableRow>
+                  /></StyledTableCell>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </Card>
+    </React.Fragment>
+
   )
 }
 
