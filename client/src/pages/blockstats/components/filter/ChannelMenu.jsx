@@ -43,7 +43,7 @@ function MultipleSelectChip() {
 
     return (
         <div>
-            <FormControl sx={{ m: 1, width: 200 }}>
+            <FormControl sx={{ m: 1, width: 350 }}>
                 <InputLabel id="demo-multiple-chip-label">Channel</InputLabel>
                 <Select
                     labelId="demo-multiple-chip-label"
