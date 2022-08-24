@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
-import $ from "jquery";
+import React, { useState } from "react";
 import * as echarts from "echarts";
 
-import Bar from "./components/chart/Bar";
-import Line from "./components/chart/Line";
+import BlockBar from "./components/chart/BlockBarChart";
+import BlockLine from "./components/chart/BlockLineChart";
+import TransactionBar from './components/chart/TransactionBarChart'
+import TransactionLine from './components/chart/TransactionLineChart'
+import CpuChart from './components/chart/CpuChart'
+import MemoryChart from './components/chart/MemoryChart'
+import StorageChart from './components/chart/StorageChart'
 
 import styles from "./DashboardPage.module.css";
 import { css } from "@emotion/react";
@@ -15,7 +19,7 @@ import { Database, SwapHorizontalBold, Memory, Server, Sd } from 'mdi-material-u
 import { TabPanel, TabContext } from '@mui/lab'
 
 import CardStatisticsVerticalComponent from "./components/card/CardStatisticsVerticalComponent";
-import Table from './components/table/Table'
+import Table from './components/table/BlockChainInfoTable'
 
 export const DashboardPage = () => {
 
@@ -138,22 +142,22 @@ export const DashboardPage = () => {
                 <Grid item xs={12} md={6} sx={{ boxShadow: 3 }}>
                   <Box>
                     <Typography variant='h5'>Block Height</Typography>
-                    <Bar echarts={echarts} setLoading={setLoading} />
+                    <BlockBar echarts={echarts} setLoading={setLoading} />
                   </Box>
                   <Box>
                     <Typography variant='h5' sx={{ marginTop: 3 }}>Block Chart</Typography>
-                    <Line echarts={echarts} setLoading={setLoading} />
+                    <BlockLine echarts={echarts} setLoading={setLoading} />
                   </Box>
                 </Grid>
 
                 <Grid item xs={12} md={6} sx={{ boxShadow: 3 }}>
                   <Box>
                     <Typography variant='h5'>Transaction Height</Typography>
-                    <Bar echarts={echarts} setLoading={setLoading} />
+                    <TransactionBar echarts={echarts} setLoading={setLoading} />
                   </Box>
                   <Box >
                     <Typography variant='h5' sx={{ marginTop: 3 }}>Transaction Chart</Typography>
-                    <Line echarts={echarts} setLoading={setLoading} />
+                    <TransactionLine echarts={echarts} setLoading={setLoading} />
                   </Box>
                 </Grid>
 
@@ -166,17 +170,20 @@ export const DashboardPage = () => {
         <TabPanel value="2">
           <Grid item xs={12} sx={{ boxShadow: 3 }}>
             <Box>
-              <Typography variant='h5'>Cpu</Typography>
+              <Typography variant='h5' sx={{ marginTop: 3 }}>CPU</Typography>
+              <CpuChart echarts={echarts} setLoading={setLoading} />
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ boxShadow: 3 }}>
             <Box>
-              <Typography variant='h5'>Memory</Typography>
+              <Typography variant='h5' sx={{ marginTop: 3 }}>Memory</Typography>
+              <MemoryChart echarts={echarts} setLoading={setLoading} />
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ boxShadow: 3 }}>
             <Box>
-              <Typography variant='h5'>Storage</Typography>
+              <Typography variant='h5' sx={{ marginTop: 3 }}>Storage</Typography>
+              <StorageChart echarts={echarts} setLoading={setLoading} />
             </Box>
           </Grid>
         </TabPanel>

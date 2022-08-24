@@ -53,22 +53,7 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-///////////////////////////////////////////////////모달 내부 테이블///////////////////////////////////////////////////
-
-function createData(status, domain) {
-    return { status, domain };
-}
-
-const status = {
-    safe: { color: 'success' },
-    danger: { color: 'error' }
-}
-
-const rows = [
-    createData('safe', 'Orderer0.dreamsecurity.com'),
-    createData('safe', 'Orderer1.dreamsecurity.com'),
-    createData('danger', 'Orderer2.dreamsecurity.com'),
-];
+///////////////////////////////////////////////////스위치 버튼///////////////////////////////////////////////////
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -122,6 +107,7 @@ const IOSSwitch = styled((props) => (
 }));
 
 function CustomizedDialogs() {
+    // 모달 열기/닫기
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -130,6 +116,28 @@ function CustomizedDialogs() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    // 스위치 색
+    const [status, setStatus] = useState({
+        on: { color: 'success' },
+        off: { color: 'error' }
+    })
+
+    // 테이블 데이터
+    const [rows, setRows] = useState([{
+        status: "on",
+        domain: 'Orderer0.dreamsecurity.com'
+    }, {
+        status: "on",
+        domain: 'Orderer1.dreamsecurity.com'
+    }, {
+        status: "on",
+        domain: 'Orderer2.dreamsecurity.com'
+    }]);
+
+    const changeStatus = () => {
+        console.log("changeStatus")
+    }
 
     return (
         <div>
@@ -173,7 +181,10 @@ function CustomizedDialogs() {
                                         </TableCell>
                                         <TableCell align="center">{row.domain}</TableCell>
                                         <TableCell align="right">
-                                            <FormControlLabel control={<IOSSwitch sx={{ m: 1 }} defaultChecked />} />
+                                            <FormControlLabel
+                                                control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+                                                onClick={changeStatus}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ))}

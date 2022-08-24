@@ -1,12 +1,7 @@
 import React from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-// import IconButton from '@mui/material/IconButton'
+import { Box, Card, Avatar, Typography, CardContent } from '@mui/material'
 
 // ** Icons Imports
 // import DotsVertical from 'mdi-material-ui/DotsVertical'
