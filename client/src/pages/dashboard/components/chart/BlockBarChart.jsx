@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as echarts from "echarts";
 import ReactEcharts from 'echarts-for-react'
 import { searchDataAsync } from "../../../../redux/boardReducer";
 import { getDataAsync } from "../../../../redux/ethReducer";
@@ -10,14 +9,13 @@ import { Card, CardHeader, CardContent } from '@mui/material'
 
 export default React.memo(function Bar(props) {
   const dispatch = useDispatch();
+
   const { dashboard } = useSelector((state) => state.boardReducer);
   const { eth } = useSelector((state) => state.ethReducer);
 
   const [delay, setDelay] = useState(10000);
   const [channel1, setChannel1] = useState();
   const [channel2, setChannel2] = useState();
-
-  const chartRef = useRef(null);
 
   useInterval(() => {
     // Your custom logic here
@@ -119,6 +117,8 @@ export default React.memo(function Bar(props) {
       },
     ],
   });
+
+  // const chartRef = useRef(null);
 
   // useEffect(() => {
   //   props.setLoading(true);

@@ -1,19 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as echarts from "echarts";
-import { searchDataAsync } from "../../../redux/boardReducer";
-import useInterval from "../../dashboard/utils/useInterval";
+import ReactEcharts from 'echarts-for-react'
+import { searchDataAsync } from "../../../../redux/boardReducer";
+import { getDataAsync } from "../../../../redux/ethReducer";
+import useInterval from '../../../dashboard/utils/useInterval'
 
-function TransactionChart(props) {
+import { Card, CardHeader, CardContent } from '@mui/material'
+
+function BlocksChart(props) {
   const dispatch = useDispatch();
 
-  const [days, setDays] = useState(1);
-  const [delay, setDelay] = useState(5000);
-  const [transactions, setTransactions] = useState();
-
   const { dashboard } = useSelector((state) => state.boardReducer);
+  const { eth } = useSelector((state) => state.ethReducer);
 
-  const chartRef = useRef(null);
+  const [days, setDays] = useState(1);
+  const [delay, setDelay] = useState(10000);
+  const [channel1, setChannel1] = useState();
+  const [channel2, setChannel2] = useState();
 
   const labels = dashboard.map((data) => {
     const date = new Date(data.transaction_date);
@@ -28,20 +31,22 @@ function TransactionChart(props) {
     // Your custom logic here
     props.setLoading(true);
     dispatch(searchDataAsync());
+    dispatch(getDataAsync());
     props.setLoading(false);
   }, delay);
 
   useEffect(() => {
     props.setLoading(true);
 
-    const transaction = [];
+    const bitcoin = [];
+    const ethereum = [];
 
     const option = {
       tooltip: {
         trigger: "axis",
       },
       legend: {
-        data: ["transactions"],
+        data: ["ch1", "ch2"],
       },
       grid: {
         left: "3%",
@@ -64,19 +69,30 @@ function TransactionChart(props) {
       },
       series: [
         {
-          name: "transactions",
+          name: "ch1",
           type: "line",
           stack: "Total",
-          data: transaction,
+          data: bitcoin,
+        },
+        {
+          name: "ch2",
+          type: "line",
+          stack: "Total",
+          data: ethereum,
         },
       ],
     };
 
     for (const data of dashboard) {
-      transaction.push(data.total);
+      bitcoin.push(data.total);
     }
 
-    setTransactions(transaction);
+    for (const data of eth) {
+      ethereum.push(data.total);
+    }
+
+    setChannel1(bitcoin);
+    setChannel2(ethereum);
     setOptions(option);
 
     props.setLoading(false);
@@ -87,7 +103,7 @@ function TransactionChart(props) {
       trigger: "axis",
     },
     legend: {
-      data: ["transactions"],
+      data: ["ch1", "ch2"],
     },
     grid: {
       left: "3%",
@@ -110,30 +126,28 @@ function TransactionChart(props) {
     },
     series: [
       {
-        name: "transactions",
+        name: "ch1",
         type: "line",
         stack: "Total",
-        data: transactions,
+        data: channel1,
+      },
+      {
+        name: "ch2",
+        type: "line",
+        stack: "Total",
+        data: channel2,
       },
     ],
   });
 
-  useEffect(() => {
-    const chart = echarts.init(chartRef.current);
-    if (chartRef.current) {
-      chart.setOption(options);
-    }
-  }, [options, chartRef]);
-
   return (
-    <div
-      ref={chartRef}
-      style={{
-        width: "100%",
-        minHeight: "100%",
-      }}
-    />
+    <Card>
+      <CardHeader />
+      <CardContent>
+        <ReactEcharts option={options} />
+      </CardContent>
+    </Card>
   );
 }
 
-export default TransactionChart;
+export default React.memo(BlocksChart);
