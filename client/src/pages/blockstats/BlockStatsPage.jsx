@@ -34,6 +34,9 @@ export const BlockStatsPage = () => {
             <Grid item xs={2}>
               <Calendar />
             </Grid>
+            <Grid item xs={2}>
+              <Calendar />
+            </Grid>
             <Box sx={{ marginTop: 2 }}>
               <Grid item xs={2}>
                 <Button variant="contained" size="large" >
