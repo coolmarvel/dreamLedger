@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
+import ReactEcharts from "echarts-for-react";
+
+// Reducer
 import { useDispatch, useSelector } from "react-redux";
-import ReactEcharts from 'echarts-for-react'
-import { searchDataAsync } from "../../../../redux/boardReducer";
-import { getDataAsync } from "../../../../redux/ethReducer";
-import useInterval from '../../../dashboard/utils/useInterval'
+import { getDataAsync } from "../../../../redux/blockStatsReducer";
 
-import { Card, CardHeader, CardContent } from '@mui/material'
-
+// MUI
+import { Card, CardHeader, CardContent } from "@mui/material";
 
 function TransactionChart(props) {
   const dispatch = useDispatch();
 
-  const { dashboard } = useSelector((state) => state.boardReducer);
-  const { eth } = useSelector((state) => state.ethReducer);
+  const { blockStats } = useSelector((state) => state.blockStatsReducer);
 
   const [days, setDays] = useState(1);
-  const [delay, setDelay] = useState(10000);
   const [channel1, setChannel1] = useState();
   const [channel2, setChannel2] = useState();
 
-  const labels = dashboard.map((data) => {
+  const labels = blockStats.map((data) => {
     const date = new Date(data.transaction_date);
     const time =
       date.getHours() > 12
@@ -28,19 +26,17 @@ function TransactionChart(props) {
     return days === 1 ? time : date.toLocaleDateString();
   });
 
-  useInterval(() => {
-    // Your custom logic here
+  useEffect(() => {
     props.setLoading(true);
-    dispatch(searchDataAsync());
     dispatch(getDataAsync());
     props.setLoading(false);
-  }, delay);
+  }, []);
 
   useEffect(() => {
     props.setLoading(true);
 
-    const bitcoin = [];
-    const ethereum = [];
+    const channel1 = [];
+    const channel2 = [];
 
     const option = {
       tooltip: {
@@ -73,31 +69,31 @@ function TransactionChart(props) {
           name: "ch1",
           type: "line",
           stack: "Total",
-          data: bitcoin,
+          data: channel1,
         },
         {
           name: "ch2",
           type: "line",
           stack: "Total",
-          data: ethereum,
+          data: channel2,
         },
       ],
     };
 
-    for (const data of dashboard) {
-      bitcoin.push(data.total);
+    for (const data of blockStats) {
+      channel1.push(data.total);
     }
 
-    for (const data of eth) {
-      ethereum.push(data.total);
+    for (const data of blockStats) {
+      channel2.push(data.total);
     }
 
-    setChannel1(bitcoin);
-    setChannel2(ethereum);
+    setChannel1(channel1);
+    setChannel2(channel2);
     setOptions(option);
 
     props.setLoading(false);
-  }, [dashboard]);
+  }, [blockStats]);
 
   const [options, setOptions] = useState({
     tooltip: {
