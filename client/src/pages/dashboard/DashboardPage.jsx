@@ -2,71 +2,22 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import * as echarts from "echarts";
 
-import Bar from "./components/charts/Bar";
-import Line from "./components/charts/Line";
+import Bar from "./components/chart/Bar";
+import Line from "./components/chart/Line";
 
 import styles from "./DashboardPage.module.css";
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
-// ** MUI Imports
 import { Tabs, Tab } from "@material-ui/core";
-import { Grid, Typography, Card, CardContent, Box } from '@mui/material'
+import { Grid, Typography, Box } from '@mui/material'
 import { Database, SwapHorizontalBold, Memory, Server, Sd } from 'mdi-material-ui'
-import { TabList, TabPanel, TabContext } from '@mui/lab'
+import { TabPanel, TabContext } from '@mui/lab'
 
-import CardStatisticsVerticalComponent from "./components/cards/CardStatisticsVerticalComponent";
+import CardStatisticsVerticalComponent from "./components/card/CardStatisticsVerticalComponent";
 import Table from './components/table/Table'
 
 export const DashboardPage = () => {
-  $(function () {
-    "use strict";
-    $(".tab_content").hide();
-    $(".tab_content:first").show();
-
-    $(".tab_bar li").click(function () {
-      $(".tab_bar li").removeClass("active");
-      $(this).addClass("active");
-      $(".tab_content").hide();
-      var activeTab = $(this).find("a").attr("href");
-      $(activeTab).fadeIn();
-      return false;
-    });
-  });
-  $(function () {
-    "use strict";
-    var appendthis = "<div class='modal-overlay js-modal-close'></div>";
-
-    $("a[data-modal-id]").click(function (e) {
-      e.preventDefault();
-
-      $("body").append(appendthis);
-      $(".modal-overlay").fadeTo(500, 0.7);
-      //$(".js-modalbox").fadeIn(500);
-      var modalBox = $(this).attr("data-modal-id");
-      $("#" + modalBox).fadeIn($(this).data());
-    });
-
-    $(".js-modal-close, .modal-overlay").click(function () {
-      $(".modal-box, .modal-box-al, .modal-overlay").fadeOut(500, function () {
-        $(".modal-overlay").remove();
-      });
-    });
-
-    $(window).resize(function () {
-      $(".modal-box, .modal-box-al").css({
-        top:
-          ($(window).height() - $(".modal-box, .modal-box-al").outerHeight()) /
-          2,
-        left:
-          ($(window).width() - $(".modal-box, .modal-box-al").outerWidth()) / 2,
-      });
-    });
-
-    $(window).resize();
-  });
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const override = css`
     display: block;
@@ -160,6 +111,7 @@ export const DashboardPage = () => {
                 icon={<Server />}
               />
             </Grid>
+            {/* Blockchain Info */}
             <Grid item xs={3.5}>
               <Table />
             </Grid>

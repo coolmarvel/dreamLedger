@@ -1,22 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 // ** MUI Imports
-import Paper from "@material-ui/core/Paper";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material'
 import Card from '@mui/material/Card'
-import Chip from '@mui/material/Chip'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
+import Servers from '../dialog/ServerDialog'
+import Orderers from '../dialog/OrdererDialog'
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 const rows = [
   {
     status: '안전',
-    name: 'Servers',
+    name: <Servers />,
     designation: 'Human Resources Assistant'
   },
   {
@@ -26,7 +21,7 @@ const rows = [
   },
   {
     status: '위험',
-    name: 'Orderers',
+    name: <Orderers />,
     designation: 'Environmental Specialist'
   },
   {
@@ -46,7 +41,7 @@ const rows = [
   },
 ]
 
-const statusObj = {
+const status = {
   위험: { color: 'error' },
   주의: { color: 'warning' },
   안전: { color: 'success' }
@@ -84,6 +79,7 @@ const DashboardTable = () => {
     <React.Fragment>
       <TableContainer component={Paper}>
         <Table className={classes.table} size="small" aria-label="simple table">
+          {/* 상단 정보 */}
           <TableHead>
             <TableRow className={classes.tableRow}>
               <TableCell className={classes.tableCell} align="center">
@@ -94,16 +90,17 @@ const DashboardTable = () => {
               </TableCell>
             </TableRow>
           </TableHead>
+          {/* 모달로 관리 */}
           <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name} hover>
+            {rows.map((row, index) => (
+              <StyledTableRow key={index} hover>
                 <StyledTableCell component="th" scope="row" align="center">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Chip
-                    label={row.status}
-                    color={statusObj[row.status].color}
+                    // label={row.status}
+                    color={status[row.status].color}
                     sx={{
                       height: 24,
                       fontSize: '0.5rem',
