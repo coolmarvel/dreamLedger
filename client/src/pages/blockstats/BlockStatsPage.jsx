@@ -10,15 +10,29 @@ import SelectDate from "./components/filter/SelectDate";
 import StartCalendar from "./components/filter/StartCalendar";
 import EndCalendar from "./components/filter/EndCalendar";
 
-import URL from "../../api/blockStatsAPI";
+import Client from "../../api/dashboardAPI";
 
 export const BlockStatsPage = () => {
   const [loading, setLoading] = useState(false);
 
-  // 자식 -> 부모로 props를 받아야함
-  const searchData = (props) => {
-    console.log(props);
+  // 자식 -> 부모로 props를 받음
+  const [startData, setStartData] = useState();
+  const [endData, setEndData] = useState();
+  const [channelData, setChannelData] = useState();
+  const [selectData, setSelectData] = useState();
+
+  console.log("startData\n", startData);
+  console.log("endData\n", endData);
+  console.log("channelData\n", channelData);
+  console.log("selectData\n", selectData);
+
+  // Client API를 통해 리덕스가 아닌 로컬에서 직접 AXIOS GET 통신 해야 할 거 같음
+  // params로 위에 자식들에서 받은 props들로 search button function 구현해야함
+  const getClientData = () => {
+    console.log("getClientData");
   };
+
+  // 그리고 받은 데이터를 가지고 chart 컴포넌트로 props로 전달해서 렌더링해야함
 
   if (loading) {
     return <div>loading...</div>;
@@ -39,31 +53,44 @@ export const BlockStatsPage = () => {
             {/* 채널 고르기 */}
             <Box>
               <Grid item xs={2}>
-                <ChannelMenu />
+                <ChannelMenu
+                  setChannelData={setChannelData}
+                  setLoading={setLoading}
+                />
               </Grid>
             </Box>
 
             {/* Hour, Day, Month 고르기 */}
             <Box sx={{ marginTop: 1.6 }}>
               <Grid item xs={2}>
-                <SelectDate />
+                <SelectDate
+                  setSelectData={setSelectData}
+                  setLoading={setLoading}
+                />
               </Grid>
             </Box>
 
             {/* 시작날짜 달력 */}
             <Grid item xs={2}>
-              <StartCalendar searchData={searchData} />
+              <StartCalendar
+                setStartData={setStartData}
+                setLoading={setLoading}
+              />
             </Grid>
 
             {/* 종료날짜 달력 */}
             <Grid item xs={2}>
-              <EndCalendar searchData={searchData} />
+              <EndCalendar setEndData={setEndData} setLoading={setLoading} />
             </Grid>
 
             {/* 조회버튼 */}
             <Box sx={{ marginTop: 2 }}>
               <Grid item xs={2}>
-                <Button variant="contained" size="large">
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={getClientData}
+                >
                   Search
                 </Button>
               </Grid>

@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-function ColorToggleButton() {
+function SelectDate({ setSelectData, setLoading }) {
   const [alignment, setAlignment] = useState("Hour");
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    setSelectData(alignment);
+    setLoading(false);
+  }, [alignment]);
 
   return (
     <ToggleButtonGroup
@@ -24,4 +30,4 @@ function ColorToggleButton() {
   );
 }
 
-export default React.memo(ColorToggleButton);
+export default React.memo(SelectDate);

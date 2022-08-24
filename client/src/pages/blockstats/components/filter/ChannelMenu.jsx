@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -10,9 +10,10 @@ import {
   Chip,
 } from "@mui/material";
 
-function MultipleSelectChip() {
+function SelectChannelMenu({ setChannelData, setLoading }) {
   const theme = useTheme();
   const [channelName, setChannelName] = useState([]);
+  const [channels, setChannels] = useState(["Channel_1", "Channel_2"]);
 
   const handleChange = (event) => {
     const {
@@ -23,6 +24,12 @@ function MultipleSelectChip() {
       typeof value === "string" ? value.split(",") : value
     );
   };
+
+  useEffect(() => {
+    setLoading(true);
+    setChannelData(channelName);
+    setLoading(false);
+  }, [channelName]);
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -43,8 +50,6 @@ function MultipleSelectChip() {
           : theme.typography.fontWeightMedium,
     };
   }
-
-  const channels = ["Channel_1", "Channel_2"];
 
   return (
     <div>
@@ -81,4 +86,4 @@ function MultipleSelectChip() {
   );
 }
 
-export default React.memo(MultipleSelectChip);
+export default React.memo(SelectChannelMenu);
