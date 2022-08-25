@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function SelectDate({ setSelectData, setLoading }) {
-  const [alignment, setAlignment] = useState("Hour");
+  const [alignment, setAlignment] = useState("hour");
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -23,9 +23,9 @@ function SelectDate({ setSelectData, setLoading }) {
       aria-label="Platform"
       spacing={3}
     >
-      <ToggleButton value="Hour">Hour</ToggleButton>
-      <ToggleButton value="Day">Day</ToggleButton>
-      <ToggleButton value="Month">Month</ToggleButton>
+      <ToggleButton value="hour">Hour</ToggleButton>
+      <ToggleButton value="day">Day</ToggleButton>
+      <ToggleButton value="month">Month</ToggleButton>
     </ToggleButtonGroup>
   );
 }

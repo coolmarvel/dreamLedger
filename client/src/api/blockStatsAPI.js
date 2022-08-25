@@ -1,4 +1,4 @@
-// import client from "./client";
+import client from "./client";
 import URL from "./url";
 
 // READ API
@@ -31,65 +31,96 @@ export const getEth = async () => {
   }
 };
 
-// export const getData = async () => {
-//   try {
-//     const response = await axios
-//       .get(`http://localhost:4000/data`)
-//       .then((res) => res.data);
-//     return response.data;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+export const getBlockStats = async (params) => {
+  try {
+    const response = await client.get(`/dle/v1/ledger/block/getBy/${params.selectData}`).then((res) => {
+      const data = res.data.data;
 
-// export const getData = async () => {
+      return data;
+    }).catch((error) => {
+      console.error("Failed loaded data", error);
+    });
 
-// Swagger Format
-// "startDate": "2022-08-01 00:00:00",
-// "endDate": "2023-08-01 00:00:00"
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-//   // 현재 시간
-//   const today = new Date(+new Date() + 3240 * 10000)
-//     .toISOString()
-//     .split("T")[0];
+export const getTransactionStats = async (params) => {
+  try {
+    const response = await client.get(`/dle/v1/ledger/transaction/getBy/${params.selectData}`).then((res) => {
+      const data = res.data.data;
 
-//   // 일주일전 시간
-//   const week = new Date(Date.parse(new Date()) - 7 * 1000 * 60 * 60 * 24)
-//     .toISOString()
-//     .split("T")[0];
+      return data;
+    }).catch((error) => {
+      console.error("Failed loaded data", error);
+    });
 
-//   const time = new Date().toTimeString().split(" ")[0];
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-//   const startTime = week + " " + time; // 일주일 전
-//   const endTime = today + " " + time; // 현재
+export const getStatsByCalendarDate = async (params) => {
 
-//   console.log("startTime\n", startTime);
-//   console.log("endTime\n", endTime);
+  console.warn("params", params)
 
-//   try {
-//     const response = await client
-//       .get("/dle/v1/metric/block", {
-//         params: {
-//           page: 1,
-//           size: 20,
-//           sort: "createdt-desc",
-//           startDate: startTime,
-//           endDate: endTime,
-//           channel: "channel-dream",
-//           blockHash: "string",
-//           txid: "string",
-//         },
-//         credentials: "include", // credentials 옵
-//       })
-//       .then((res) => {
-//         const data = res.data.data;
-//         const array = [];
-//         array.push(data);
-//         return array;
-//       })
-//       .catch((error) => console.error("Failed loaded data", error));
-//     return response;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+  const channelData = params.channelData
+  const startDate = params.startData.toISOString().split("T")[0];
+  const endDate = params.endData.toISOString().split("T")[0];
+
+  const time = new Date().toTimeString().split(" ")[0];
+
+  console.log("channelData", channelData)
+  console.log("startDate\n", startDate)
+  console.log("endDate\n", endDate)
+
+  const startTime = startDate + " " + time;
+  const endTime = endDate + " " + time;
+
+  console.log("startTime\n", startTime);
+  console.log("endTime\n", endTime);
+
+  try {
+    const response = await client
+      .get(`/dle/v1/ledger/block`, {
+        params: {
+          page: 1,
+          size: 20,
+          sort: "createdt-desc",
+          startDate: startTime,
+          endDate: endTime,
+          channel: "channel-dream", // 배열로 바꿔달라 해야함 (channel 선택시 2개 이상 선택해야함)
+          blockHash: "string",
+          txid: "string",
+        },
+        credentials: "include", // credentials 옵
+      })
+      .then((res) => {
+        const data = res.data.data;
+        const array = [];
+        array.push(data);
+        return array;
+      })
+      .catch((error) => console.error("Failed loaded data", error));
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+  // Swagger Format에 맞춰서 params를 작성해야 함
+  // "startDate": "2022-08-01 00:00:00",
+  // "endDate": "2023-08-01 00:00:00"
+
+  // 현재 시간
+  // const today = new Date(+new Date() + 3240 * 10000)
+  //   .toISOString()
+  //   .split("T")[0];
+
+  // 일주일전 시간
+  // const week = new Date(Date.parse(new Date()) - 7 * 1000 * 60 * 60 * 24)
+  //   .toISOString()
+  //   .split("T")[0];

@@ -10,9 +10,14 @@ import SelectDate from "./components/filter/SelectDate";
 import StartCalendar from "./components/filter/StartCalendar";
 import EndCalendar from "./components/filter/EndCalendar";
 
-import Client from "../../api/dashboardAPI";
+import { getBlockStats, getTransactionStats, getStatsByCalendarDate } from "../../api/blockStatsAPI";
+
+// Reducer
+import { useDispatch, useSelector } from "react-redux";
+import { getDataAsync } from "../../redux/blockStatsReducer"
 
 export const BlockStatsPage = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
   // 자식 -> 부모로 props를 받음
@@ -21,15 +26,68 @@ export const BlockStatsPage = () => {
   const [channelData, setChannelData] = useState();
   const [selectData, setSelectData] = useState();
 
-  console.log("startData\n", startData);
-  console.log("endData\n", endData);
-  console.log("channelData\n", channelData);
-  console.log("selectData\n", selectData);
+  // console.log("startData\n", startData);
+  // console.log("endData\n", endData);
+  // console.log("channelData\n", channelData);
+  // console.log("selectData\n", selectData);
 
-  // Client API를 통해 리덕스가 아닌 로컬에서 직접 AXIOS GET 통신 해야 할 거 같음
-  // params로 위에 자식들에서 받은 props들로 search button function 구현해야함
-  const getClientData = () => {
-    console.log("getClientData");
+  // 부모 -> 자식 전달한 props
+  const [blockCount, setBlockCount] = useState()
+  const [blockDateTime, setBlockDateTime] = useState()
+  const [transactionCount, setTransactionCount] = useState()
+  const [transactionDateTime, setTransactionDateTime] = useState()
+
+  // console.log("blockCount", blockCount)
+  // console.log("blockDateTime", blockDateTime)
+  // console.log("transactionCount", transactionCount)
+  // console.log("transactionDateTime", transactionDateTime)
+
+  const getClientData = async () => {
+    try {
+      // Block Stats 데이터 hour, day, month value를 params로 넘겨 GET으로 받아옴
+      await getBlockStats({ selectData })
+        .then((response) => {
+          const count = response.map((v) => {
+            return v.count
+          })
+          const dateTime = response.map((v) => {
+            return v.datetime
+          })
+          setBlockCount(count)
+          setBlockDateTime(dateTime)
+        }).catch((e) => {
+          console.warn("Failed loaded Data")
+        })
+
+      // Transaction Stats 데이터 hour, day, month value를 params로 넘겨 GET으로 받아옴
+      await getTransactionStats({ selectData })
+        .then((response) => {
+          const count = response.map((v) => {
+            return v.count
+          })
+          const dateTime = response.map((v) => {
+            return v.datetime
+          })
+          setTransactionCount(count)
+          setTransactionDateTime(dateTime)
+        }).catch((e) => {
+          console.warn("Failed loaded Data")
+        })
+
+      // Block, Transaction Stats Data를 Calendar에서 선택한 value를 params로 넘겨 GET으로 받아옴
+      await getStatsByCalendarDate({ channelData, startData, endData })
+        .then((response) => {
+          const result = response
+          console.log("result", result)
+        }).catch((e) => {
+          console.warn("Failed loaded Data")
+        })
+
+      dispatch(getDataAsync());
+
+    } catch (e) {
+      console.error(e)
+    }
   };
 
   // 그리고 받은 데이터를 가지고 chart 컴포넌트로 props로 전달해서 렌더링해야함
@@ -104,8 +162,13 @@ export const BlockStatsPage = () => {
             <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
               Blocks
             </Typography>
-            <BlocksChart echarts={echarts} setLoading={setLoading} />
+            <BlocksChart
+              echarts={echarts}
+              setLoading={setLoading}
+              channelData={channelData}
+            />
           </Box>
+
         </Grid>
 
         {/* Transaction 차트 */}
@@ -114,7 +177,11 @@ export const BlockStatsPage = () => {
             <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
               Transactions
             </Typography>
-            <TransactionChart echarts={echarts} setLoading={setLoading} />
+            <TransactionChart
+              echarts={echarts}
+              setLoading={setLoading}
+              channelData={channelData}
+            />
           </Box>
         </Grid>
       </React.Fragment>

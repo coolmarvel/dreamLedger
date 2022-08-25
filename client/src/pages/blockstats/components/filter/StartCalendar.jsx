@@ -16,9 +16,11 @@ function StartCalendar({ setStartData, setLoading }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
-        views={["day", "month", "year"]}
-        label="Calendar"
+        views={["year", "month", "day"]}
+        label="(시작날짜)"
         value={value}
+        inputFormat={"yyyy-MM-dd"}
+        mask={"____-__-__"}
         onChange={(newValue) => {
           setValue(newValue);
         }}

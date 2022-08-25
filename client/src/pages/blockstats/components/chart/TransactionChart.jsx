@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import ReactEcharts from "echarts-for-react";
 
 // Reducer
-import { useDispatch, useSelector } from "react-redux";
-import { getDataAsync } from "../../../../redux/blockStatsReducer";
+import { useSelector } from "react-redux";
 
 // MUI
 import { Card, CardHeader, CardContent } from "@mui/material";
 
 function TransactionChart(props) {
-  const dispatch = useDispatch();
 
   const { blockStats } = useSelector((state) => state.blockStatsReducer);
 
@@ -26,74 +24,7 @@ function TransactionChart(props) {
     return days === 1 ? time : date.toLocaleDateString();
   });
 
-  useEffect(() => {
-    props.setLoading(true);
-    dispatch(getDataAsync());
-    props.setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    props.setLoading(true);
-
-    const channel1 = [];
-    const channel2 = [];
-
-    const option = {
-      tooltip: {
-        trigger: "axis",
-      },
-      legend: {
-        data: ["ch1", "ch2"],
-      },
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
-        containLabel: true,
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {},
-        },
-      },
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: labels,
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          name: "ch1",
-          type: "line",
-          stack: "Total",
-          data: channel1,
-        },
-        {
-          name: "ch2",
-          type: "line",
-          stack: "Total",
-          data: channel2,
-        },
-      ],
-    };
-
-    for (const data of blockStats) {
-      channel1.push(data.total);
-    }
-
-    for (const data of blockStats) {
-      channel2.push(data.total);
-    }
-
-    setChannel1(channel1);
-    setChannel2(channel2);
-    setOptions(option);
-
-    props.setLoading(false);
-  }, [blockStats]);
+  const channelData = props.channelData
 
   const [options, setOptions] = useState({
     tooltip: {
@@ -136,6 +67,80 @@ function TransactionChart(props) {
       },
     ],
   });
+
+  useEffect(() => {
+    props.setLoading(true);
+
+    const channel1 = [];
+    const channel2 = [];
+
+    if (channelData === undefined || channelData === []) {
+
+      setChannel1([])
+      setChannel2([])
+
+    } else if (channelData[0] === "Channel_1" && channelData[1] === undefined) {
+
+      for (const data of blockStats) {
+        channel1.push(data.price);
+      }
+
+      setChannel1(channel1)
+      setChannel2([])
+
+    } else if (channelData[0] === "Channel_2" && channelData[1] === undefined) {
+
+      for (const data of blockStats) {
+        channel2.push(data.price);
+      }
+
+      setChannel2(channel2)
+      setChannel1([])
+
+    } else if (channelData[0] === "Channel_1" && channelData[1] === "Channel_2") {
+
+      for (const data of blockStats) {
+        channel1.push(data.price);
+      }
+
+      for (const data of blockStats) {
+        channel2.push(data.price);
+      }
+
+      setChannel1(channel1);
+      setChannel2(channel2);
+
+    } else if (channelData[0] === "Channel_2" && channelData[1] === "Channel_1") {
+
+      for (const data of blockStats) {
+        channel1.push(data.price);
+      }
+
+      for (const data of blockStats) {
+        channel2.push(data.price);
+      }
+
+      setChannel1(channel1);
+      setChannel2(channel2);
+
+    }
+
+    setOptions({
+      ...options,
+      xAxis: {
+        ...options.xAxis,
+        data: labels
+      },
+      series: options.series.map((v, i) => {
+        return {
+          ...v,
+          data: i === 0 ? channel1 : channel2
+        }
+      })
+    })
+
+    props.setLoading(false);
+  }, [blockStats]);
 
   return (
     <Card>

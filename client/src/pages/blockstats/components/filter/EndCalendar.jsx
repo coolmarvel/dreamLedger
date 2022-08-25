@@ -17,8 +17,10 @@ function EndCalendar({ setEndData, setLoading }) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker
         views={["day", "month", "year"]}
-        label="Calendar"
+        label="(종료날짜)"
         value={value}
+        inputFormat={"yyyy-MM-dd"}
+        mask={"____-__-__"}
         onChange={(newValue) => {
           setValue(newValue);
         }}
