@@ -81,8 +81,7 @@
     "http-proxy-middleware": "^2.0.0",
     "prettier": "2.7.1",
     "prop-types": "^15.7.2",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0"
+    "react-redux": "^7.2.4"
   },
   "proxy": "http://129.154.209.237:8080/"
 }
