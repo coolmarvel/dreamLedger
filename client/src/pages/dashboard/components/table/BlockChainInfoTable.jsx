@@ -1,77 +1,81 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 // ** MUI Imports
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material'
-import Card from '@mui/material/Card'
-import Servers from '../dialog/ServerDialog'
-import Orderers from '../dialog/OrdererDialog'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+} from "@mui/material";
+
+import Servers from "./dialog/ServerDialog";
+import Orderers from "./dialog/OrdererDialog";
+import Orgs from "./dialog/OrgsDialog";
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
-const rows = [
-  {
-    status: '안전',
-    name: <Servers />,
-    designation: 'Human Resources Assistant'
-  },
-  {
-    status: '안전',
-    name: 'Orgs',
-    designation: 'Nuclear Power Engineer'
-  },
-  {
-    status: '위험',
-    name: <Orderers />,
-    designation: 'Environmental Specialist'
-  },
-  {
-    status: '주의',
-    name: 'Peers',
-    designation: 'Sales Representative'
-  },
-  {
-    status: '안전',
-    name: 'CA Servers',
-    designation: 'Environmental Specialist'
-  },
-  {
-    status: '주의',
-    name: 'Channels',
-    designation: 'Operator',
-  },
-]
-
-const status = {
-  위험: { color: 'error' },
-  주의: { color: 'warning' },
-  안전: { color: 'success' }
-}
+const statusColor = {
+  위험: { color: "error" },
+  주의: { color: "warning" },
+  안전: { color: "success" },
+};
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 100
+    minWidth: 100,
   },
   tableRow: {
-    height: 30
+    height: 30,
   },
   tableCell: {
-    padding: "0px 16px"
-  }
+    padding: "0px 16px",
+  },
 });
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    height: 30
-  }
+    height: 30,
+  },
 }))(TableRow);
 
 const StyledTableCell = withStyles((theme) => ({
   root: {
-    padding: "0px 16px"
-  }
+    padding: "0px 16px",
+  },
 }))(TableCell);
 
-const DashboardTable = () => {
+const DashboardTable = ({ setLoading }) => {
+  const [value, setValue] = useState(true);
+  const rows = [
+    {
+      name: <Servers setLoading={setLoading} />,
+      designation: "Human Resources Assistant",
+    },
+    {
+      name: <Orgs setLoading={setLoading} />,
+      designation: "Nuclear Power Engineer",
+    },
+    {
+      name: <Orderers setLoading={setLoading} />,
+      designation: "Environmental Specialist",
+    },
+    {
+      name: "Peers",
+      designation: "Sales Representative",
+    },
+    {
+      name: "CA Servers",
+      designation: "Environmental Specialist",
+    },
+    {
+      name: "Channels",
+      designation: "Operator",
+    },
+  ];
 
   const classes = useStyles();
 
@@ -100,22 +104,22 @@ const DashboardTable = () => {
                 <StyledTableCell align="center">
                   <Chip
                     // label={row.status}
-                    color={status[row.status].color}
+                    color={value ? "success" : "error"}
                     sx={{
                       height: 24,
-                      fontSize: '0.5rem',
-                      textTransform: 'capitalize',
-                      '& .MuiChip-label': { fontWeight: 250 }
+                      fontSize: "0.5rem",
+                      textTransform: "capitalize",
+                      "& .MuiChip-label": { fontWeight: 250 },
                     }}
-                  /></StyledTableCell>
+                  />
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </React.Fragment>
+  );
+};
 
-  )
-}
-
-export default DashboardTable
+export default React.memo(DashboardTable);

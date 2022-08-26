@@ -1,13 +1,12 @@
 import client from "./client";
 import URL from "./url";
 
-// READ API
-
+// TEST용 API
 const order_currency = "BTC";
 const eth = "eth";
 const payment_currency = "KRW";
 
-export const getData = async () => {
+export const getBTC = async () => {
   try {
     const response = await URL.get(`/${order_currency}_${payment_currency}`)
       // .then((res) => res.json())
@@ -19,7 +18,7 @@ export const getData = async () => {
   }
 };
 
-export const getEth = async () => {
+export const getETH = async () => {
   try {
     const response = await URL.get(`/${eth}_${payment_currency}`)
       // .then((res) => res.json())
@@ -30,22 +29,76 @@ export const getEth = async () => {
     console.error(e);
   }
 };
+// TEST용 API
 
+// 블록체인 플랫폼의 물리서버 목록 조회
+export const getNetworkServer = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/server`)
+      .then((res) => res.data)
+      .catch((err) => console.error("Failed loaded data", err));
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 블록체인 플랫폼의 CA 목록 조회
+export const getCAServer = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/ca`)
+      .then((res) => res.data)
+      .catch((err) => console.error("Failed loaded data", err));
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// 블록체인 플랫폼의 Channel 목록 조회
+export const getChannelList = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/channel`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 블록체인 플랫폼의 Orderer 목록 조회
+export const getOrderer = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/orderer`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 블록체인 플랫폼의 Organizations 목록 조회
+export const getOrg = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/organization`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // export const getData = async () => {
-//   try {
-//     const response = await axios
-//       .get(`http://localhost:4000/data`)
-//       .then((res) => res.data);
-//     return response.data;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
 
-// export const getData = async () => {
-  
-// Swagger Format 
+// Swagger Format
 // "startDate": "2022-08-01 00:00:00",
 // "endDate": "2023-08-01 00:00:00"
 

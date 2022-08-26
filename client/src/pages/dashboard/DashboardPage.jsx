@@ -66,11 +66,11 @@ export const DashboardPage = () => {
       ) : (
         false
       )}
-      {/* 상단 */}
+      {/* 데이터 정보 */}
       <Grid container spacing={1}>
-        <Grid item xs={15}>
+        <Grid item xs={12}>
           <Grid container spacing={1}>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <CardStatisticsVerticalComponent
                 stats="2,650"
                 color="success"
@@ -80,7 +80,7 @@ export const DashboardPage = () => {
                 icon={<Database />}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <CardStatisticsVerticalComponent
                 stats="2,650"
                 color="success"
@@ -90,7 +90,7 @@ export const DashboardPage = () => {
                 icon={<SwapHorizontalBold />}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <CardStatisticsVerticalComponent
                 stats="17%"
                 color="success"
@@ -100,7 +100,7 @@ export const DashboardPage = () => {
                 icon={<Memory />}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            <Grid item xs={2}>
               <CardStatisticsVerticalComponent
                 stats="20%"
                 color="success"
@@ -110,7 +110,7 @@ export const DashboardPage = () => {
                 icon={<Sd />}
               />
             </Grid>
-            <Grid item xs={1.7}>
+            {/* <Grid item xs={1.7}>
               <CardStatisticsVerticalComponent
                 stats="60%"
                 color="success"
@@ -119,10 +119,11 @@ export const DashboardPage = () => {
                 subtitle="+ 345 than yesterday"
                 icon={<Server />}
               />
-            </Grid>
+            </Grid> */}
+
             {/* Blockchain Info */}
-            <Grid item xs={3.5}>
-              <Table />
+            <Grid item xs={4}>
+              <Table setLoading={setLoading} />
             </Grid>
           </Grid>
         </Grid>

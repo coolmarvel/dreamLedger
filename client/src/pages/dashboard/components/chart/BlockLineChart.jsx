@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as echarts from "echarts";
 import ReactEcharts from 'echarts-for-react'
-import { searchDataAsync } from "../../../../redux/boardReducer";
+import { searchDataAsync } from "../../../../redux/dashboardReducer";
 import { getDataAsync } from "../../../../redux/ethReducer";
 import useInterval from "../../utils/useInterval";
 
@@ -10,7 +10,7 @@ import { Card, CardHeader, CardContent } from '@mui/material'
 
 export default React.memo(function Line(props) {
   const dispatch = useDispatch();
-  const { dashboard } = useSelector((state) => state.boardReducer);
+  const { dashboard } = useSelector((state) => state.dashboardReducer);
   const { eth } = useSelector((state) => state.ethReducer);
 
   const [days, setDays] = useState(1);
