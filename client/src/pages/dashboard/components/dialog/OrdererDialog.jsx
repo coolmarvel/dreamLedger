@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 
 // MUI DIALOG
-import { Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Typography, Chip } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Chip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 
 // MUI TABLE
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper } from '@mui/material';
 
 // MUI SWITCH
 import { FormControlLabel, Switch } from '@mui/material'
@@ -107,15 +107,12 @@ const IOSSwitch = styled((props) => (
 }));
 
 function CustomizedDialogs() {
-    // 모달 열기/닫기
+    // 모달 
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // 페이징
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // 스위치 색
     const [status, setStatus] = useState({
@@ -135,9 +132,28 @@ function CustomizedDialogs() {
         domain: 'Orderer2.dreamsecurity.com'
     }]);
 
+    // modal function
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    // status change functon
     const changeStatus = () => {
         console.log("changeStatus")
     }
+
+    // pagination function
+    const handleChangePage = (_, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     return (
         <div>
@@ -163,31 +179,33 @@ function CustomizedDialogs() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row" align="center">
-                                            <Chip
-                                                color={status[row.status].color}
-                                                sx={{
-                                                    height: 24,
-                                                    fontSize: '0.1rem',
-                                                    textTransform: 'capitalize',
-                                                    '& .MuiChip-label': { fontWeight: 0 }
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">{row.domain}</TableCell>
-                                        <TableCell align="right">
-                                            <FormControlLabel
-                                                control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
-                                                onClick={changeStatus}
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {rows
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" align="center">
+                                                <Chip
+                                                    color={status[row.status].color}
+                                                    sx={{
+                                                        height: 24,
+                                                        fontSize: '0.1rem',
+                                                        textTransform: 'capitalize',
+                                                        '& .MuiChip-label': { fontWeight: 0 }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">{row.domain}</TableCell>
+                                            <TableCell align="right">
+                                                <FormControlLabel
+                                                    control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+                                                    onClick={changeStatus}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -197,6 +215,18 @@ function CustomizedDialogs() {
                         Save changes
                     </Button>
                 </DialogActions> */}
+                <TablePagination
+                    sx={{ px: 2 }}
+                    page={page}
+                    component="div"
+                    rowsPerPage={rowsPerPage}
+                    count={rows.length}
+                    onPageChange={handleChangePage}
+                    rowsPerPageOptions={[5, 10, 20]}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    nextIconButtonProps={{ "aria-label": "Next Page" }}
+                    backIconButtonProps={{ "aria-label": "Previous Page" }}
+                />
             </BootstrapDialog>
         </div>
     );

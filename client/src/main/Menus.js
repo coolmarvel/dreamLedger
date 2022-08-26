@@ -5,17 +5,17 @@ import React from 'react';
 
 export var staticMenu = [
     {
-        id:1,
+        id: 1,
         menuName: 'Block Architecture',
         menuDescription: 'Block Architecture',
         path: '/block_architecture',
         exact: true,
-        icon :<i className="las la-project-diagram"></i>,
+        icon: <i className="las la-project-diagram"></i>,
         submenu: [
         ]
     },
     {
-        id:2,
+        id: 2,
         menuName: 'Dashboard',
         menuDescription: 'Dashboard',
         path: '/dashboard',
@@ -25,17 +25,17 @@ export var staticMenu = [
         ]
     },
     {
-        id:3,
+        id: 3,
         menuName: 'Block Manager',
         menuDescription: 'Block Manager',
         // path: '/block_manager',
         // component: StudyHistoryPage,
-        mainStatus:'manageInfoStatus',
+        mainStatus: 'manageInfoStatus',
         exact: true,
-        icon :<i className="las  la-tools"></i>,
+        icon: <i className="las  la-tools"></i>,
         submenu: [
             {
-                id:'301',
+                id: '301',
                 menuName: 'Servers',
                 menuDescription: 'Servers',
                 path: '/block_manager_servers',
@@ -56,7 +56,7 @@ export var staticMenu = [
                 menuDescription: 'Ordered',
                 path: '/block_manager_ordered',
                 // component: StudyHistoryPage,
-                icon:  ''
+                icon: ''
             },
             {
                 id: 304,
@@ -70,7 +70,7 @@ export var staticMenu = [
                 id: 305,
                 menuName: 'Channel',
                 menuDescription: 'Channel',
-                path:  '/block_manager_channel',
+                path: '/block_manager_channel',
                 // component: StudyHistoryPage,
                 icon: ''
             },
@@ -78,7 +78,7 @@ export var staticMenu = [
                 id: 306,
                 menuName: 'Chaincodes',
                 menuDescription: 'Chaincodes',
-                path:  '/block_manager_chaincodes',
+                path: '/block_manager_chaincodes',
                 // component: StudyHistoryPage,
                 icon: ''
             },
@@ -86,7 +86,7 @@ export var staticMenu = [
                 id: 307,
                 menuName: 'CA servers',
                 menuDescription: 'CA servers',
-                path:  '/block_manager_caservers',
+                path: '/block_manager_caservers',
                 // component: StudyHistoryPage,
                 icon: ''
             },
@@ -94,24 +94,24 @@ export var staticMenu = [
                 id: 308,
                 menuName: 'CA users',
                 menuDescription: 'CA users',
-                path:  '/block_manager_causers',
+                path: '/block_manager_causers',
                 // component: StudyHistoryPage,
                 icon: ''
             },
         ]
     },
     {
-        id:4,
+        id: 4,
         menuName: 'Block History',
-        menuDescription: 'Blcok History',
+        menuDescription: 'Block History',
         // path: '/bl',
         // component: StudyHistoryPage,
-        mainStatus:'manageInfoStatus',
+        mainStatus: 'manageInfoStatus',
         exact: true,
-        icon :<i className="las  la-history"></i>,
+        icon: <i className="las  la-history"></i>,
         submenu: [
             {
-                id:'401',
+                id: '401',
                 menuName: 'Blocks',
                 menuDescription: 'Blocks',
                 path: '/block_history_blocks',
@@ -130,17 +130,17 @@ export var staticMenu = [
         ]
     },
     {
-        id:5,
-        menuName: 'Blcok Stats',
-        menuDescription: 'Blcok Stats',
+        id: 5,
+        menuName: 'Block Stats',
+        menuDescription: 'Block Stats',
         // path: '/bl',
         // component: StudyHistoryPage,
-        mainStatus:'manageInfoStatus',
+        mainStatus: 'manageInfoStatus',
         exact: true,
-        icon :<i className="las  la-chart-pie"></i>,
+        icon: <i className="las  la-chart-pie"></i>,
         submenu: [
             {
-                id:'501',
+                id: '501',
                 menuName: 'Blocks&Transatiocns',
                 menuDescription: 'Blocks&Transatiocns',
                 path: '/block_stats',
@@ -150,17 +150,17 @@ export var staticMenu = [
         ]
     },
     {
-        id:6,
+        id: 6,
         menuName: 'Resource',
         menuDescription: 'Resource',
         // path: '/bl',
         // component: StudyHistoryPage,
-        mainStatus:'manageInfoStatus',
+        mainStatus: 'manageInfoStatus',
         exact: true,
-        icon :<i className="las  la-chart-area"></i>,
+        icon: <i className="las  la-chart-area"></i>,
         submenu: [
             {
-                id:'601',
+                id: '601',
                 menuName: 'Resource History',
                 menuDescription: 'Resource History',
                 path: '/resource_history',
@@ -179,17 +179,17 @@ export var staticMenu = [
         ]
     },
     {
-        id:7,
+        id: 7,
         menuName: 'Setting',
         menuDescription: 'Setting',
         // path: '/bl',
         // component: StudyHistoryPage,
-        mainStatus:'manageInfoStatus',
+        mainStatus: 'manageInfoStatus',
         exact: true,
-        icon :<i className="las la-user-cog"></i>,
+        icon: <i className="las la-user-cog"></i>,
         submenu: [
             {
-                id:'701',
+                id: '701',
                 menuName: 'Administator',
                 menuDescription: 'Administator',
                 path: '/setting_administrator',

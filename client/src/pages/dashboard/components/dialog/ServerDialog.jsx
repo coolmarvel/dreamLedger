@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Typography, Chip } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Chip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper } from '@mui/material';
 
 ///////////////////////////////////////////////////Dialog (모달관련)///////////////////////////////////////////////////
 
@@ -49,29 +49,91 @@ BootstrapDialogTitle.propTypes = {
 
 ///////////////////////////////////////////////////모달 내부 테이블///////////////////////////////////////////////////
 
-function createData(status, serverName) {
-    return { status, serverName };
-}
-
-const statusObj = {
-    안전: { color: 'success' },
-    위험: { color: 'error' }
-}
-
-const rows = [
-    createData('안전', 'Admin'),
-    createData('안전', 'Node 1'),
-    createData('위험', 'Node 2'),
-];
-
 function CustomizedDialogs() {
+    // 모달
     const [open, setOpen] = useState(false);
 
+    // 페이징
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const statusObj = {
+        안전: { color: 'success' },
+        위험: { color: 'error' }
+    }
+
+    const [rows, setRows] = useState([
+        {
+            status: '안전',
+            serverName: 'Admin'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 1'
+        },
+        {
+            status: '위험',
+            serverName: 'Node 2'
+        },
+        {
+            status: '위험',
+            serverName: 'Node 3'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 4'
+        },
+        {
+            status: '위험',
+            serverName: 'Node 5'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 6'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 7'
+        },
+        {
+            status: '위험',
+            serverName: 'Node 8'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 9'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 10'
+        },
+        {
+            status: '안전',
+            serverName: 'Node 11'
+        },
+        {
+            status: '위험',
+            serverName: 'Node 12'
+        },
+    ])
+
+    // 모달 열고 닫기 function
     const handleClickOpen = () => {
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
+    };
+
+    // 페이징 관련 function
+    const handleChangePage = (_, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     return (
@@ -97,25 +159,27 @@ function CustomizedDialogs() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row, index) => (
-                                    <TableRow
-                                        key={index}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row" align="center">
-                                            <Chip
-                                                color={statusObj[row.status].color}
-                                                sx={{
-                                                    height: 24,
-                                                    fontSize: '0.1rem',
-                                                    textTransform: 'capitalize',
-                                                    '& .MuiChip-label': { fontWeight: 0 }
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">{row.serverName}</TableCell>
-                                    </TableRow>
-                                ))}
+                                {rows
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" align="center">
+                                                <Chip
+                                                    color={statusObj[row.status].color}
+                                                    sx={{
+                                                        height: 24,
+                                                        fontSize: '0.1rem',
+                                                        textTransform: 'capitalize',
+                                                        '& .MuiChip-label': { fontWeight: 0 }
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">{row.serverName}</TableCell>
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -125,6 +189,18 @@ function CustomizedDialogs() {
                         Save changes
                     </Button>
                 </DialogActions> */}
+                <TablePagination
+                    sx={{ px: 2 }}
+                    page={page}
+                    component="div"
+                    rowsPerPage={rowsPerPage}
+                    count={rows.length}
+                    onPageChange={handleChangePage}
+                    rowsPerPageOptions={[5, 10, 20]}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    nextIconButtonProps={{ "aria-label": "Next Page" }}
+                    backIconButtonProps={{ "aria-label": "Previous Page" }}
+                />
             </BootstrapDialog>
         </div>
     );
