@@ -32,7 +32,7 @@ export const getETH = async () => {
 // TEST용 API
 
 // 블록체인 플랫폼의 물리서버 목록 조회
-export const getNetworkServer = async () => {
+export const getServer = async () => {
   try {
     const response = await client
       .get(`/dle/v1/network/server`)

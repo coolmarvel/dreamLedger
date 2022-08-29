@@ -27,7 +27,6 @@ export default function createRequestSaga(type, request) {
         yield put({
           type: SUCCESS,
           payload: response,
-          // payload: response.data, <= 주석 response로 받기로 했음.
         });
         // console.warn(response);
       }

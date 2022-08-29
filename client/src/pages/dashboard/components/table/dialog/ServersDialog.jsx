@@ -13,7 +13,7 @@ import {
   Paper,
 } from "@mui/material";
 
-import { getNetworkServer } from "../../../../../api/dashboardAPI";
+import { getServer } from "../../../../../api/dashboardAPI";
 import { BootstrapDialog, BootstrapDialogTitle } from "./util/BootstrapDialog";
 import ServersTableRow from "./tableRow/ServersTableRow";
 
@@ -52,7 +52,7 @@ function ServerDialog({ setLoading }) {
 
   const getServerList = async () => {
     try {
-      await getNetworkServer()
+      await getServer()
         .then((res) => {
           const result = res.map((v) => v.name);
           setRows(result);
