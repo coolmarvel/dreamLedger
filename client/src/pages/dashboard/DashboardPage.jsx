@@ -19,8 +19,8 @@ import {
   Database,
   SwapHorizontalBold,
   Memory,
-  Server,
   Sd,
+  Server,
 } from "mdi-material-ui";
 import { TabPanel, TabContext } from "@mui/lab";
 
@@ -183,7 +183,7 @@ export const DashboardPage = () => {
               <Typography variant="h5" sx={{ marginTop: 3 }}>
                 CPU
               </Typography>
-              <CpuChart echarts={echarts} setLoading={setLoading} />
+              {/* <CpuChart echarts={echarts} setLoading={setLoading} /> */}
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ boxShadow: 3 }}>
@@ -191,7 +191,7 @@ export const DashboardPage = () => {
               <Typography variant="h5" sx={{ marginTop: 3 }}>
                 Memory
               </Typography>
-              <MemoryChart echarts={echarts} setLoading={setLoading} />
+              {/* <MemoryChart echarts={echarts} setLoading={setLoading} /> */}
             </Box>
           </Grid>
           <Grid item xs={12} sx={{ boxShadow: 3 }}>
@@ -199,7 +199,7 @@ export const DashboardPage = () => {
               <Typography variant="h5" sx={{ marginTop: 3 }}>
                 Storage
               </Typography>
-              <StorageChart echarts={echarts} setLoading={setLoading} />
+              {/* <StorageChart echarts={echarts} setLoading={setLoading} /> */}
             </Box>
           </Grid>
         </TabPanel>

@@ -1,104 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as echarts from "echarts";
-import ReactEcharts from 'echarts-for-react'
-import { searchDataAsync } from "../../../../redux/dashboardReducer";
-import { getDataAsync } from "../../../../redux/ethReducer";
 import useInterval from "../../utils/useInterval";
 
-import { Card, CardHeader, CardContent } from '@mui/material'
+import ReactEcharts from "echarts-for-react";
 
-export default React.memo(function Line(props) {
+import { searchDataAsync } from "../../../../redux/dashboardReducer";
+
+import { Card, CardHeader, CardContent } from "@mui/material";
+
+export default React.memo(function Line({ setLoading }) {
   const dispatch = useDispatch();
   const { dashboard } = useSelector((state) => state.dashboardReducer);
-  const { eth } = useSelector((state) => state.ethReducer);
 
   const [days, setDays] = useState(1);
   const [delay, setDelay] = useState(10000);
-  const [channel1, setChannel1] = useState();
-  const [channel2, setChannel2] = useState();
-
-  const chartRef = useRef(null);
-
-  const labels = dashboard.map((data) => {
-    const date = new Date(data.transaction_date);
-    const time =
-      date.getHours() > 12
-        ? `${date.getHours() - 12}:${date.getMinutes()} PM`
-        : `${date.getHours()}:${date.getMinutes()} AM`;
-    return days === 1 ? time : date.toLocaleDateString();
-  });
-
-  useInterval(() => {
-    // Your custom logic here
-    props.setLoading(true);
-    dispatch(searchDataAsync());
-    dispatch(getDataAsync());
-    props.setLoading(false);
-  }, delay);
-
-  useEffect(() => {
-    props.setLoading(true);
-
-    const bitcoin = [];
-    const ethereum = [];
-
-    const option = {
-      tooltip: {
-        trigger: "axis",
-      },
-      legend: {
-        data: ["ch1", "ch2"],
-      },
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
-        containLabel: true,
-      },
-      toolbox: {
-        feature: {
-          saveAsImage: {},
-        },
-      },
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: labels,
-      },
-      yAxis: {
-        type: "value",
-      },
-      series: [
-        {
-          name: "ch1",
-          type: "line",
-          stack: "Total",
-          data: bitcoin,
-        },
-        {
-          name: "ch2",
-          type: "line",
-          stack: "Total",
-          data: ethereum,
-        },
-      ],
-    };
-
-    for (const data of dashboard) {
-      bitcoin.push(data.total);
-    }
-
-    for (const data of eth) {
-      ethereum.push(data.total);
-    }
-
-    setChannel1(bitcoin);
-    setChannel2(ethereum);
-    setOptions(option);
-
-    props.setLoading(false);
-  }, [dashboard]);
+  const [blocks, setBlocks] = useState([]);
 
   const [options, setOptions] = useState({
     tooltip: {
@@ -121,7 +37,7 @@ export default React.memo(function Line(props) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: labels,
+      data: [],
     },
     yAxis: {
       type: "value",
@@ -131,37 +47,63 @@ export default React.memo(function Line(props) {
         name: "ch1",
         type: "line",
         stack: "Total",
-        data: channel1,
+        data: [],
       },
       {
         name: "ch2",
         type: "line",
         stack: "Total",
-        data: channel2,
+        data: [],
       },
     ],
   });
 
-  // useEffect(() => {
-  //   const chart = echarts.init(chartRef.current);
-  //   if (chartRef.current) {
-  //     chart.setOption(options);
-  //   }
-  // }, [options, chartRef]);
+  useInterval(() => {
+    // Your custom logic here
+    setLoading(true);
+
+    dispatch(searchDataAsync());
+
+    setBlocks(dashboard.blocks);
+
+    setOptions({
+      ...options,
+      xAxis: {
+        ...options.xAxis,
+        data:
+          dashboard.blocks === undefined
+            ? []
+            : blocks.map((value) => {
+                const date = new Date(value.transaction_date);
+                const time =
+                  date.getHours() > 12
+                    ? `${date.getHours() - 12}:${date.getMinutes()} PM`
+                    : `${date.getHours()}:${date.getMinutes()} AM`;
+                return days === 1 ? time : date.toLocaleDateString();
+              }),
+      },
+      series: options.series.map((v) => {
+        return {
+          ...v,
+          data:
+            dashboard.blocks === undefined
+              ? []
+              : blocks.map((v) => {
+                  return v.total;
+                }),
+        };
+      }),
+    });
+
+    setLoading(false);
+  }, delay);
 
   return (
     <Card>
       <CardHeader />
       <CardContent>
-        {/* <div
-          ref={chartRef}
-          style={{
-            width: "100%",
-            minHeight: "100%",
-          }}
-        /> */}
         <ReactEcharts option={options} />
       </CardContent>
     </Card>
   );
-})
+});

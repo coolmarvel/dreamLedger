@@ -9,38 +9,54 @@ import produce from "immer";
 export const [SEARCH_DATA, SEARCH_DATA_SUCCESS, SEARCH_DATA_FAILURE] =
   createRequestActionTypes("SEARCH_DATA");
 
-export const [
-  SEARCH_DATA_ASYNC,
-  SEARCH_DATA_ASYNC_SUCCESS,
-  SEARCH_DATA_ASYNC_FAILURE,
-] = createRequestActionTypes("SEARCH_DATA_ASYNC");
+export const [DASHBOARD, DASHBOARD_SUCCESS, DASHBOARD_FAILURE] =
+  createRequestActionTypes("DASHBOARD");
+
+export const [SERVERS, SERVERS_SUCCESS, SERVERS_FAILURE] =
+  createRequestActionTypes("dashboard/SERVERS");
 
 // ACTION CREATOR
 export const searchData = createAction(SEARCH_DATA);
-export const searchDataAsync = createAction(SEARCH_DATA_ASYNC, (data) => data);
+export const searchDataAsync = createAction(DASHBOARD, (data) => data);
+
+export const getServersData = createAction(SERVERS, (data) => data);
 
 const initialState = {
-  dashboard: [],
+  dashboard: [{ blocks: [], transactions: [] }],
+  servers: [],
 };
 
 // Create Saga
-const searchDataSaga = createRequestSaga(SEARCH_DATA_ASYNC, API.getBTC);
+const searchDataSaga = createRequestSaga(DASHBOARD, API.getBTC);
+const getServersDataSaga = createRequestSaga(SERVERS, API.getServer);
 
 // Main Saga
 export function* dashboardSaga() {
-  yield takeEvery(SEARCH_DATA_ASYNC, searchDataSaga);
+  yield takeEvery(DASHBOARD, searchDataSaga);
+  yield takeEvery(SERVERS, getServersDataSaga);
 }
 
 const dashboardReducer = handleActions(
   {
-    [SEARCH_DATA_ASYNC_SUCCESS]: (state, { payload: data }) =>
+    [DASHBOARD_SUCCESS]: (state, { payload: data }) =>
+      // console.log(data);
+      produce(state, (draft) => ({
+        ...draft,
+        dashboard: { blocks: data, transactions: data },
+      })),
+    [DASHBOARD_FAILURE]: (state, { payload: data }) =>
+      produce(state, (draft) => ({
+        ...draft,
+        dashboard: { blocks: null, transactions: null },
+      })),
+    [SERVERS_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
-        // console.log(data);
-        draft["dashboard"] = data;
+        console.log(data);
+        draft["servers"] = data;
       }),
-    [SEARCH_DATA_ASYNC_FAILURE]: (state, { payload: data }) =>
+    [SERVERS_FAILURE]: (state, { payload: data }) =>
       produce(state, (draft) => {
-        draft["dashbaord"] = null;
+        draft["servers"] = null;
       }),
   },
   initialState
