@@ -96,6 +96,19 @@ export const getOrg = async () => {
   }
 };
 
+// 블록체인 플랫폼의 Peers 목록 조회
+export const getPeers = async () => {
+  try {
+    const response = await client
+      .get(`/dle/v1/network/peer`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // export const getData = async () => {
 
 // Swagger Format

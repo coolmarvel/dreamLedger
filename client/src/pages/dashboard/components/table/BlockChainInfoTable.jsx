@@ -12,9 +12,12 @@ import {
   Chip,
 } from "@mui/material";
 
-import Servers from "./dialog/ServerDialog";
+import Servers from "./dialog/ServersDialog";
 import Orderers from "./dialog/OrdererDialog";
 import Orgs from "./dialog/OrgsDialog";
+import Peers from "./dialog/PeersDialog";
+import CAServers from "./dialog/CAServersDialog";
+import Channels from "./dialog/ChannelsDialog";
 
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 
@@ -53,27 +56,21 @@ const DashboardTable = ({ setLoading }) => {
   const rows = [
     {
       name: <Servers setLoading={setLoading} />,
-      designation: "Human Resources Assistant",
     },
     {
       name: <Orgs setLoading={setLoading} />,
-      designation: "Nuclear Power Engineer",
     },
     {
       name: <Orderers setLoading={setLoading} />,
-      designation: "Environmental Specialist",
     },
     {
-      name: "Peers",
-      designation: "Sales Representative",
+      name: <Peers setLoading={setLoading} />,
     },
     {
-      name: "CA Servers",
-      designation: "Environmental Specialist",
+      name: <CAServers setLoading={setLoading} />,
     },
     {
-      name: "Channels",
-      designation: "Operator",
+      name: <Channels setLoading={setLoading} />,
     },
   ];
 

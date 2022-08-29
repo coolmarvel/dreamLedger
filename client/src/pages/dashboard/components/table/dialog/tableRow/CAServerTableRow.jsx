@@ -9,9 +9,7 @@ import { TableCell, TableRow } from "@mui/material";
 ///////////////////////////////////////////////////스위치 버튼///////////////////////////////////////////////////
 
 const DivideTableRow = ({ row }) => {
-  const [value, setValue] = useState(false);
-
-  console.log("row", row);
+  const [value, setValue] = useState(true);
 
   return (
     <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>

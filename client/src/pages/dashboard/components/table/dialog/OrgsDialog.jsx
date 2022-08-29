@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { DialogContent, Typography, Chip } from "@mui/material";
+import { DialogContent, Typography } from "@mui/material";
 
 import {
   Table,
@@ -15,7 +15,7 @@ import {
 
 import { getOrg } from "../../../../../api/dashboardAPI";
 import { BootstrapDialog, BootstrapDialogTitle } from "./util/BootstrapDialog";
-import OrgsTableRow from "./OrgsTableRow";
+import OrgsTableRow from "./tableRow/OrgsTableRow";
 
 ///////////////////////////////////////////////////모달 내부 테이블///////////////////////////////////////////////////
 
@@ -55,7 +55,7 @@ function OrgsDialog({ setLoading }) {
       await getOrg()
         .then((res) => {
           const result = res.map((v) => v.name);
-          setRows([result]);
+          setRows(result);
         })
         .catch((e) => {
           console.error(e);
@@ -70,8 +70,6 @@ function OrgsDialog({ setLoading }) {
     getOrganizations();
     setLoading(false);
   }, []);
-
-  console.log("rows", rows);
 
   return (
     <div>
@@ -106,27 +104,11 @@ function OrgsDialog({ setLoading }) {
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => (
-                    // <OrgsTableRow
-                    //   key={index}
-                    //   setLoading={setLoading}
-                    //   row={row}
-                    // />
-                    <TableRow
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row" align="center">
-                        <Chip
-                          color={value ? "success" : "error"}
-                          sx={{
-                            height: 24,
-                            fontSize: "0.1rem",
-                            textTransform: "capitalize",
-                            "& .MuiChip-label": { fontWeight: 0 },
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell align="center">{row}</TableCell>
-                    </TableRow>
+                    <OrgsTableRow
+                      key={index}
+                      setLoading={setLoading}
+                      row={row}
+                    />
                   ))}
               </TableBody>
             </Table>

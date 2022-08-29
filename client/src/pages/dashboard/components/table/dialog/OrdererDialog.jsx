@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // MUI DIALOG
 import { DialogContent, Typography } from "@mui/material";
@@ -15,8 +15,9 @@ import {
   Paper,
 } from "@mui/material";
 
-import OrdererTableRow from "./OrdererTableRow";
+import OrdererTableRow from "./tableRow/OrdererTableRow";
 import { BootstrapDialog, BootstrapDialogTitle } from "./util/BootstrapDialog";
+import { getOrderer } from "../../../../../api/dashboardAPI";
 
 function CustomizedDialogs({ setLoading }) {
   // 모달
@@ -27,11 +28,7 @@ function CustomizedDialogs({ setLoading }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // 테이블 데이터
-  const [rows, setRows] = useState([
-    { domain: "Orderer0.dreamsecurity.com" },
-    { domain: "Orderer1.dreamsecurity.com" },
-    { domain: "Orderer2.dreamsecurity.com" },
-  ]);
+  const [rows, setRows] = useState([]);
 
   // modal function
   const handleClickOpen = () => {
@@ -50,6 +47,27 @@ function CustomizedDialogs({ setLoading }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const getOrdererList = async () => {
+    try {
+      await getOrderer()
+        .then((res) => {
+          const result = res.map((v) => v.domain);
+          setRows(result);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getOrdererList();
+    setLoading(false);
+  }, []);
 
   return (
     <div>
@@ -84,8 +102,8 @@ function CustomizedDialogs({ setLoading }) {
               <TableBody>
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <OrdererTableRow key={row.domain} row={row} />
+                  .map((row, index) => (
+                    <OrdererTableRow key={index} row={row} />
                   ))}
               </TableBody>
             </Table>

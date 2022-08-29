@@ -83,7 +83,7 @@ const DivideTableRow = ({ row }) => {
           }}
         />
       </TableCell>
-      <TableCell align="center">{row.domain}</TableCell>
+      <TableCell align="center">{row}</TableCell>
       <TableCell align="right">
         <FormControlLabel
           control={<IOSSwitch sx={{ m: 1 }} />}
