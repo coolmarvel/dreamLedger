@@ -12,8 +12,8 @@ export const [SEARCH_DATA, SEARCH_DATA_SUCCESS, SEARCH_DATA_FAILURE] =
 export const [DASHBOARD, DASHBOARD_SUCCESS, DASHBOARD_FAILURE] =
   createRequestActionTypes("dashboard/DASHBOARD");
 
-export const [SERVERS, SERVERS_SUCCESS, SERVERS_FAILURE] =
-  createRequestActionTypes("dashboard/SERVERS");
+export const [ALL, ALL_SUCCESS, ALL_FAILURE] =
+  createRequestActionTypes("dashboard/ALL");
 
 export const [RESOURCES, RESOURCES_SUCCESS, RESOURCES_FAILURE] =
   createRequestActionTypes("dashboard/RESOURCES");
@@ -21,9 +21,8 @@ export const [RESOURCES, RESOURCES_SUCCESS, RESOURCES_FAILURE] =
 // ACTION CREATOR
 export const searchData = createAction(SEARCH_DATA);
 export const searchDataAsync = createAction(DASHBOARD, (data) => data);
-
-export const getServersData = createAction(SERVERS, (data) => data);
 export const getResourcesData = createAction(RESOURCES, (data) => data);
+export const getAllDatas = createAction(ALL, (data) => data);
 
 const initialState = {
   dashboard: [{ blocks: [], transactions: [] }],
@@ -35,13 +34,13 @@ const initialState = {
 
 // Create Saga
 const searchDataSaga = createRequestSaga(DASHBOARD, API.getData);
-const getServersDataSaga = createRequestSaga(SERVERS, API.getServer);
+const getAllDataSaga = createRequestSaga(ALL, API.getAllDatas);
 const getResourcesDataSaga = createRequestSaga(RESOURCES, API.getResources);
 
 // Main Saga
 export function* dashboardSaga() {
   yield takeEvery(RESOURCES, getResourcesDataSaga);
-  yield takeEvery(SERVERS, getServersDataSaga);
+  yield takeEvery(ALL, getAllDataSaga);
   yield takeEvery(DASHBOARD, searchDataSaga);
 }
 
@@ -98,6 +97,54 @@ const dashboardReducer = handleActions(
       produce(state, (draft) => ({
         ...draft,
         resources: { cpu: null, memory: null },
+      })),
+    [ALL_SUCCESS]: (state, { payload: data }) =>
+      // console.log("data", data),
+      produce(state, (draft) => ({
+        ...draft,
+        network: {
+          ca: data.ca.map((v) => {
+            return {
+              domain: v.domain,
+              id: v.id,
+              name: v.name,
+              operationsPort: v.operationsPort,
+            };
+          }),
+          channel: data.channel.map((v) => {
+            return { name: v.name };
+          }),
+          orderer: data.orderer.map((v) => {
+            return {
+              domain: v.domain,
+              operationsPort: v.operationsPort,
+              name: v.name,
+            };
+          }),
+          orgs: data.orgs.map((v) => {
+            return {
+              domain: v.domain,
+              name: v.name,
+            };
+          }),
+          peer: data.peer.map((v) => {
+            return {
+              domain: v.domain,
+              name: v.name,
+              operationsPort: v.operationsPort,
+            };
+          }),
+          server: data.server.map((v) => {
+            return {
+              name: v.name,
+            };
+          }),
+        },
+      })),
+    [ALL_FAILURE]: (state) =>
+      produce(state, (draft) => ({
+        ...draft,
+        network: { cpu: null, memory: null },
       })),
   },
   initialState

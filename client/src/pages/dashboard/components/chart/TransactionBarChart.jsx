@@ -45,9 +45,12 @@ export default React.memo(function Bar({ transactions, setLoading }) {
       series: options.series.map((v) => {
         return {
           ...v,
-          data: transactions.map((v) => {
-            return v.size;
-          }),
+          data:
+            transactions === undefined
+              ? []
+              : transactions.map((v) => {
+                  return v.size;
+                }),
         };
       }),
     });

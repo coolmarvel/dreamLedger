@@ -45,9 +45,12 @@ export default React.memo(function Bar({ blocks, setLoading }) {
       series: options.series.map((v) => {
         return {
           ...v,
-          data: blocks.map((v) => {
-            return v.size;
-          }),
+          data:
+            blocks === undefined
+              ? []
+              : blocks.map((v) => {
+                  return v.size;
+                }),
         };
       }),
     });

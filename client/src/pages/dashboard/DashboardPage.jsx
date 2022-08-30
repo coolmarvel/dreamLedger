@@ -8,7 +8,8 @@ import TransactionBar from "./components/chart/TransactionBarChart";
 import TransactionLine from "./components/chart/TransactionLineChart";
 import CpuChart from "./components/chart/CpuChart";
 import MemoryChart from "./components/chart/MemoryChart";
-import StorageChart from "./components/chart/StorageChart";
+// import Resources from "./components/card/ResourceCarousel";
+// import StorageChart from "./components/chart/StorageChart";
 
 import { Tabs, Tab } from "@material-ui/core";
 import { Grid, Typography, Box } from "@mui/material";
@@ -28,6 +29,7 @@ import useInterval from "./utils/useInterval";
 import {
   getResourcesData,
   searchDataAsync,
+  getAllDatas,
 } from "../../redux/dashboardReducer";
 
 export const DashboardPage = () => {
@@ -47,8 +49,11 @@ export const DashboardPage = () => {
   }));
 
   useEffect(() => {
+    setLoading(true);
     dispatch(searchDataAsync());
     dispatch(getResourcesData());
+    dispatch(getAllDatas());
+    setLoading(false);
   }, []);
 
   useInterval(() => {
@@ -56,6 +61,7 @@ export const DashboardPage = () => {
     setLoading(true);
     dispatch(getResourcesData());
     dispatch(searchDataAsync());
+    dispatch(getAllDatas());
     setLoading(false);
   }, 5000);
 
@@ -113,7 +119,7 @@ export const DashboardPage = () => {
                 />
               </Grid>
               {/* <Grid item xs={1.7}>
-              <CardStatisticsVerticalComponent
+                <CardStatisticsVerticalComponent
                 stats="60%"
                 color="success"
                 trendNumber="1.46%"
@@ -121,7 +127,8 @@ export const DashboardPage = () => {
                 subtitle="+ 345 than yesterday"
                 icon={<Server />}
               />
-            </Grid> */}
+                <Resources />
+              </Grid> */}
 
               {/* Blockchain Info */}
               <Grid item xs={4}>

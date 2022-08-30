@@ -109,6 +109,58 @@ export const getPeers = async () => {
   }
 };
 
+// 블록체인 모든 데이터 조회
+export const getAllDatas = async () => {
+  try {
+    // Server
+    const serverResponse = await client
+      .get(`/dle/v1/network/server`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    // CA
+    const CAResponse = await client
+      .get(`/dle/v1/network/ca`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    // Channel
+    const channelResponse = await client
+      .get(`/dle/v1/network/channel`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    // Orderer
+    const ordererResponse = await client
+      .get(`/dle/v1/network/orderer`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    // Organizations
+    const orgsResponse = await client
+      .get(`/dle/v1/network/organization`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    // Peer
+    const peerResponse = await client
+      .get(`/dle/v1/network/peer`)
+      .then((res) => res.data)
+      .catch((error) => console.error("Failed loaded data", error));
+
+    return {
+      server: serverResponse.data,
+      ca: CAResponse.data,
+      channel: channelResponse.data,
+      orderer: ordererResponse.data,
+      orgs: orgsResponse.data,
+      peer: peerResponse.data,
+    };
+  } catch (error) {
+    console.error("Failed loaded data", error);
+  }
+};
+
 // 블록체인 플랫폼의 리소스(CPU, Memory) 현황을 조회
 export const getResources = async () => {
   try {

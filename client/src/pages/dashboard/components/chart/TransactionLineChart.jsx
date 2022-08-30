@@ -49,7 +49,7 @@ export default React.memo(function Line({ transactions, setLoading }) {
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: transactions.map(() => {
+        data: channelName.map(() => {
           const date = new Date();
           const time =
             date.getHours() > 12
@@ -61,9 +61,12 @@ export default React.memo(function Line({ transactions, setLoading }) {
       series: options.series.map((v) => {
         return {
           ...v,
-          data: transactions.map((v) => {
-            return v.size;
-          }),
+          data:
+            transactions === undefined
+              ? []
+              : transactions.map((v) => {
+                  return v.size;
+                }),
         };
       }),
     });
