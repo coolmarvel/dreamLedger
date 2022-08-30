@@ -1,27 +1,18 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import useInterval from "../../utils/useInterval";
+import React, { useState, useEffect } from "react";
 
 import ReactEcharts from "echarts-for-react";
 
-import { searchDataAsync } from "../../../../redux/dashboardReducer";
-
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-export default React.memo(function Line({ setLoading }) {
-  const dispatch = useDispatch();
-  const { dashboard } = useSelector((state) => state.dashboardReducer);
-
+export default React.memo(function Line({ blocks, setLoading }) {
+  const channelName = ["Channel1", "Channel2"];
   const [days, setDays] = useState(1);
-  const [delay, setDelay] = useState(10000);
-  const [blocks, setBlocks] = useState([]);
-
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: ["ch1", "ch2"],
+      data: channelName,
     },
     grid: {
       left: "3%",
@@ -42,61 +33,44 @@ export default React.memo(function Line({ setLoading }) {
     yAxis: {
       type: "value",
     },
-    series: [
-      {
-        name: "ch1",
+    series: channelName.map((v) => {
+      return {
+        name: v,
         type: "line",
         stack: "Total",
         data: [],
-      },
-      {
-        name: "ch2",
-        type: "line",
-        stack: "Total",
-        data: [],
-      },
-    ],
+      };
+    }),
   });
 
-  useInterval(() => {
-    // Your custom logic here
+  useEffect(() => {
     setLoading(true);
-
-    dispatch(searchDataAsync());
-
-    setBlocks(dashboard.blocks);
 
     setOptions({
       ...options,
       xAxis: {
         ...options.xAxis,
-        data:
-          dashboard.blocks === undefined
-            ? []
-            : blocks.map((value) => {
-                const date = new Date(value.transaction_date);
-                const time =
-                  date.getHours() > 12
-                    ? `${date.getHours() - 12}:${date.getMinutes()} PM`
-                    : `${date.getHours()}:${date.getMinutes()} AM`;
-                return days === 1 ? time : date.toLocaleDateString();
-              }),
+        data: blocks.map(() => {
+          const date = new Date();
+          const time =
+            date.getHours() > 12
+              ? `${date.getHours() - 12}:${date.getMinutes()} PM`
+              : `${date.getHours()}:${date.getMinutes()} AM`;
+          return days === 1 ? time : date.toLocaleDateString();
+        }),
       },
       series: options.series.map((v) => {
         return {
           ...v,
-          data:
-            dashboard.blocks === undefined
-              ? []
-              : blocks.map((v) => {
-                  return v.total;
-                }),
+          data: blocks.map((v) => {
+            return v.size;
+          }),
         };
       }),
     });
 
     setLoading(false);
-  }, delay);
+  }, [blocks]);
 
   return (
     <Card>

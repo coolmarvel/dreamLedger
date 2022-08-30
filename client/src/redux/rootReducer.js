@@ -7,7 +7,6 @@ import auth, { authSaga } from "./AuthReducer";
 import main from "./MainReducer";
 import blockManager, { blockManagerSaga } from "./BlockManagerReducer.js";
 import dashboardReducer, { dashboardSaga } from "./dashboardReducer";
-import ethReducer, { ethSaga } from "./ethReducer";
 import blockStatsReducer, { blockStatsSaga } from "./blockStatsReducer";
 
 const rootReducer = combineReducers({
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   main,
   blockManager,
   dashboardReducer,
-  ethReducer,
   blockStatsReducer,
 });
 
@@ -25,7 +23,6 @@ export function* rootSaga() {
     blockManagerSaga(),
     authSaga(),
     dashboardSaga(),
-    ethSaga(),
     blockStatsSaga(),
   ]);
 }

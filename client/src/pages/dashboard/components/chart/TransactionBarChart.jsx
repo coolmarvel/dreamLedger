@@ -1,20 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import useInterval from "../../utils/useInterval";
+import React, { useState, useEffect } from "react";
 
 import ReactEcharts from "echarts-for-react";
 
-import { searchDataAsync } from "../../../../redux/dashboardReducer";
-
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-export default React.memo(function Bar({ setLoading }) {
-  const dispatch = useDispatch();
-
-  const { dashboard } = useSelector((state) => state.dashboardReducer);
-
-  const [delay, setDelay] = useState(10000);
-  const [transactions, setTransactions] = useState([]);
+export default React.memo(function Bar({ transactions, setLoading }) {
+  const channelName = ["Channel1", "Channel2"];
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
@@ -37,45 +28,32 @@ export default React.memo(function Bar({ setLoading }) {
       type: "category",
       data: ["Transactions"],
     },
-    series: [
-      {
-        name: "Channel 1",
+    series: channelName.map((v) => {
+      return {
+        name: v,
         type: "bar",
         data: [],
-      },
-      {
-        name: "Channel 2",
-        type: "bar",
-        data: [],
-      },
-    ],
+      };
+    }),
   });
 
-  useInterval(() => {
-    // Your custom logic here
+  useEffect(() => {
     setLoading(true);
-
-    dispatch(searchDataAsync());
-
-    setTransactions(dashboard.transactions);
 
     setOptions({
       ...options,
       series: options.series.map((v) => {
         return {
           ...v,
-          data:
-            dashboard.transactions === undefined
-              ? []
-              : transactions.map((v) => {
-                  return v.total;
-                }),
+          data: transactions.map((v) => {
+            return v.size;
+          }),
         };
       }),
     });
 
     setLoading(false);
-  }, delay);
+  }, [transactions]);
 
   return (
     <Card>
