@@ -8,6 +8,7 @@ import main from "./MainReducer";
 import blockManager, { blockManagerSaga } from "./BlockManagerReducer.js";
 import dashboardReducer, { dashboardSaga } from "./dashboardReducer";
 import blockStatsReducer, { blockStatsSaga } from "./blockStatsReducer";
+import resourcesReducer, { resourcesSaga } from "./resourcesReducer";
 
 const rootReducer = combineReducers({
   loading,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   blockManager,
   dashboardReducer,
   blockStatsReducer,
+  resourcesReducer,
 });
 
 export function* rootSaga() {
@@ -24,6 +26,7 @@ export function* rootSaga() {
     authSaga(),
     dashboardSaga(),
     blockStatsSaga(),
+    resourcesSaga(),
   ]);
 }
 

@@ -5,11 +5,10 @@ import { BlockArchitecturePage } from "../pages/BlockArchitecturePage";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
 
 import { BlockStatsPage } from "../pages/blockstats/BlockStatsPage";
-import { ResourcePageHistory } from "../pages/ResourcePageHistory";
 import { SettingPageAdministator } from "../pages/SettingPageAdministator";
 
-import { useStyles, isMobile } from "./MiniDrawerStyles";
 import clsx from "clsx";
+import { useStyles, isMobile } from "./MiniDrawerStyles";
 import { BlockManagerPageServers } from "../pages/BlockManagerPageServers";
 import { BlockManagerPageOrg } from "../pages/BlockManagerPageOrg";
 import { BlockManagerPagePeer } from "../pages/BlockManagerPagePeer";
@@ -20,9 +19,11 @@ import { BlockManagerPageChaincodes } from "../pages/BlockManagerPageChaincodes"
 import { BlockManagerPageCAUsers } from "../pages/BlockManagerPageCAUsers";
 import { BlockHistoryPageTransactions } from "../pages/BlockHistoryPageTransactions";
 import { BlockHistoryPageBlocks } from "../pages/BlockHistoryPageBlocks";
-import { ResourcePageStats } from "../pages/ResourcePageStats";
-import { SettingPageAuthority } from "../pages/SettingPageAuthority";
 import LoginPage from "../pages/LoginPage";
+import { SettingPageAuthority } from "../pages/SettingPageAuthority";
+
+import { HistoryPage } from "../pages/resources/HistoryPage";
+import { StatsPage } from "../pages/resources/StatsPage";
 
 export const Routing = (props) => {
   const { content, contentShift } = useStyles();
@@ -78,8 +79,8 @@ export const Routing = (props) => {
           component={BlockHistoryPageTransactions}
         />
         <Route path="/block_stats" component={BlockStatsPage} />
-        <Route path="/resource_history" component={ResourcePageHistory} />
-        <Route path="/resource_stats" component={ResourcePageStats} />
+        <Route path="/resource_history" component={HistoryPage} />
+        <Route path="/resource_stats" component={StatsPage} />
         <Route
           path="/setting_administrator"
           component={SettingPageAdministator}

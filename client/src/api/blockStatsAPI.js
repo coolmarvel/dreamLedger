@@ -33,13 +33,16 @@ export const getEth = async () => {
 
 export const getBlockStats = async (params) => {
   try {
-    const response = await client.get(`/dle/v1/ledger/block/getBy/${params.selectData}`).then((res) => {
-      const data = res.data.data;
+    const response = await client
+      .get(`/dle/v1/ledger/block/getBy/${params.selectData}`)
+      .then((res) => {
+        const data = res.data.data;
 
-      return data;
-    }).catch((error) => {
-      console.error("Failed loaded data", error);
-    });
+        return data;
+      })
+      .catch((error) => {
+        console.error("Failed loaded data", error);
+      });
 
     return response;
   } catch (e) {
@@ -49,13 +52,16 @@ export const getBlockStats = async (params) => {
 
 export const getTransactionStats = async (params) => {
   try {
-    const response = await client.get(`/dle/v1/ledger/transaction/getBy/${params.selectData}`).then((res) => {
-      const data = res.data.data;
+    const response = await client
+      .get(`/dle/v1/ledger/transaction/getBy/${params.selectData}`)
+      .then((res) => {
+        const data = res.data.data;
 
-      return data;
-    }).catch((error) => {
-      console.error("Failed loaded data", error);
-    });
+        return data;
+      })
+      .catch((error) => {
+        console.error("Failed loaded data", error);
+      });
 
     return response;
   } catch (e) {
@@ -64,18 +70,17 @@ export const getTransactionStats = async (params) => {
 };
 
 export const getStatsByCalendarDate = async (params) => {
+  console.warn("params", params);
 
-  console.warn("params", params)
-
-  const channelData = params.channelData
+  const channelData = params.channelData;
   const startDate = params.startData.toISOString().split("T")[0];
   const endDate = params.endData.toISOString().split("T")[0];
 
   const time = new Date().toTimeString().split(" ")[0];
 
-  console.log("channelData", channelData)
-  console.log("startDate\n", startDate)
-  console.log("endDate\n", endDate)
+  console.log("channelData", channelData);
+  console.log("startDate\n", startDate);
+  console.log("endDate\n", endDate);
 
   const startTime = startDate + " " + time;
   const endTime = endDate + " " + time;
@@ -111,16 +116,16 @@ export const getStatsByCalendarDate = async (params) => {
   }
 };
 
-  // Swagger Format에 맞춰서 params를 작성해야 함
-  // "startDate": "2022-08-01 00:00:00",
-  // "endDate": "2023-08-01 00:00:00"
+// Swagger Format에 맞춰서 params를 작성해야 함
+// "startDate": "2022-08-01 00:00:00",
+// "endDate": "2023-08-01 00:00:00"
 
-  // 현재 시간
-  // const today = new Date(+new Date() + 3240 * 10000)
-  //   .toISOString()
-  //   .split("T")[0];
+// 현재 시간
+// const today = new Date(+new Date() + 3240 * 10000)
+//   .toISOString()
+//   .split("T")[0];
 
-  // 일주일전 시간
-  // const week = new Date(Date.parse(new Date()) - 7 * 1000 * 60 * 60 * 24)
-  //   .toISOString()
-  //   .split("T")[0];
+// 일주일전 시간
+// const week = new Date(Date.parse(new Date()) - 7 * 1000 * 60 * 60 * 24)
+//   .toISOString()
+//   .split("T")[0];

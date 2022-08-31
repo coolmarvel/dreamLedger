@@ -13,6 +13,7 @@ import { isMobile } from "./MiniDrawerStyles";
 import { Add, Remove } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { changeField } from "../redux/MainReducer.js";
+
 const ListSubItemLink = (props) => {
   const { main, sub, menu, menuText, icon, toggleSideBar, ...other } = props;
   const { auth } = useSelector(({ auth }) => ({
@@ -70,8 +71,8 @@ const ListSubItemLink = (props) => {
 
 ListSubItemLink.propTypes = {
   open: PropTypes.bool,
-//   to: PropTypes.string.isRequired,
-//   key: PropTypes.number.isRequired,
+  //   to: PropTypes.string.isRequired,
+  //   key: PropTypes.number.isRequired,
 };
 
 export default ListSubItemLink;

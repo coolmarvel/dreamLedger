@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import palette from '../../common/styles/palette';
-import Button from '../../common/Button';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import palette from "../../common/styles/palette";
+import Button from "../../common/Button";
 
 /**
  * 회원가입 또는 로그인 폼을 보여줍니다.
@@ -21,7 +21,7 @@ const AuthFormBlock = styled.div`
  */
 const StyledInput = styled.input`
   font-size: 1rem;
-  border:1px solid ${palette.gray[5]};
+  border: 1px solid ${palette.gray[5]};
   border-bottom: 1px solid ${palette.gray[5]};
   padding: 0.5rem;
   outline: 1px;
@@ -36,12 +36,12 @@ const StyledInput = styled.input`
 `;
 const StyledPartInput = styled.input`
   font-size: 1rem;
-  border:1px solid ${palette.gray[5]};
+  border: 1px solid ${palette.gray[5]};
   border-bottom: 1px solid ${palette.gray[5]};
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   outline: 1px;
-  width:  ${props => props.width};;
+  width: ${(props) => props.width};
   &:focus {
     color: $oc-teal-7;
     border-bottom: 1px solid ${palette.gray[7]};
@@ -55,7 +55,7 @@ const StyledPartInput = styled.input`
  */
 const Header = styled.div`
   margin-top: 0rem;
-  margin-bottom:0.5rem;
+  margin-bottom: 0.5rem;
   text-align: right;
   a {
     color: ${palette.gray[6]};
@@ -80,12 +80,12 @@ const Footer = styled.div`
 
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
-   background-color:#0f696d;
+  background-color: #0f696d;
 `;
 
 const textMap = {
-  findId: '아이디 찾기',
-  findPassword: '비밀번호 찾기'
+  findId: "아이디 찾기",
+  findPassword: "비밀번호 찾기",
 };
 
 /**
@@ -98,76 +98,93 @@ const ErrorMessage = styled.div`
   margin-top: 1rem;
 `;
 
-const ChangePasswordAuthForm = ({ type, form, onChange, onSubmit,onCancel, error }) => {
+const ChangePasswordAuthForm = ({
+  type,
+  form,
+  onChange,
+  onSubmit,
+  onCancel,
+  error,
+}) => {
   const text = textMap[type];
 
   return (
     <AuthFormBlock>
-
-
       <form onSubmit={onSubmit} onclose={onCancel}>
-            <div>
-
-                  <div className="tit-tab-wrap">
-                      <div className="tit-tab-wrap">
-                          <Link className="tit-tab  on" to=" ">MY</Link>
-
-                      </div>
-                  </div>
-                  <div className="join-cont">
-                      <div className="join-desc"><sub>*</sub> 8~16자의 영문, 숫자, 특수기호로 입력해주세요.</div>
-                      <dl className="dl-join">
-                          <dt>현재 비밀번호<sub>*</sub></dt>
-                          <dd>
-                              <StyledInput
-                                  name="curPassword"
-                                  placeholder="현재 비밀번호를 입력하세요."
-                                  onChange={onChange}
-                                  value={form.curPassword}
-                              />
-                          </dd>
-                      </dl>
-
-                      <dl className="dl-join">
-                          <dt>새 비밀번호<sub>*</sub></dt>
-                          <dd>
-                              <StyledInput
-                                name="newPassword"
-                                type={"password"}
-                                placeholder="새 비밀번호를 입력해주세요."
-                                onChange={onChange}
-                                value={form.newPassword}
-                              />
-                          </dd>
-                      </dl>
-
-
-                      <dl className="dl-join">
-                          <dt>새 비밀번호(확인)<sub>*</sub></dt>
-                          <dd>
-                              <StyledInput
-                                  name="newPassword1"
-                                  type={"password"}
-                                  placeholder="새 비밀번호를 다시 입력해주세요."
-                                  onChange={onChange}
-                                  value={form.newPassword1}
-                              />
-                          </dd>
-                      </dl>
-
-                      {error && <ErrorMessage>{error}</ErrorMessage>}
-                      <ButtonWithMarginTop cyan onClick={onSubmit} style={{ margin: '1rem', width:'10rem' }}>
-                        {'변경하기'}
-                      </ButtonWithMarginTop>
-                      <ButtonWithMarginTop cyan  onClick ={onCancel} style={{ margin: '1rem', width:'10rem'  }} >
-                          {'취소'}
-                      </ButtonWithMarginTop>
-                  </div>
-
+        <div>
+          <div className="tit-tab-wrap">
+            <div className="tit-tab-wrap">
+              <Link className="tit-tab  on" to=" ">
+                MY
+              </Link>
+            </div>
           </div>
+          <div className="join-cont">
+            <div className="join-desc">
+              <sub>*</sub> 8~16자의 영문, 숫자, 특수기호로 입력해주세요.
+            </div>
+            <dl className="dl-join">
+              <dt>
+                현재 비밀번호<sub>*</sub>
+              </dt>
+              <dd>
+                <StyledInput
+                  name="curPassword"
+                  placeholder="현재 비밀번호를 입력하세요."
+                  onChange={onChange}
+                  value={form.curPassword}
+                />
+              </dd>
+            </dl>
+
+            <dl className="dl-join">
+              <dt>
+                새 비밀번호<sub>*</sub>
+              </dt>
+              <dd>
+                <StyledInput
+                  name="newPassword"
+                  type={"password"}
+                  placeholder="새 비밀번호를 입력해주세요."
+                  onChange={onChange}
+                  value={form.newPassword}
+                />
+              </dd>
+            </dl>
+
+            <dl className="dl-join">
+              <dt>
+                새 비밀번호(확인)<sub>*</sub>
+              </dt>
+              <dd>
+                <StyledInput
+                  name="newPassword1"
+                  type={"password"}
+                  placeholder="새 비밀번호를 다시 입력해주세요."
+                  onChange={onChange}
+                  value={form.newPassword1}
+                />
+              </dd>
+            </dl>
+
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <ButtonWithMarginTop
+              cyan
+              onClick={onSubmit}
+              style={{ margin: "1rem", width: "10rem" }}
+            >
+              {"변경하기"}
+            </ButtonWithMarginTop>
+            <ButtonWithMarginTop
+              cyan
+              onClick={onCancel}
+              style={{ margin: "1rem", width: "10rem" }}
+            >
+              {"취소"}
+            </ButtonWithMarginTop>
+          </div>
+        </div>
       </form>
-
-
     </AuthFormBlock>
   );
 };

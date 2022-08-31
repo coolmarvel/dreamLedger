@@ -8,7 +8,6 @@ import createSagaMiddleware from "redux-saga";
 import { Provider } from "react-redux";
 
 import rootReducer, { rootSaga } from "./redux/rootReducer";
-import "./index.css";
 
 import App from "./main/App";
 import { createRoot } from "react-dom/client";

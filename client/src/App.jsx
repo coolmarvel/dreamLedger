@@ -1,13 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 import MainPageContainer from "./main/MainPageContainer";
-
 
 function App() {
   return (
-      <div>
-          <MainPageContainer/>
-      </div>
+    <div>
+      <MainPageContainer />
+    </div>
   );
 }
 
