@@ -5,37 +5,34 @@ import * as API from "../api/blockStatsAPI";
 import { takeEvery } from "redux-saga/effects";
 import produce from "immer";
 
-// ACTION TYPES
-export const [GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE] =
-  createRequestActionTypes("GET_DATA");
-
-export const [GET_DATA_ASYNC, GET_DATA_ASYNC_SUCCESS, GET_DATA_ASYNC_FAILURE] =
-  createRequestActionTypes("GET_DATA_ASYNC");
-
-// ACTION CREATOR
-export const getData = createAction(GET_DATA);
-export const getDataAsync = createAction(GET_DATA_ASYNC, (data) => data);
-
+// initialState
 const initialState = {
-  blockStats: [],
+  blockStats: [{ blocks: [], transactions: [] }],
 };
 
+// ACTION TYPES
+export const [BLOCK_STATS, BLOCK_STATS_SUCCESS, BLOCK_STATS_FAILURE] =
+  createRequestActionTypes("BLOCK_STATS");
+
+// ACTION CREATOR
+export const blockStatsActionCreate = createAction(BLOCK_STATS, (data) => data);
+
 // Create Saga
-const getDataSaga = createRequestSaga(GET_DATA_ASYNC, API.getData);
+const getDataSaga = createRequestSaga(BLOCK_STATS, API.getData);
 
 // Main Saga
 export function* blockStatsSaga() {
-  yield takeEvery(GET_DATA_ASYNC, getDataSaga);
+  yield takeEvery(BLOCK_STATS, getDataSaga);
 }
 
 const blockStatsReducer = handleActions(
   {
-    [GET_DATA_ASYNC_SUCCESS]: (state, { payload: data }) =>
+    [BLOCK_STATS_SUCCESS]: (state, { payload: data }) =>
       produce(state, (draft) => {
         // console.log(data);
         draft["blockStats"] = data;
       }),
-    [GET_DATA_ASYNC_FAILURE]: (state, { payload: data }) =>
+    [BLOCK_STATS_FAILURE]: (state, { payload: data }) =>
       produce(state, (draft) => {
         draft["blockStats"] = null;
       }),

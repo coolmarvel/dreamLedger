@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import * as echarts from "echarts";
 
+// MUI
 import { Grid, Typography, Box, Button } from "@mui/material";
 
+// Component
 import BlocksChart from "./components/chart/BlocksChart";
 import TransactionChart from "./components/chart/TransactionChart";
 import ChannelMenu from "./components/filter/ChannelMenu";
@@ -10,37 +12,34 @@ import SelectDate from "./components/filter/SelectDate";
 import StartCalendar from "./components/filter/StartCalendar";
 import EndCalendar from "./components/filter/EndCalendar";
 
-import { getBlockStats, getTransactionStats, getStatsByCalendarDate } from "../../api/blockStatsAPI";
+// API
+import {
+  getBlockStats,
+  getTransactionStats,
+  getStatsByCalendarDate,
+} from "../../api/blockStatsAPI";
 
 // Reducer
 import { useDispatch, useSelector } from "react-redux";
-import { getDataAsync } from "../../redux/blockStatsReducer"
+import { blockStatsActionCreate } from "../../redux/blockStatsReducer";
 
 export const BlockStatsPage = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  // 자식 -> 부모로 props를 받음
-  const [startData, setStartData] = useState();
-  const [endData, setEndData] = useState();
-  const [channelData, setChannelData] = useState();
-  const [selectData, setSelectData] = useState();
-
-  // console.log("startData\n", startData);
-  // console.log("endData\n", endData);
-  // console.log("channelData\n", channelData);
-  // console.log("selectData\n", selectData);
+  // 상위 페이지의 state를 하위 컴포넌트의 props로 전달하여 그대로 활용
+  const [startData, setStartData] = useState(
+    new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) // 일주일전
+  );
+  const [endData, setEndData] = useState(new Date()); // 현재
+  const [channelData, setChannelData] = useState([]);
+  const [selectData, setSelectData] = useState("hour");
 
   // 부모 -> 자식 전달한 props
-  const [blockCount, setBlockCount] = useState()
-  const [blockDateTime, setBlockDateTime] = useState()
-  const [transactionCount, setTransactionCount] = useState()
-  const [transactionDateTime, setTransactionDateTime] = useState()
-
-  // console.log("blockCount", blockCount)
-  // console.log("blockDateTime", blockDateTime)
-  // console.log("transactionCount", transactionCount)
-  // console.log("transactionDateTime", transactionDateTime)
+  const [blockCount, setBlockCount] = useState();
+  const [blockDateTime, setBlockDateTime] = useState();
+  const [transactionCount, setTransactionCount] = useState();
+  const [transactionDateTime, setTransactionDateTime] = useState();
 
   const getClientData = async () => {
     try {
@@ -48,45 +47,47 @@ export const BlockStatsPage = () => {
       await getBlockStats({ selectData })
         .then((response) => {
           const count = response.map((v) => {
-            return v.count
-          })
+            return v.count;
+          });
           const dateTime = response.map((v) => {
-            return v.datetime
-          })
-          setBlockCount(count)
-          setBlockDateTime(dateTime)
-        }).catch((e) => {
-          console.warn("Failed loaded Data")
+            return v.datetime;
+          });
+          setBlockCount(count);
+          setBlockDateTime(dateTime);
         })
+        .catch((e) => {
+          console.warn("Failed loaded Data");
+        });
 
       // Transaction Stats 데이터 hour, day, month value를 params로 넘겨 GET으로 받아옴
       await getTransactionStats({ selectData })
         .then((response) => {
           const count = response.map((v) => {
-            return v.count
-          })
+            return v.count;
+          });
           const dateTime = response.map((v) => {
-            return v.datetime
-          })
-          setTransactionCount(count)
-          setTransactionDateTime(dateTime)
-        }).catch((e) => {
-          console.warn("Failed loaded Data")
+            return v.datetime;
+          });
+          setTransactionCount(count);
+          setTransactionDateTime(dateTime);
         })
+        .catch((e) => {
+          console.warn("Failed loaded Data");
+        });
 
       // Block, Transaction Stats Data를 Calendar에서 선택한 value를 params로 넘겨 GET으로 받아옴
       await getStatsByCalendarDate({ channelData, startData, endData })
         .then((response) => {
-          const result = response
-          console.log("result", result)
-        }).catch((e) => {
-          console.warn("Failed loaded Data")
+          const result = response;
+          console.log("result", result);
         })
+        .catch((e) => {
+          console.warn("Failed loaded Data");
+        });
 
-      dispatch(getDataAsync());
-
+      dispatch(blockStatsActionCreate());
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   };
 
@@ -168,7 +169,6 @@ export const BlockStatsPage = () => {
               channelData={channelData}
             />
           </Box>
-
         </Grid>
 
         {/* Transaction 차트 */}
