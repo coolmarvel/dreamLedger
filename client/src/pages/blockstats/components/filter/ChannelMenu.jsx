@@ -10,46 +10,45 @@ import {
   Chip,
 } from "@mui/material";
 
-function SelectChannelMenu({ setChannelData, setLoading }) {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+function SelectChannelMenu({
+  channelData,
+  setChannelData,
+  setLoading,
+  channelList,
+}) {
   const theme = useTheme();
-  const [channelName, setChannelName] = useState([]);
-  const [channels, setChannels] = useState(["Channel_1", "Channel_2"]);
+
+  function getStyles(name, channelData, theme) {
+    return {
+      fontWeight:
+        channelData.indexOf(name) === -1
+          ? theme.typography.fontWeightRegular
+          : theme.typography.fontWeightMedium,
+    };
+  }
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setChannelName(
+    setLoading(true);
+    setChannelData(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    setChannelData(channelName);
     setLoading(false);
-  }, [channelName]);
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
   };
-
-  function getStyles(name, channelName, theme) {
-    return {
-      fontWeight:
-        channelName.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }
 
   return (
     <div>
@@ -59,7 +58,7 @@ function SelectChannelMenu({ setChannelData, setLoading }) {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={channelName}
+          value={channelData}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
@@ -71,15 +70,17 @@ function SelectChannelMenu({ setChannelData, setLoading }) {
           )}
           MenuProps={MenuProps}
         >
-          {channels.map((channel, index) => (
-            <MenuItem
-              key={index}
-              value={channel}
-              style={getStyles(channel, channelName, theme)}
-            >
-              {channel}
-            </MenuItem>
-          ))}
+          {channelList === undefined
+            ? []
+            : channelList.map((value, index) => (
+                <MenuItem
+                  key={index}
+                  value={value}
+                  style={getStyles(value, channelData, theme)}
+                >
+                  {value}
+                </MenuItem>
+              ))}
         </Select>
       </FormControl>
     </div>

@@ -2,17 +2,25 @@ import React, { useEffect, useState } from "react";
 import ReactEcharts from "echarts-for-react";
 
 // MUI
-import { Card, CardHeader, CardContent } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Box,
+  Card,
+  CardHeader,
+  CardContent,
+} from "@mui/material";
 
-function BlocksChart({ channelData, setLoading }) {
+function Chart({ channelData, setLoading, channelList, data }) {
+  console.log("data", data);
   console.log("channelData", channelData);
-  const labelList = ["CPU", "MEM"];
+
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: labelList,
+      data: channelList,
     },
     grid: {
       left: "3%",
@@ -33,7 +41,7 @@ function BlocksChart({ channelData, setLoading }) {
     yAxis: {
       type: "value",
     },
-    series: labelList.map((v) => {
+    series: channelList.map((v) => {
       return {
         name: v,
         type: "line",
@@ -62,10 +70,17 @@ function BlocksChart({ channelData, setLoading }) {
     <Card>
       <CardHeader />
       <CardContent>
-        <ReactEcharts option={options} />
+        <Grid item xs={11}>
+          <Box>
+            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+              {data.map((v) => v)}
+            </Typography>
+            <ReactEcharts option={options} />
+          </Box>
+        </Grid>
       </CardContent>
     </Card>
   );
 }
 
-export default React.memo(BlocksChart);
+export default React.memo(Chart);

@@ -47,10 +47,6 @@ export const HistoryPage = () => {
     );
   };
 
-  useEffect(() => {
-    console.log("historyData 변화", historyData);
-  }, [historyData]);
-
   return (
     <>
       {/* Search Filter */}
@@ -114,9 +110,9 @@ export const HistoryPage = () => {
         </Grid>
       </Grid>
 
-      {historyData.map((e) => {
+      {historyData.map((e, index) => {
         return (
-          <Grid item xs={11}>
+          <Grid item xs={11} key={index}>
             <Box>
               <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
                 {e.channelName}

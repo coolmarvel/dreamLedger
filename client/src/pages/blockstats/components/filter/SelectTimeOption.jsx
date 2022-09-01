@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-const optionList = ["hour", "day", "month"];
+function SelectTimeOption({ selectData, setSelectData, setLoading }) {
+  const optionList = ["hour", "day", "month"];
 
-const SelectTimeOption = ({ selectData, setSelectData }) => {
   const handleChange = (event, newAlignment) => {
+    setLoading(true);
     setSelectData(newAlignment);
+    setLoading(false);
   };
 
   return (
@@ -17,15 +19,15 @@ const SelectTimeOption = ({ selectData, setSelectData }) => {
       aria-label="Platform"
       spacing={3}
     >
-      {optionList.map((e, index) => {
+      {optionList.map((value, index) => {
         return (
-          <ToggleButton value={e}>
-            <React.Fragment key={index}>{e}</React.Fragment>
+          <ToggleButton key={index} value={value}>
+            {value}
           </ToggleButton>
         );
       })}
     </ToggleButtonGroup>
   );
-};
+}
 
 export default React.memo(SelectTimeOption);

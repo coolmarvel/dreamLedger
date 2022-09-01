@@ -7,7 +7,7 @@ import produce from "immer";
 
 // initialState
 const initialState = {
-  blockStats: [{ blocks: [], transactions: [] }],
+  blockStats: [{ blocks: [], transactions: [], channelList: [] }],
 };
 
 // ACTION TYPES
@@ -18,7 +18,7 @@ export const [BLOCK_STATS, BLOCK_STATS_SUCCESS, BLOCK_STATS_FAILURE] =
 export const blockStatsActionCreate = createAction(BLOCK_STATS, (data) => data);
 
 // Create Saga
-const getDataSaga = createRequestSaga(BLOCK_STATS, API.getData);
+const getDataSaga = createRequestSaga(BLOCK_STATS, API.getAlldatas);
 
 // Main Saga
 export function* blockStatsSaga() {
@@ -28,14 +28,34 @@ export function* blockStatsSaga() {
 const blockStatsReducer = handleActions(
   {
     [BLOCK_STATS_SUCCESS]: (state, { payload: data }) =>
-      produce(state, (draft) => {
-        // console.log(data);
-        draft["blockStats"] = data;
-      }),
+      // console.log("data", data),
+      produce(state, (draft) => ({
+        ...draft,
+        blockStats: {
+          blocks: data.map((v) => {
+            return {
+              channelName: v.channelList,
+              data: { ...v.blocks, count: Math.floor(Math.random() * 50) },
+            };
+          }),
+          transactions: data.map((v) => {
+            return {
+              channelName: v.channelList,
+              data: { ...v.transaction, count: Math.floor(Math.random() * 50) },
+            };
+          }),
+          channelList: data.map((v) => v.channelList),
+        },
+      })),
     [BLOCK_STATS_FAILURE]: (state, { payload: data }) =>
-      produce(state, (draft) => {
-        draft["blockStats"] = null;
-      }),
+      produce(state, (draft) => ({
+        ...draft,
+        blockStats: {
+          blocks: null,
+          transactions: null,
+          channelList: null,
+        },
+      })),
   },
   initialState
 );

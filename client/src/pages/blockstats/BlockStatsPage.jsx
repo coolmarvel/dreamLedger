@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as echarts from "echarts";
 
 // MUI
 import { Grid, Typography, Box, Button } from "@mui/material";
 
 // Component
-import BlocksChart from "./components/chart/BlocksChart";
-import TransactionChart from "./components/chart/TransactionChart";
+// import BlocksChart from "./components/chart/BlocksChart";
+// import TransactionChart from "./components/chart/TransactionChart";
+import Chart from "./components/chart/Chart";
+import DatePicker from "./components/filter/DatePicker";
 import ChannelMenu from "./components/filter/ChannelMenu";
-import SelectDate from "./components/filter/SelectDate";
-import StartCalendar from "./components/filter/StartCalendar";
-import EndCalendar from "./components/filter/EndCalendar";
-
-// API
-import {
-  getBlockStats,
-  getTransactionStats,
-  getStatsByCalendarDate,
-} from "../../api/blockStatsAPI";
+import SelectTimeOption from "./components/filter/SelectTimeOption";
 
 // Reducer
 import { useDispatch, useSelector } from "react-redux";
@@ -25,76 +18,40 @@ import { blockStatsActionCreate } from "../../redux/blockStatsReducer";
 
 export const BlockStatsPage = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
 
-  // 상위 페이지의 state를 하위 컴포넌트의 props로 전달하여 그대로 활용
+  const [loading, setLoading] = useState(false);
   const [startData, setStartData] = useState(
-    new Date(Date.now() - 1000 * 60 * 60 * 24 * 7) // 일주일전
+    new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)
   );
-  const [endData, setEndData] = useState(new Date()); // 현재
+  const [endData, setEndData] = useState(new Date());
   const [channelData, setChannelData] = useState([]);
   const [selectData, setSelectData] = useState("hour");
 
-  // 부모 -> 자식 전달한 props
-  const [blockCount, setBlockCount] = useState();
-  const [blockDateTime, setBlockDateTime] = useState();
-  const [transactionCount, setTransactionCount] = useState();
-  const [transactionDateTime, setTransactionDateTime] = useState();
+  const { blocks, transactions, channelList } = useSelector(
+    ({ blockStatsReducer }) => ({
+      blocks: blockStatsReducer.blockStats.blocks,
+      transactions: blockStatsReducer.blockStats.transactions,
+      channelList: blockStatsReducer.blockStats.channelList,
+    })
+  );
 
-  const getClientData = async () => {
-    try {
-      // Block Stats 데이터 hour, day, month value를 params로 넘겨 GET으로 받아옴
-      await getBlockStats({ selectData })
-        .then((response) => {
-          const count = response.map((v) => {
-            return v.count;
-          });
-          const dateTime = response.map((v) => {
-            return v.datetime;
-          });
-          setBlockCount(count);
-          setBlockDateTime(dateTime);
-        })
-        .catch((e) => {
-          console.warn("Failed loaded Data");
-        });
+  console.log("blocks\n", blocks);
 
-      // Transaction Stats 데이터 hour, day, month value를 params로 넘겨 GET으로 받아옴
-      await getTransactionStats({ selectData })
-        .then((response) => {
-          const count = response.map((v) => {
-            return v.count;
-          });
-          const dateTime = response.map((v) => {
-            return v.datetime;
-          });
-          setTransactionCount(count);
-          setTransactionDateTime(dateTime);
-        })
-        .catch((e) => {
-          console.warn("Failed loaded Data");
-        });
-
-      // Block, Transaction Stats Data를 Calendar에서 선택한 value를 params로 넘겨 GET으로 받아옴
-      await getStatsByCalendarDate({ channelData, startData, endData })
-        .then((response) => {
-          const result = response;
-          console.log("result", result);
-        })
-        .catch((e) => {
-          console.warn("Failed loaded Data");
-        });
-
-      dispatch(blockStatsActionCreate());
-    } catch (e) {
-      console.error(e);
-    }
+  const onSearchData = () => {
+    setLoading(true);
+    dispatch(
+      blockStatsActionCreate({
+        startDate: startData,
+        endDate: endData,
+        channelList: channelData,
+        timeOption: selectData,
+      })
+    );
+    setLoading(false);
   };
 
-  // 그리고 받은 데이터를 가지고 chart 컴포넌트로 props로 전달해서 렌더링해야함
-
   if (loading) {
-    return <div>loading...</div>;
+    <>loading...</>;
   } else {
     return (
       <React.Fragment>
@@ -113,6 +70,8 @@ export const BlockStatsPage = () => {
             <Box>
               <Grid item xs={2}>
                 <ChannelMenu
+                  channelList={channelList}
+                  channelData={channelData}
                   setChannelData={setChannelData}
                   setLoading={setLoading}
                 />
@@ -122,7 +81,8 @@ export const BlockStatsPage = () => {
             {/* Hour, Day, Month 고르기 */}
             <Box sx={{ marginTop: 1.6 }}>
               <Grid item xs={2}>
-                <SelectDate
+                <SelectTimeOption
+                  selectData={selectData}
                   setSelectData={setSelectData}
                   setLoading={setLoading}
                 />
@@ -131,59 +91,63 @@ export const BlockStatsPage = () => {
 
             {/* 시작날짜 달력 */}
             <Grid item xs={2}>
-              <StartCalendar
-                setStartData={setStartData}
+              <DatePicker
                 setLoading={setLoading}
+                setData={setStartData}
+                data={startData}
+                label="(시작날짜)"
               />
             </Grid>
 
             {/* 종료날짜 달력 */}
             <Grid item xs={2}>
-              <EndCalendar setEndData={setEndData} setLoading={setLoading} />
+              <DatePicker
+                setLoading={setLoading}
+                data={endData}
+                setEndData={setEndData}
+                label="(종료날짜)"
+              />
             </Grid>
 
             {/* 조회버튼 */}
             <Box sx={{ marginTop: 2 }}>
               <Grid item xs={2}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={getClientData}
-                >
+                <Button variant="contained" size="large" onClick={onSearchData}>
                   Search
                 </Button>
               </Grid>
             </Box>
           </Grid>
         </Grid>
+        {/* Block Chart */}
+        {blocks.map((value, index) => {
+          <Chart
+            key={index}
+            echarts={echarts}
+            data={value}
+            setLoading={setLoading}
+            channelData={value.data}
+            channelList={value.channelName}
+          />;
+        })}
 
-        {/* Block 차트  */}
-        <Grid item xs={11}>
-          <Box>
-            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-              Blocks
-            </Typography>
-            <BlocksChart
-              echarts={echarts}
-              setLoading={setLoading}
-              channelData={channelData}
-            />
-          </Box>
-        </Grid>
-
-        {/* Transaction 차트 */}
-        <Grid item xs={11}>
-          <Box>
-            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-              Transactions
-            </Typography>
-            <TransactionChart
-              echarts={echarts}
-              setLoading={setLoading}
-              channelData={channelData}
-            />
-          </Box>
-        </Grid>
+        {/* Transactions Chart */}
+        {/* {transactionChart.map((value, index) => {
+          return (
+            <Grid item xs={11}>
+              <Box>
+                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+                  {value.channelName}
+                </Typography>
+                <TransactionChart
+                  echarts={echarts}
+                  channelData={value.data}
+                  setLoading={setLoading}
+                />
+              </Box>
+            </Grid>
+          );
+        })} */}
       </React.Fragment>
     );
   }

@@ -1,5 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import $ from "jquery";
+import { useDispatch } from "react-redux";
+
+// reducer
+import { blockStatsActionCreate } from "../redux/blockStatsReducer";
+import {
+  getResourcesData,
+  searchDataAsync,
+  getAllDatas,
+} from "../redux/dashboardReducer";
 
 export const BlockArchitecturePage = () => {
   $(document).ready(function () {
@@ -78,6 +87,19 @@ export const BlockArchitecturePage = () => {
       $(".toast.pop01").fadeIn(400).delay(1000).fadeOut(400);
     });
   });
+
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(blockStatsActionCreate());
+    dispatch(getResourcesData());
+    dispatch(searchDataAsync());
+    dispatch(getAllDatas());
+    setLoading(false);
+  }, []);
+
   return (
     <div id="con_wrap">
       <div id="con_area">

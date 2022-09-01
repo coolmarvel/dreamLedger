@@ -47,6 +47,7 @@ export function* dashboardSaga() {
 const dashboardReducer = handleActions(
   {
     [DASHBOARD_SUCCESS]: (state, { payload: data }) =>
+      // console.log("data", data),
       produce(state, (draft) => ({
         ...draft,
         dashboard: {
