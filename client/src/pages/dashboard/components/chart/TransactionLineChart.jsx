@@ -3,15 +3,19 @@ import ReactEcharts from "echarts-for-react";
 
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-export default React.memo(function Line({ transactions, setLoading }) {
-  const channelName = ["Channel1", "Channel2"];
+export default React.memo(function Line({
+  transactions,
+  setLoading,
+  transactionStats,
+  channelList,
+}) {
   const [days, setDays] = useState(1);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: channelName,
+      data: channelList,
     },
     grid: {
       left: "3%",
@@ -27,17 +31,17 @@ export default React.memo(function Line({ transactions, setLoading }) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: [],
+      data: transactionStats.map((v) => v.count),
     },
     yAxis: {
       type: "value",
     },
-    series: channelName.map((v) => {
+    series: channelList.map((v) => {
       return {
         name: v,
         type: "line",
         stack: "Total",
-        data: [],
+        data: transactionStats.map((v) => v.count),
       };
     }),
   });
@@ -49,25 +53,19 @@ export default React.memo(function Line({ transactions, setLoading }) {
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: channelName.map(() => {
+        data: transactionStats.map((v) => {
           const date = new Date();
           const time =
             date.getHours() > 12
-              ? `${date.getHours() - 12}:${date.getMinutes()} PM`
-              : `${date.getHours()}:${date.getMinutes()} AM`;
+              ? `PM ${
+                  date.getHours() - 12
+                }:${date.getMinutes()}:${date.getSeconds()}`
+              : `AM ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
           return days === 1 ? time : date.toLocaleDateString();
         }),
       },
       series: options.series.map((v) => {
-        return {
-          ...v,
-          data:
-            transactions === undefined
-              ? []
-              : transactions.map((v) => {
-                  return v.size;
-                }),
-        };
+        return { ...v, data: transactionStats.map((v) => v.count) };
       }),
     });
 

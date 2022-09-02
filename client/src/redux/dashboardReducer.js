@@ -18,11 +18,15 @@ export const [ALL, ALL_SUCCESS, ALL_FAILURE] =
 export const [RESOURCES, RESOURCES_SUCCESS, RESOURCES_FAILURE] =
   createRequestActionTypes("dashboard/RESOURCES");
 
+export const [STATS, STATS_SUCCESS, STATS_FAILURE] =
+  createRequestActionTypes("dashboard/STATS");
+
 // ACTION CREATOR
 export const searchData = createAction(SEARCH_DATA);
 export const searchDataAsync = createAction(DASHBOARD, (data) => data);
 export const getResourcesData = createAction(RESOURCES, (data) => data);
 export const getAllDatas = createAction(ALL, (data) => data);
+export const getStatDatas = createAction(STATS, (data) => data);
 
 const initialState = {
   dashboard: [{ blocks: [], transactions: [] }],
@@ -30,18 +34,21 @@ const initialState = {
   network: [
     { ca: [], channel: [], orderer: [], orgs: [], peer: [], server: [] },
   ],
+  stats: [{ blockStats: [], transactionStats: [] }],
 };
 
 // Create Saga
 const searchDataSaga = createRequestSaga(DASHBOARD, API.getData);
 const getAllDataSaga = createRequestSaga(ALL, API.getAllDatas);
 const getResourcesDataSaga = createRequestSaga(RESOURCES, API.getResources);
+const getStatsDataSaga = createRequestSaga(STATS, API.getByBlockAndTX);
 
 // Main Saga
 export function* dashboardSaga() {
   yield takeEvery(RESOURCES, getResourcesDataSaga);
   yield takeEvery(ALL, getAllDataSaga);
   yield takeEvery(DASHBOARD, searchDataSaga);
+  yield takeEvery(STATS, getStatsDataSaga);
 }
 
 const dashboardReducer = handleActions(
@@ -55,14 +62,14 @@ const dashboardReducer = handleActions(
             return {
               totalPages: v.totalPages,
               size: v.size,
-              numberOfElements: v.numberOfElements,
+              totalElements: v.numberOfElements,
             };
           }),
           transactions: data.map((v) => {
             return {
               totalPages: v.totalPages,
               size: v.size,
-              numberOfElements: v.numberOfElements,
+              totalElements: v.numberOfElements,
             };
           }),
         },
@@ -146,6 +153,21 @@ const dashboardReducer = handleActions(
       produce(state, (draft) => ({
         ...draft,
         network: { cpu: null, memory: null },
+      })),
+    [STATS_SUCCESS]: (state, { payload: data }) =>
+      // console.log("data", data),
+      produce(state, (draft) => ({
+        ...draft,
+        stats: {
+          blockStats: data.blockStats,
+          transactionStats: data.transactionStats,
+          channelList: data.channelList,
+        },
+      })),
+    [STATS_FAILURE]: (state) =>
+      produce(state, (draft) => ({
+        ...draft,
+        stats: { blockStats: null, transactionStats: null },
       })),
   },
   initialState

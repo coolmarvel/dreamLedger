@@ -37,7 +37,7 @@ export default React.memo(function Line({ setLoading, cpu }) {
         name: v.name,
         type: "line",
         stack: "Total",
-        data: cpu.map((v) => v.cpuPerc.replace("%", "")),
+        data: cpu.map((v) => v.cpuPerc.replace("%", "") + "%"),
       };
     }),
   });

@@ -8,6 +8,7 @@ import {
   getResourcesData,
   searchDataAsync,
   getAllDatas,
+  getStatDatas,
 } from "../redux/dashboardReducer";
 
 export const BlockArchitecturePage = () => {
@@ -96,6 +97,7 @@ export const BlockArchitecturePage = () => {
     dispatch(blockStatsActionCreate());
     dispatch(getResourcesData());
     dispatch(searchDataAsync());
+    dispatch(getStatDatas());
     dispatch(getAllDatas());
     setLoading(false);
   }, []);

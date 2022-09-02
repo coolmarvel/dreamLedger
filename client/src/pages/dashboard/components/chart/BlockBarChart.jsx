@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 import { Card, CardHeader, CardContent } from "@mui/material";
+import useInterval from "../../utils/useInterval";
 
-export default React.memo(function Bar({ blocks, setLoading }) {
-  const channelName = ["Channel1", "Channel2"];
+export default React.memo(function Bar({ blocks, setLoading, channelList }) {
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
@@ -28,11 +28,11 @@ export default React.memo(function Bar({ blocks, setLoading }) {
       type: "category",
       data: ["Blocks"],
     },
-    series: channelName.map((v) => {
+    series: channelList.map((v) => {
       return {
         name: v,
         type: "bar",
-        data: [],
+        data: blocks.map((v) => v.numberOfElements),
       };
     }),
   });
@@ -45,12 +45,9 @@ export default React.memo(function Bar({ blocks, setLoading }) {
       series: options.series.map((v) => {
         return {
           ...v,
-          data:
-            blocks === undefined
-              ? []
-              : blocks.map((v) => {
-                  return v.size;
-                }),
+          data: blocks.map((v) => {
+            return v.totalElements + Math.floor(Math.random() * 50);
+          }),
         };
       }),
     });

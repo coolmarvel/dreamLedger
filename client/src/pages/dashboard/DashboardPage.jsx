@@ -30,6 +30,7 @@ import {
   getResourcesData,
   searchDataAsync,
   getAllDatas,
+  getStatDatas,
 } from "../../redux/dashboardReducer";
 
 export const DashboardPage = () => {
@@ -48,19 +49,20 @@ export const DashboardPage = () => {
     transactions: dashboardReducer.dashboard.transactions,
   }));
 
-  useEffect(() => {
-    setLoading(true);
-    dispatch(searchDataAsync());
-    dispatch(getResourcesData());
-    dispatch(getAllDatas());
-    setLoading(false);
-  }, []);
+  const { blockStats, transactionStats, channelList } = useSelector(
+    ({ dashboardReducer }) => ({
+      blockStats: dashboardReducer.stats.blockStats,
+      transactionStats: dashboardReducer.stats.transactionStats,
+      channelList: dashboardReducer.stats.channelList,
+    })
+  );
 
   useInterval(() => {
     // Your custom logic here
     setLoading(true);
     dispatch(getResourcesData());
     dispatch(searchDataAsync());
+    dispatch(getStatDatas());
     dispatch(getAllDatas());
     setLoading(false);
   }, 5000);
@@ -159,6 +161,7 @@ export const DashboardPage = () => {
                         echarts={echarts}
                         setLoading={setLoading}
                         blocks={blocks}
+                        channelList={channelList}
                       />
                     </Box>
                     <Box>
@@ -169,6 +172,8 @@ export const DashboardPage = () => {
                         echarts={echarts}
                         setLoading={setLoading}
                         blocks={blocks}
+                        blockStats={blockStats}
+                        channelList={channelList}
                       />
                     </Box>
                   </Grid>
@@ -180,6 +185,7 @@ export const DashboardPage = () => {
                         echarts={echarts}
                         setLoading={setLoading}
                         transactions={transactions}
+                        channelList={channelList}
                       />
                     </Box>
                     <Box>
@@ -190,6 +196,8 @@ export const DashboardPage = () => {
                         echarts={echarts}
                         setLoading={setLoading}
                         transactions={transactions}
+                        transactionStats={transactionStats}
+                        channelList={channelList}
                       />
                     </Box>
                   </Grid>

@@ -5,8 +5,6 @@ import * as echarts from "echarts";
 import { Grid, Typography, Box, Button } from "@mui/material";
 
 // Component
-// import BlocksChart from "./components/chart/BlocksChart";
-// import TransactionChart from "./components/chart/TransactionChart";
 import Chart from "./components/chart/Chart";
 import DatePicker from "./components/filter/DatePicker";
 import ChannelMenu from "./components/filter/ChannelMenu";

@@ -1,35 +1,43 @@
 import client from "./client";
-import URL from "./url";
 
-// TEST용 API
-// const order_currency = "BTC";
-// const eth = "eth";
-// const payment_currency = "KRW";
+// 블록 및 트랜잭션 통계데이터 조회
+export const getByBlockAndTX = async () => {
+  try {
+    const blockResponse = await client
+      .get(`/dle/v1/ledger/block/getBy/${"second"}`)
+      .then((res) => {
+        // return res.data.data;
+        return res.data.data.map((v) => {
+          return { ...v, count: Math.floor(Math.random() * 50) };
+        });
+      })
+      .catch((error) => console.error(error));
 
-// export const getBTC = async () => {
-//   try {
-//     const response = await URL.get(`/${order_currency}_${payment_currency}`)
-//       // .then((res) => res.json())
-//       .then((res) => res.data)
-//       .catch((error) => console.error("Failed loaded data", error));
-//     return response.data;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+    const transactionResponse = await client
+      .get(`/dle/v1/ledger/transaction/getBy/${"second"}`)
+      .then((res) => {
+        return res.data.data.map((v) => {
+          return { ...v, count: Math.floor(Math.random() * 50) };
+        });
+      })
+      .catch((error) => console.error(error));
 
-// export const getETH = async () => {
-//   try {
-//     const response = await URL.get(`/${eth}_${payment_currency}`)
-//       // .then((res) => res.json())
-//       .then((res) => res.data)
-//       .catch((error) => console.error("Failed loaded data", error));
-//     return response.data;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
-// TEST용 API
+    const channelResponse = await client
+      .get(`/dle/v1/network/channel`)
+      .then((res) => {
+        return res.data.data.map((v) => v.name);
+      })
+      .catch((error) => console.error("Failed loaded data", error));
+
+    return {
+      blockStats: blockResponse,
+      transactionStats: transactionResponse,
+      channelList: channelResponse,
+    };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // 블록체인 플랫폼의 물리서버 목록 조회
 export const getServer = async () => {

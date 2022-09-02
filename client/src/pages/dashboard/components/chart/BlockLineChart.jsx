@@ -4,15 +4,19 @@ import ReactEcharts from "echarts-for-react";
 
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-export default React.memo(function Line({ blocks, setLoading }) {
-  const channelName = ["Channel1", "Channel2"];
+export default React.memo(function Line({
+  blocks,
+  setLoading,
+  blockStats,
+  channelList,
+}) {
   const [days, setDays] = useState(1);
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: channelName,
+      data: channelList,
     },
     grid: {
       left: "3%",
@@ -28,17 +32,17 @@ export default React.memo(function Line({ blocks, setLoading }) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: [],
+      data: blockStats.map((v) => v.datetime),
     },
     yAxis: {
       type: "value",
     },
-    series: channelName.map((v) => {
+    series: channelList.map((v) => {
       return {
         name: v,
         type: "line",
         stack: "Total",
-        data: [],
+        data: blockStats.map((v) => v.count),
       };
     }),
   });
@@ -50,30 +54,24 @@ export default React.memo(function Line({ blocks, setLoading }) {
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: channelName.map(() => {
+        data: blockStats.map((v) => {
           const date = new Date();
           const time =
             date.getHours() > 12
-              ? `${date.getHours() - 12}:${date.getMinutes()} PM`
-              : `${date.getHours()}:${date.getMinutes()} AM`;
+              ? `PM ${
+                  date.getHours() - 12
+                }:${date.getMinutes()}:${date.getSeconds()}`
+              : `AM ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
           return days === 1 ? time : date.toLocaleDateString();
         }),
       },
       series: options.series.map((v) => {
-        return {
-          ...v,
-          data:
-            blocks === undefined
-              ? []
-              : blocks.map((v) => {
-                  return v.size;
-                }),
-        };
+        return { ...v, data: blockStats.map((v) => v.count) };
       }),
     });
 
     setLoading(false);
-  }, [blocks]);
+  }, [blockStats]);
 
   return (
     <Card>

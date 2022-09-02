@@ -4,7 +4,11 @@ import ReactEcharts from "echarts-for-react";
 
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-export default React.memo(function Bar({ transactions, setLoading }) {
+export default React.memo(function Bar({
+  transactions,
+  setLoading,
+  channelList,
+}) {
   const channelName = ["Channel1", "Channel2"];
   const [options, setOptions] = useState({
     tooltip: {
@@ -28,11 +32,11 @@ export default React.memo(function Bar({ transactions, setLoading }) {
       type: "category",
       data: ["Transactions"],
     },
-    series: channelName.map((v) => {
+    series: channelList.map((v) => {
       return {
         name: v,
         type: "bar",
-        data: [],
+        data: transactions.map((v) => v.numberOfElements),
       };
     }),
   });
@@ -45,12 +49,9 @@ export default React.memo(function Bar({ transactions, setLoading }) {
       series: options.series.map((v) => {
         return {
           ...v,
-          data:
-            transactions === undefined
-              ? []
-              : transactions.map((v) => {
-                  return v.size;
-                }),
+          data: transactions.map((v) => {
+            return v.totalElements + Math.floor(Math.random() * 50);
+          }),
         };
       }),
     });
