@@ -21,17 +21,22 @@ const MenuProps = {
   },
 };
 
-function SelectChannelMenu({ setChannelData, setLoading, channelList }) {
-  const theme = useTheme();
+function getStyles(name, channelData, theme) {
+  return {
+    fontWeight:
+      channelData.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
-  function getStyles(name, channelList, theme) {
-    return {
-      fontWeight:
-        channelList.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
-  }
+function SelectChannelMenu({
+  setChannelData,
+  setLoading,
+  channelList,
+  channelData,
+}) {
+  const theme = useTheme();
 
   const handleChange = (event) => {
     const {
@@ -45,8 +50,6 @@ function SelectChannelMenu({ setChannelData, setLoading, channelList }) {
     setLoading(false);
   };
 
-  console.log("channelList", channelList);
-
   return (
     <div>
       <FormControl sx={{ m: 1, width: 350 }}>
@@ -55,7 +58,7 @@ function SelectChannelMenu({ setChannelData, setLoading, channelList }) {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={channelList}
+          value={channelData}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
@@ -71,7 +74,7 @@ function SelectChannelMenu({ setChannelData, setLoading, channelList }) {
             <MenuItem
               key={index}
               value={value}
-              style={getStyles(value, channelList, theme)}
+              style={getStyles(value, channelData, theme)}
             >
               {value}
             </MenuItem>

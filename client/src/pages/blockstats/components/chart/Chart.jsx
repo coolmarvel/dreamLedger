@@ -11,16 +11,15 @@ import {
   CardContent,
 } from "@mui/material";
 
-function Chart({ channelData, setLoading, channelList, data }) {
+function Chart({ setLoading, data }) {
   console.log("data", data);
-  console.log("channelData", channelData);
 
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: channelList,
+      data: data.channelName,
     },
     grid: {
       left: "3%",
@@ -36,17 +35,17 @@ function Chart({ channelData, setLoading, channelList, data }) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: channelData.map((v) => v.datetime),
+      data: data.data.map((v) => v.datetime),
     },
     yAxis: {
       type: "value",
     },
-    series: channelList.map((v) => {
+    series: data.channelName.map((v) => {
       return {
         name: v,
         type: "line",
         stack: "Total",
-        data: channelData.map((v) => v.count),
+        data: data.data.map((v) => v.count),
       };
     }),
   });
@@ -57,14 +56,14 @@ function Chart({ channelData, setLoading, channelList, data }) {
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: channelData.map((v) => v.datetime),
+        data: data.data.map((v) => v.datetime),
       },
       series: options.series.map((v) => {
-        return { ...v, data: channelData.map((v) => v.count) };
+        return { ...v, data: data.data.map((v) => v.count) };
       }),
     });
     setLoading(false);
-  }, [channelData, options]);
+  }, [data, options]);
 
   return (
     <Card>
@@ -72,9 +71,13 @@ function Chart({ channelData, setLoading, channelList, data }) {
       <CardContent>
         <Grid item xs={11}>
           <Box>
-            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-              {channelList}
-            </Typography>
+            {data.channelName.map((value) => {
+              return (
+                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+                  {value}
+                </Typography>
+              );
+            })}
             <ReactEcharts option={options} />
           </Box>
         </Grid>

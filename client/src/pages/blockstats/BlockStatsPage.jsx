@@ -33,8 +33,6 @@ export const BlockStatsPage = () => {
     })
   );
 
-  console.log("blocks\n", blocks);
-
   const onSearchData = () => {
     setLoading(true);
     dispatch(
@@ -71,6 +69,7 @@ export const BlockStatsPage = () => {
                   setLoading={setLoading}
                   channelList={channelList[0]}
                   setChannelData={setChannelData}
+                  channelData={channelData}
                 />
               </Grid>
             </Box>
@@ -116,16 +115,17 @@ export const BlockStatsPage = () => {
             </Box>
           </Grid>
         </Grid>
+
         {/* Block Chart */}
         {blocks.map((value, index) => {
-          <Chart
-            key={index}
-            data={value}
-            echarts={echarts}
-            setLoading={setLoading}
-            channelData={value.data}
-            channelList={value.channelName}
-          />;
+          return (
+            <Chart
+              key={index}
+              data={value}
+              echarts={echarts}
+              setLoading={setLoading}
+            />
+          );
         })}
 
         {/* Transactions Chart */}
