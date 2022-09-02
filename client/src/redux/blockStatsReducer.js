@@ -41,7 +41,7 @@ const blockStatsReducer = handleActions(
           transactions: data.map((v) => {
             return {
               channelName: v.channelList,
-              data: v.block.data,
+              data: v.block,
             };
           }),
           channelList: data.map((v) => v.channelList),

@@ -52,6 +52,7 @@ function Chart({ setLoading, data }) {
 
   useEffect(() => {
     setLoading(true);
+
     setOptions({
       ...options,
       xAxis: {
@@ -62,8 +63,9 @@ function Chart({ setLoading, data }) {
         return { ...v, data: data.data.map((v) => v.count) };
       }),
     });
+
     setLoading(false);
-  }, [data, options]);
+  }, [data]);
 
   return (
     <Card>
@@ -71,9 +73,14 @@ function Chart({ setLoading, data }) {
       <CardContent>
         <Grid item xs={11}>
           <Box>
-            {data.channelName.map((value) => {
+            {data.channelName.map((value, index) => {
               return (
-                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+                <Typography
+                  variant="h5"
+                  sx={{ marginTop: 3 }}
+                  align="left"
+                  key={index}
+                >
                   {value}
                 </Typography>
               );

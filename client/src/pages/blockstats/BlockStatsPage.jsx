@@ -5,6 +5,8 @@ import * as echarts from "echarts";
 import { Grid, Typography, Box, Button } from "@mui/material";
 
 // Component
+import BlocksChart from "./components/chart/BlocksChart";
+import TransactionChart from "./components/chart/TransactionChart";
 import Chart from "./components/chart/Chart";
 import DatePicker from "./components/filter/DatePicker";
 import ChannelMenu from "./components/filter/ChannelMenu";
@@ -119,32 +121,42 @@ export const BlockStatsPage = () => {
         {/* Block Chart */}
         {blocks.map((value, index) => {
           return (
-            <Chart
-              key={index}
-              data={value}
-              echarts={echarts}
-              setLoading={setLoading}
-            />
-          );
-        })}
-
-        {/* Transactions Chart */}
-        {/* {transactionChart.map((value, index) => {
-          return (
+            // <BlocksChart data={value} />
             <Grid item xs={11}>
               <Box>
                 <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-                  {value.channelName}
+                  {value.channelName[index]}
                 </Typography>
-                <TransactionChart
-                  echarts={echarts}
-                  channelData={value.data}
+                <BlocksChart
+                  key={index}
                   setLoading={setLoading}
+                  echarts={echarts}
+                  data={value}
                 />
               </Box>
             </Grid>
           );
-        })} */}
+        })}
+
+        {/* Transactions Chart */}
+        {transactions.map((value, index) => {
+          return (
+            // <TransactionChart data={value} />
+            <Grid item xs={11}>
+              <Box>
+                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+                  {value.channelName[index]}
+                </Typography>
+                <TransactionChart
+                  key={index}
+                  setLoading={setLoading}
+                  echarts={echarts}
+                  data={value}
+                />
+              </Box>
+            </Grid>
+          );
+        })}
       </React.Fragment>
     );
   }
