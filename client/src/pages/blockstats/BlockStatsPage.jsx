@@ -70,10 +70,9 @@ export const BlockStatsPage = () => {
             <Box>
               <Grid item xs={2}>
                 <ChannelMenu
-                  channelList={channelList}
-                  channelData={channelData}
-                  setChannelData={setChannelData}
                   setLoading={setLoading}
+                  channelList={channelList[0]}
+                  setChannelData={setChannelData}
                 />
               </Grid>
             </Box>
@@ -83,8 +82,8 @@ export const BlockStatsPage = () => {
               <Grid item xs={2}>
                 <SelectTimeOption
                   selectData={selectData}
-                  setSelectData={setSelectData}
                   setLoading={setLoading}
+                  setSelectData={setSelectData}
                 />
               </Grid>
             </Box>
@@ -102,9 +101,9 @@ export const BlockStatsPage = () => {
             {/* 종료날짜 달력 */}
             <Grid item xs={2}>
               <DatePicker
-                setLoading={setLoading}
                 data={endData}
                 setEndData={setEndData}
+                setLoading={setLoading}
                 label="(종료날짜)"
               />
             </Grid>
@@ -123,8 +122,8 @@ export const BlockStatsPage = () => {
         {blocks.map((value, index) => {
           <Chart
             key={index}
-            echarts={echarts}
             data={value}
+            echarts={echarts}
             setLoading={setLoading}
             channelData={value.data}
             channelList={value.channelName}

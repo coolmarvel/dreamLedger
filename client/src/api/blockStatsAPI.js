@@ -7,14 +7,22 @@ export const getAlldatas = async (params) => {
     const blockResponse = await client
       .get(`/dle/v1/ledger/block/getBy/${"hour"}`)
       .then((res) => {
-        return res.data.data;
+        return [
+          res.data.data.map((v) => {
+            return { ...v, count: Math.floor(Math.random() * 50) };
+          }),
+        ];
       })
       .catch((error) => console.error("Failed loaded data", error));
 
     const transactionsResponse = await client
       .get(`/dle/v1/ledger/transaction/getBy/${"hour"}`)
       .then((res) => {
-        return res.data.data;
+        return [
+          res.data.data.map((v) => {
+            return { ...v, count: Math.floor(Math.random() * 50) };
+          }),
+        ];
       })
       .catch((error) => {
         console.error("Failed loaded data", error);

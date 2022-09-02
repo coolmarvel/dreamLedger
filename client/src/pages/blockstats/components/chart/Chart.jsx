@@ -36,7 +36,7 @@ function Chart({ channelData, setLoading, channelList, data }) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: channelData === [] ? [] : channelData.map((v) => v.datetime),
+      data: channelData.map((v) => v.datetime),
     },
     yAxis: {
       type: "value",
@@ -46,7 +46,7 @@ function Chart({ channelData, setLoading, channelList, data }) {
         name: v,
         type: "line",
         stack: "Total",
-        data: channelData === [] ? [] : channelData.map((v) => v.count),
+        data: channelData.map((v) => v.count),
       };
     }),
   });
@@ -57,7 +57,7 @@ function Chart({ channelData, setLoading, channelList, data }) {
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: channelData === [] ? [] : channelData.map((v) => v.datetime),
+        data: channelData.map((v) => v.datetime),
       },
       series: options.series.map((v) => {
         return { ...v, data: channelData.map((v) => v.count) };
@@ -73,7 +73,7 @@ function Chart({ channelData, setLoading, channelList, data }) {
         <Grid item xs={11}>
           <Box>
             <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-              {data.map((v) => v)}
+              {channelList}
             </Typography>
             <ReactEcharts option={options} />
           </Box>

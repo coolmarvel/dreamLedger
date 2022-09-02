@@ -35,13 +35,13 @@ const blockStatsReducer = handleActions(
           blocks: data.map((v) => {
             return {
               channelName: v.channelList,
-              data: { ...v.blocks, count: Math.floor(Math.random() * 50) },
+              data: v.block,
             };
           }),
           transactions: data.map((v) => {
             return {
               channelName: v.channelList,
-              data: { ...v.transaction, count: Math.floor(Math.random() * 50) },
+              data: v.block.data,
             };
           }),
           channelList: data.map((v) => v.channelList),
