@@ -8,18 +8,11 @@ import TransactionBar from "./components/chart/TransactionBarChart";
 import TransactionLine from "./components/chart/TransactionLineChart";
 import CpuChart from "./components/chart/CpuChart";
 import MemoryChart from "./components/chart/MemoryChart";
-// import Resources from "./components/card/ResourceCarousel";
-// import StorageChart from "./components/chart/StorageChart";
+import LedgerCarousel from "./components/card/LedgerCarousel";
 
 import { Tabs, Tab } from "@material-ui/core";
 import { Grid, Typography, Box } from "@mui/material";
-import {
-  Database,
-  SwapHorizontalBold,
-  Memory,
-  Sd,
-  Server,
-} from "mdi-material-ui";
+import { Database, SwapHorizontalBold, Memory, Sd } from "mdi-material-ui";
 import { TabPanel, TabContext } from "@mui/lab";
 
 import CardStatisticsVerticalComponent from "./components/card/CardStatisticsVerticalComponent";
@@ -39,21 +32,21 @@ export const DashboardPage = () => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState("1");
 
-  const { cpu, memory } = useSelector(({ dashboardReducer }) => ({
-    cpu: dashboardReducer.resources.cpu,
-    memory: dashboardReducer.resources.memory,
+  const { cpu, memory } = useSelector((state) => ({
+    cpu: state.dashboardReducer.resources.cpu,
+    memory: state.dashboardReducer.resources.memory,
   }));
 
-  const { blocks, transactions } = useSelector(({ dashboardReducer }) => ({
-    blocks: dashboardReducer.dashboard.blocks,
-    transactions: dashboardReducer.dashboard.transactions,
+  const { blocks, transactions } = useSelector((state) => ({
+    blocks: state.dashboardReducer.dashboard.blocks,
+    transactions: state.dashboardReducer.dashboard.transactions,
   }));
 
   const { blockStats, transactionStats, channelList } = useSelector(
-    ({ dashboardReducer }) => ({
-      blockStats: dashboardReducer.stats.blockStats,
-      transactionStats: dashboardReducer.stats.transactionStats,
-      channelList: dashboardReducer.stats.channelList,
+    (state) => ({
+      blockStats: state.dashboardReducer.stats.blockStats,
+      transactionStats: state.dashboardReducer.stats.transactionStats,
+      channelList: state.dashboardReducer.stats.channelList,
     })
   );
 
@@ -102,7 +95,7 @@ export const DashboardPage = () => {
               </Grid>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats="17%"
+                  stats={cpu.map((v) => v.cpuPerc)}
                   color="success"
                   trendNumber="1.46%"
                   title="CPU"
@@ -112,7 +105,7 @@ export const DashboardPage = () => {
               </Grid>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats="20%"
+                  stats={memory.map((v) => v.memPerc)}
                   color="success"
                   trendNumber="1.46%"
                   title="Memory"
@@ -120,17 +113,6 @@ export const DashboardPage = () => {
                   icon={<Sd />}
                 />
               </Grid>
-              {/* <Grid item xs={1.7}>
-                <CardStatisticsVerticalComponent
-                stats="60%"
-                color="success"
-                trendNumber="1.46%"
-                title="Storage"
-                subtitle="+ 345 than yesterday"
-                icon={<Server />}
-              />
-                <Resources />
-              </Grid> */}
 
               {/* Blockchain Info */}
               <Grid item xs={4}>
@@ -204,6 +186,12 @@ export const DashboardPage = () => {
                 </Grid>
               </Grid>
             </Grid>
+
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <LedgerCarousel cpu={cpu} />
+              </Grid>
+            </Grid>
           </TabPanel>
 
           {/* RESOURCE INFO */}
@@ -228,14 +216,6 @@ export const DashboardPage = () => {
                 />
               </Box>
             </Grid>
-            {/* <Grid item xs={12} sx={{ boxShadow: 3 }}>
-            <Box>
-              <Typography variant="h5" sx={{ marginTop: 3 }}>
-                Storage
-              </Typography>
-              <StorageChart echarts={echarts} setLoading={setLoading} />
-            </Box>
-          </Grid> */}
           </TabPanel>
         </TabContext>
       </React.Fragment>

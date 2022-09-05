@@ -7,14 +7,13 @@ import { Grid, Typography, Box, Button } from "@mui/material";
 // Component
 import BlocksChart from "./components/chart/BlocksChart";
 import TransactionChart from "./components/chart/TransactionChart";
-import Chart from "./components/chart/Chart";
 import DatePicker from "./components/filter/DatePicker";
 import ChannelMenu from "./components/filter/ChannelMenu";
 import SelectTimeOption from "./components/filter/SelectTimeOption";
 
 // Reducer
 import { useDispatch, useSelector } from "react-redux";
-import { blockStatsActionCreate } from "../../redux/blockStatsReducer";
+import { actionGetData } from "../../redux/blockStatsReducer";
 
 export const BlockStatsPage = () => {
   const dispatch = useDispatch();
@@ -31,21 +30,23 @@ export const BlockStatsPage = () => {
     ({ blockStatsReducer }) => ({
       blocks: blockStatsReducer.blockStats.blocks,
       transactions: blockStatsReducer.blockStats.transactions,
-      channelList: blockStatsReducer.blockStats.channelList,
+      channelList: blockStatsReducer.channelList,
     })
   );
 
+  console.log("blocks", blocks);
+  console.log("transactions", transactions);
+  console.log("channelList", channelList);
+
   const onSearchData = () => {
-    setLoading(true);
     dispatch(
-      blockStatsActionCreate({
+      actionGetData({
         startDate: startData,
         endDate: endData,
-        channelList: channelData,
         timeOption: selectData,
+        channelData: channelData,
       })
     );
-    setLoading(false);
   };
 
   if (loading) {
@@ -68,10 +69,9 @@ export const BlockStatsPage = () => {
             <Box>
               <Grid item xs={2}>
                 <ChannelMenu
-                  setLoading={setLoading}
-                  channelList={channelList[0]}
-                  setChannelData={setChannelData}
+                  channelList={channelList}
                   channelData={channelData}
+                  setChannelData={setChannelData}
                 />
               </Grid>
             </Box>
@@ -81,7 +81,6 @@ export const BlockStatsPage = () => {
               <Grid item xs={2}>
                 <SelectTimeOption
                   selectData={selectData}
-                  setLoading={setLoading}
                   setSelectData={setSelectData}
                 />
               </Grid>
@@ -90,9 +89,8 @@ export const BlockStatsPage = () => {
             {/* 시작날짜 달력 */}
             <Grid item xs={2}>
               <DatePicker
-                setLoading={setLoading}
-                setData={setStartData}
                 data={startData}
+                setData={setStartData}
                 label="(시작날짜)"
               />
             </Grid>
@@ -102,7 +100,6 @@ export const BlockStatsPage = () => {
               <DatePicker
                 data={endData}
                 setEndData={setEndData}
-                setLoading={setLoading}
                 label="(종료날짜)"
               />
             </Grid>
@@ -119,44 +116,36 @@ export const BlockStatsPage = () => {
         </Grid>
 
         {/* Block Chart */}
-        {blocks.map((value, index) => {
-          return (
-            // <BlocksChart data={value} />
-            <Grid item xs={11}>
-              <Box>
-                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-                  {value.channelName[index]}
-                </Typography>
-                <BlocksChart
-                  key={index}
-                  setLoading={setLoading}
-                  echarts={echarts}
-                  data={value}
-                />
-              </Box>
-            </Grid>
-          );
-        })}
+        {/* <BlocksChart data={value} /> */}
+        <Grid item xs={11}>
+          <Box>
+            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+              Blocks
+            </Typography>
+            <BlocksChart
+              data={blocks}
+              echarts={echarts}
+              channelList={channelList}
+              channelData={channelData}
+            />
+          </Box>
+        </Grid>
 
         {/* Transactions Chart */}
-        {transactions.map((value, index) => {
-          return (
-            // <TransactionChart data={value} />
-            <Grid item xs={11}>
-              <Box>
-                <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
-                  {value.channelName[index]}
-                </Typography>
-                <TransactionChart
-                  key={index}
-                  setLoading={setLoading}
-                  echarts={echarts}
-                  data={value}
-                />
-              </Box>
-            </Grid>
-          );
-        })}
+        {/* <TransactionChart data={value} /> */}
+        <Grid item xs={11}>
+          <Box>
+            <Typography variant="h5" sx={{ marginTop: 3 }} align="left">
+              Transactions
+            </Typography>
+            <TransactionChart
+              echarts={echarts}
+              data={transactions}
+              channelList={channelList}
+              channelData={channelData}
+            />
+          </Box>
+        </Grid>
       </React.Fragment>
     );
   }

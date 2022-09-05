@@ -30,58 +30,50 @@ function getStyles(name, channelData, theme) {
   };
 }
 
-function SelectChannelMenu({
-  setChannelData,
-  setLoading,
-  channelList,
-  channelData,
-}) {
+function SelectChannelMenu({ setChannelData, channelData, channelList }) {
   const theme = useTheme();
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setLoading(true);
+
     setChannelData(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
-    setLoading(false);
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 350 }}>
-        <InputLabel id="demo-multiple-chip-label">Channel</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={channelData}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {channelList.map((value, index) => (
-            <MenuItem
-              key={index}
-              value={value}
-              style={getStyles(value, channelData, theme)}
-            >
-              {value}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl sx={{ m: 1, width: 350 }}>
+      <InputLabel id="demo-multiple-chip-label">Channel</InputLabel>
+      <Select
+        labelId="demo-multiple-chip-label"
+        id="demo-multiple-chip"
+        multiple
+        value={channelData}
+        onChange={handleChange}
+        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+        renderValue={(selected) => (
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            {selected.map((value) => (
+              <Chip key={value} label={value} />
+            ))}
+          </Box>
+        )}
+        MenuProps={MenuProps}
+      >
+        {channelList.map((value, index) => (
+          <MenuItem
+            key={index}
+            value={value}
+            style={getStyles(value, channelData, theme)}
+          >
+            {value}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 

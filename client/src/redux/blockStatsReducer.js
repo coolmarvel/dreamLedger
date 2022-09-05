@@ -7,53 +7,64 @@ import produce from "immer";
 
 // initialState
 const initialState = {
-  blockStats: [{ blocks: [], transactions: [], channelList: [] }],
+  blockStats: {
+    blocks: {},
+    transactions: {},
+  },
+  channelList: [],
 };
 
 // ACTION TYPES
-export const [BLOCK_STATS, BLOCK_STATS_SUCCESS, BLOCK_STATS_FAILURE] =
-  createRequestActionTypes("BLOCK_STATS");
+export const [CHANNEL_LIST, CHANNEL_LIST_SUCCESS, CHANNEL_LIST_FAILURE] =
+  createRequestActionTypes("blockStats/CHANNEL_LIST");
+
+export const [GET_DATA, GET_DATA_SUCCESS, GET_DATA_FAILURE] =
+  createRequestActionTypes("blockStats/GET_DATA");
 
 // ACTION CREATOR
-export const blockStatsActionCreate = createAction(BLOCK_STATS, (data) => data);
+export const actionChannelList = createAction(CHANNEL_LIST, (data) => data);
+export const actionGetData = createAction(GET_DATA);
 
 // Create Saga
-const getDataSaga = createRequestSaga(BLOCK_STATS, API.getAlldatas);
+const getChannelListSaga = createRequestSaga(CHANNEL_LIST, API.getChannelList);
+const getDataSaga = createRequestSaga(GET_DATA, API.getStatsData);
 
 // Main Saga
 export function* blockStatsSaga() {
-  yield takeEvery(BLOCK_STATS, getDataSaga);
+  yield takeEvery(GET_DATA, getDataSaga);
+  yield takeEvery(CHANNEL_LIST, getChannelListSaga);
 }
 
 const blockStatsReducer = handleActions(
   {
-    [BLOCK_STATS_SUCCESS]: (state, { payload: data }) =>
+    [CHANNEL_LIST_SUCCESS]: (state, { payload: data }) =>
+      // console.log("channelData", data),
+      produce(state, (draft) => ({
+        ...draft,
+        channelList: data,
+      })),
+    [CHANNEL_LIST_FAILURE]: (state, { payload: data }) =>
+      produce(state, (draft) => ({
+        ...draft,
+        blockStats: {
+          channelList: {},
+        },
+      })),
+    [GET_DATA_SUCCESS]: (state, { payload: data }) =>
       // console.log("data", data),
       produce(state, (draft) => ({
         ...draft,
         blockStats: {
-          blocks: data.map((v) => {
-            return {
-              channelName: v.channelList,
-              data: v.block,
-            };
-          }),
-          transactions: data.map((v) => {
-            return {
-              channelName: v.channelList,
-              data: v.block,
-            };
-          }),
-          channelList: data.map((v) => v.channelList),
+          blocks: data.block,
+          transactions: data.transaction,
         },
       })),
-    [BLOCK_STATS_FAILURE]: (state, { payload: data }) =>
+    [GET_DATA_FAILURE]: (state, { payload: data }) =>
       produce(state, (draft) => ({
         ...draft,
         blockStats: {
-          blocks: null,
-          transactions: null,
-          channelList: null,
+          blocks: {},
+          transactions: {},
         },
       })),
   },

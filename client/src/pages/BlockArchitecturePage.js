@@ -3,7 +3,7 @@ import $ from "jquery";
 import { useDispatch } from "react-redux";
 
 // reducer
-import { blockStatsActionCreate } from "../redux/blockStatsReducer";
+import { actionChannelList, actionGetData } from "../redux/blockStatsReducer";
 import {
   getResourcesData,
   searchDataAsync,
@@ -94,11 +94,22 @@ export const BlockArchitecturePage = () => {
 
   useEffect(() => {
     setLoading(true);
-    dispatch(blockStatsActionCreate());
+
+    dispatch(actionChannelList());
+    dispatch(
+      actionGetData({
+        startDate: "",
+        endDate: "",
+        timeOption: "hour",
+        channelData: "",
+      })
+    );
+
     dispatch(getResourcesData());
     dispatch(searchDataAsync());
     dispatch(getStatDatas());
     dispatch(getAllDatas());
+
     setLoading(false);
   }, []);
 

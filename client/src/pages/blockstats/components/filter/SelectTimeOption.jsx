@@ -1,13 +1,11 @@
 import React from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-function SelectTimeOption({ selectData, setSelectData, setLoading }) {
+function SelectTimeOption({ selectData, setSelectData }) {
   const optionList = ["hour", "day", "month"];
 
   const handleChange = (event, newAlignment) => {
-    setLoading(true);
     setSelectData(newAlignment);
-    setLoading(false);
   };
 
   return (

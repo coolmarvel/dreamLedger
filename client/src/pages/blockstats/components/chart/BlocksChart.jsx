@@ -4,19 +4,17 @@ import ReactEcharts from "echarts-for-react";
 // MUI
 import { Card, CardHeader, CardContent } from "@mui/material";
 
-function BlocksChart({ setLoading, data }) {
-  const channelList = data.channelName;
-  const chartData = data.data;
-
+function BlocksChart({ data, channelList, channelData }) {
   console.log("channelList", channelList);
-  console.log("chartData", chartData);
+  console.log("channelData", channelData);
+  console.log("data", data);
 
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: channelList,
+      data: [],
     },
     grid: {
       left: "3%",
@@ -32,9 +30,7 @@ function BlocksChart({ setLoading, data }) {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: chartData.map((v) => {
-        return v.datetime;
-      }),
+      data: [],
     },
     yAxis: {
       type: "value",
@@ -44,35 +40,23 @@ function BlocksChart({ setLoading, data }) {
         name: v,
         type: "line",
         stack: "Total",
-        data: chartData.map((v) => {
-          return v.count;
-        }),
+        data: [],
       };
     }),
   });
 
   useEffect(() => {
-    setLoading(true);
-
     setOptions({
       ...options,
+      legend: { ...options.legend, data: channelData.map((v) => v) },
       xAxis: {
         ...options.xAxis,
-        data: chartData.map((v) => {
-          return v.datetime;
-        }),
+        data: data.map((v) => v.datetime.replaceAll("00-00-00", "")),
       },
       series: options.series.map((v) => {
-        return {
-          ...v,
-          data: chartData.map((v) => {
-            return v.count;
-          }),
-        };
+        return { ...v, data: data.map((v) => v.count) };
       }),
     });
-
-    setLoading(false);
   }, [data]);
 
   return (
