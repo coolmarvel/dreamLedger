@@ -14,6 +14,9 @@ export default React.memo(function Line({
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
+      axisPointer: {
+        animation: false,
+      },
     },
     legend: {
       data: channelList,
@@ -32,7 +35,7 @@ export default React.memo(function Line({
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: blockStats.map((v) => v.datetime),
+      data: [],
     },
     yAxis: {
       type: "value",
@@ -54,7 +57,7 @@ export default React.memo(function Line({
       ...options,
       xAxis: {
         ...options.xAxis,
-        data: blockStats.map((v) => {
+        data: blockStats.map(() => {
           const date = new Date();
           const time =
             date.getHours() > 12

@@ -10,6 +10,8 @@ import CpuChart from "./components/chart/CpuChart";
 import MemoryChart from "./components/chart/MemoryChart";
 import LedgerCarousel from "./components/card/LedgerCarousel";
 
+import DynamicChart from "./components/chart/DynamicChart";
+
 import { Tabs, Tab } from "@material-ui/core";
 import { Grid, Typography, Box } from "@mui/material";
 import { Database, SwapHorizontalBold, Memory, Sd } from "mdi-material-ui";

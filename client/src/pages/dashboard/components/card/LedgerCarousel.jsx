@@ -37,8 +37,6 @@ const images = [
 ];
 
 function SwipeableTextMobileStepper({ cpu }) {
-  console.log("cpu", cpu);
-
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
