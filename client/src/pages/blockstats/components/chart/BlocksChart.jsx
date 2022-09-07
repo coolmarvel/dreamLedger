@@ -5,10 +5,6 @@ import ReactEcharts from "echarts-for-react";
 import { Card, CardHeader, CardContent } from "@mui/material";
 
 function BlocksChart({ data, channelList, channelData }) {
-  console.log("channelList", channelList);
-  console.log("channelData", channelData);
-  console.log("data", data);
-
   const [options, setOptions] = useState({
     tooltip: {
       trigger: "axis",
@@ -51,7 +47,7 @@ function BlocksChart({ data, channelList, channelData }) {
       legend: { ...options.legend, data: channelData.map((v) => v) },
       xAxis: {
         ...options.xAxis,
-        data: data.map((v) => v.datetime.replaceAll("00-00-00", "")),
+        data: data.map((v) => v.datetime),
       },
       series: options.series.map((v) => {
         return { ...v, data: data.map((v) => v.count) };

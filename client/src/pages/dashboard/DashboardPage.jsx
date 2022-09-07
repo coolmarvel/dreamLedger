@@ -10,8 +10,6 @@ import CpuChart from "./components/chart/CpuChart";
 import MemoryChart from "./components/chart/MemoryChart";
 import LedgerCarousel from "./components/card/LedgerCarousel";
 
-import DynamicChart from "./components/chart/DynamicChart";
-
 import { Tabs, Tab } from "@material-ui/core";
 import { Grid, Typography, Box } from "@mui/material";
 import { Database, SwapHorizontalBold, Memory, Sd } from "mdi-material-ui";
@@ -125,6 +123,7 @@ export const DashboardPage = () => {
         </Grid>
         {/* /상단 */}
 
+        {/* Tab Panel */}
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs value={value} onChange={handleChange} aria-label="Tabs">

@@ -1,12 +1,17 @@
 import client from "./client";
 
 export const getStatsData = async ({
-  startDate,
-  endDate,
+  startDay,
+  endDay,
+  startWeek,
+  endWeek,
+  startMonth,
+  endMonth,
+  yearData,
+  endYearData,
   timeOption,
   channelData,
 }) => {
-  console.log("timeOption", timeOption);
   try {
     const blockResponse = await client
       .get(`/dle/v1/ledger/block/getBy/${timeOption}`)
