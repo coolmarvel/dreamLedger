@@ -8,7 +8,6 @@ import TransactionBar from "./components/chart/TransactionBarChart";
 import TransactionLine from "./components/chart/TransactionLineChart";
 import CpuChart from "./components/chart/CpuChart";
 import MemoryChart from "./components/chart/MemoryChart";
-import LedgerCarousel from "./components/card/LedgerCarousel";
 
 import { Tabs, Tab } from "@material-ui/core";
 import { Grid, Typography, Box } from "@mui/material";
@@ -58,7 +57,7 @@ export const DashboardPage = () => {
     dispatch(getStatDatas());
     dispatch(getAllDatas());
     setLoading(false);
-  }, 5000);
+  }, 10000);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -75,7 +74,9 @@ export const DashboardPage = () => {
             <Grid container spacing={1}>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats="2,650"
+                  stats={blocks.map((v) => {
+                    return v.totalElements + Math.floor(Math.random() * 50);
+                  })}
                   color="success"
                   trendNumber="1.46%"
                   title="Blocks"
@@ -85,7 +86,9 @@ export const DashboardPage = () => {
               </Grid>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats="2,650"
+                  stats={transactions.map((v) => {
+                    return v.totalElements + Math.floor(Math.random() * 50);
+                  })}
                   color="success"
                   trendNumber="1.46%"
                   title="Transactions"
@@ -95,7 +98,7 @@ export const DashboardPage = () => {
               </Grid>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats={cpu.map((v) => v.cpuPerc)}
+                  stats={cpu[0].cpuPerc}
                   color="success"
                   trendNumber="1.46%"
                   title="CPU"
@@ -105,7 +108,7 @@ export const DashboardPage = () => {
               </Grid>
               <Grid item xs={2}>
                 <CardStatisticsVerticalComponent
-                  stats={memory.map((v) => v.memPerc)}
+                  stats={memory[0].memPerc}
                   color="success"
                   trendNumber="1.46%"
                   title="Memory"
@@ -185,12 +188,6 @@ export const DashboardPage = () => {
                     </Box>
                   </Grid>
                 </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <LedgerCarousel cpu={cpu} />
               </Grid>
             </Grid>
           </TabPanel>

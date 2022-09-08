@@ -27,7 +27,7 @@ export const BlockStatsPage = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState("1");
+  const [value, setValue] = useState("second");
   // 시작 및 종료일
   const [startDay, setStartDay] = useState(
     new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)
@@ -57,9 +57,24 @@ export const BlockStatsPage = () => {
     })
   );
 
+  // 상단 Statics 탭 변경
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setSelectData(newValue);
   };
+
+  console.log("yearData\n", yearData);
+  console.log("endYearData\n", endYearData);
+  console.log("startDay\n", startDay);
+  console.log("endDay\n", endDay);
+  console.log("startWeek\n", startWeek);
+  console.log("endWeek\n", endWeek);
+  console.log("startMonth\n", startMonth);
+  console.log("endMonth\n", endMonth);
+  console.log("startQuarter\n", startQuarter);
+  console.log("endQuarter\n", endQuarter);
+  console.log("channelData\n", channelData);
+  console.log("selectData\n", selectData);
 
   const onSearchData = () => {
     dispatch(
@@ -94,11 +109,11 @@ export const BlockStatsPage = () => {
               Statistics
             </Typography>
             <Tabs value={value} onChange={handleChange} aria-label="Tabs">
-              <Tab label="일별" value="1" />
-              <Tab label="주별" value="2" />
-              <Tab label="월별" value="3" />
-              <Tab label="분기별" value="4" />
-              <Tab label="연별" value="5" />
+              <Tab label="일별" value="second" />
+              <Tab label="주별" value="minute" />
+              <Tab label="월별" value="hour" />
+              <Tab label="분기별" value="day" />
+              <Tab label="연별" value="month" />
             </Tabs>
           </Box>
 
@@ -133,7 +148,7 @@ export const BlockStatsPage = () => {
             </Grid>
 
             {/* 일별 */}
-            <TabPanel value="1" padding="10px">
+            <TabPanel value="second" padding="10px">
               {/* 시작날짜 달력 */}
               <Grid item xs={6} md={8}>
                 <DayPickCalendar
@@ -154,7 +169,7 @@ export const BlockStatsPage = () => {
             </TabPanel>
 
             {/* 주별 */}
-            <TabPanel value="2">
+            <TabPanel value="minute">
               <Grid item xs={12}>
                 {/* 연도 선택 달력 */}
                 <YearPickCalendar
@@ -180,7 +195,7 @@ export const BlockStatsPage = () => {
             </TabPanel>
 
             {/* 월별 */}
-            <TabPanel value="3">
+            <TabPanel value="hour">
               {/* 연도 선택 달력 */}
               <Grid item xs={4} md={12}>
                 <YearPickCalendar
@@ -210,7 +225,7 @@ export const BlockStatsPage = () => {
             </TabPanel>
 
             {/* 분기별 */}
-            <TabPanel value="4">
+            <TabPanel value="day">
               {/* 연도 선택 달력 */}
               <Grid item xs={4} md={12}>
                 <YearPickCalendar
@@ -240,7 +255,7 @@ export const BlockStatsPage = () => {
             </TabPanel>
 
             {/* 연별 */}
-            <TabPanel value="5">
+            <TabPanel value="month">
               {/* 시작 연도 달력 */}
               <Grid item xs={4} md={12}>
                 <YearPickCalendar
